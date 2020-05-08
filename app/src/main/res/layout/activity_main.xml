@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:fitsSystemWindows="true"
+    tools:context=".MainActivity">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#FF0000"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:title="D1-Bogota-Britalia" />
+
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tabLayout2"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar4"
+        app:tabIndicatorColor="#FD0000"
+        app:tabTextAppearance="@style/TextAppearance.AppCompat.Body2">
+
+        <com.google.android.material.tabs.TabItem
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Pedientes" />
+
+        <com.google.android.material.tabs.TabItem
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Revisados"
+            tools:ignore="HardcodedText" />
+
+        <com.google.android.material.tabs.TabItem
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Ridder"
+            tools:ignore="HardcodedText" />
+
+        <com.google.android.material.tabs.TabItem
+            android:id="@+id/tabItem2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Entregados"
+            tools:ignore="HardcodedText" />
+
+    </com.google.android.material.tabs.TabLayout>
+
+    <GridView
+        android:id="@+id/my_grid_view_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:columnWidth="150dp"
+        android:horizontalSpacing="15dp"
+        android:numColumns="auto_fit"
+        android:verticalSpacing="15dp"
+       >
+
+
+    </GridView>
+
+</LinearLayout>
