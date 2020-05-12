@@ -24,6 +24,7 @@
         android:fillViewport="true">
 
         <LinearLayout
+            android:id="@+id/contentDetailPage"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
@@ -258,15 +259,15 @@
 
             </LinearLayout>
 
+
+            <LinearLayout
+                android:id="@+id/layoutArticles"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+            </LinearLayout>
+
         </LinearLayout>
     </ScrollView>
-
-    <LinearLayout
-        android:id="@+id/layoutArticles"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-    </LinearLayout>
-
 </LinearLayout>

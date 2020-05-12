@@ -76,7 +76,7 @@ class MainActivity : AppCompatActivity(), OnItemClickListener {
                 "2020/13/34",
                 "303004488",
                 16000,
-                "Pendiente"
+                "Finalizada"
             )
         )
         arrayList.add(
