@@ -8,6 +8,7 @@ class ModelOrders {
     var date: String? = null
     var cell: String? = null
     var total: Int? = 0
+    var state: String? = null
 
     constructor(
         name: String?,
@@ -15,7 +16,8 @@ class ModelOrders {
         amount: String?,
         date: String?,
         cell: String?,
-        total: Int?
+        total: Int?,
+        state: String?
     ) {
         this.name = name
         this.idOrder = idOrder
@@ -23,9 +25,10 @@ class ModelOrders {
         this.date = date
         this.cell = cell
         this.total = total
+        this.state = state
     }
 }
 
 class ProductData(
-    val id:Int,  val name:String, val  price:Int, val cant:Int
+    val id: Int, val name: String, val price: Int, val cant: Int
 )

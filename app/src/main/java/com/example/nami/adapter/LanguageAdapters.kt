@@ -11,6 +11,7 @@ import android.widget.TextView
 import com.example.nami.R
 import com.example.nami.model.ModelOrders
 import com.example.nami.model.ProductData
+import kotlinx.android.synthetic.main.article_data_detail.view.*
 
 class LanguageAdapters(var context: Context,var arrayList: ArrayList<ModelOrders>):BaseAdapter() {
 
