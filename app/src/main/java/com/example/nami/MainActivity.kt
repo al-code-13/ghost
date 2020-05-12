@@ -240,6 +240,7 @@ class MainActivity : AppCompatActivity(), OnItemClickListener {
         }
         option.setOnClickListener {
             val intent: Intent = Intent(this, Detail::class.java)
+            intent.putExtra("orderId", items.idOrder)
             intent.putExtra("state", items.state)
             startActivity(intent)
         }

@@ -2,10 +2,12 @@ package com.example.nami
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.example.nami.adapter.ProductsArrayAdapter
 import com.example.nami.model.ProductData
 import kotlinx.android.synthetic.main.activity_detail.*
+import kotlinx.android.synthetic.main.article_data_detail.view.*
 
 class Detail : AppCompatActivity() {
 
@@ -16,6 +18,7 @@ class Detail : AppCompatActivity() {
         val intent: Intent = intent
         val orderId = intent.getStringExtra("orderId")
         val orderState = intent.getStringExtra("state")
+        print(orderId)
         idProduct.text = orderId
 
 
@@ -44,7 +47,16 @@ class Detail : AppCompatActivity() {
 
         val adapter = ProductsArrayAdapter(this, products)
 
-        articleList.adapter = adapter
+        //articleList.adapter = adapter
+        for(i in products) {
+            val v: View = layoutInflater.inflate(R.layout.article_data_detail, null)
+            v.posicion.text="${products.indexOf(i)}"
+            v.name.text=i.name
+            v.idProduct.text="${i.id}"
+            v.price.text="$ ${i.price}"
+            v.cant.text="${i.cant}"
 
+            layoutArticles.addView(v)
+        }
     }
 }
