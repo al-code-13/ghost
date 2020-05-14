@@ -4,7 +4,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import com.example.nami.adapter.ProductsArrayAdapter
 import com.example.nami.model.ProductData
 import kotlinx.android.synthetic.main.activity_detail.*
 import kotlinx.android.synthetic.main.article_data_detail.view.*
@@ -27,17 +26,14 @@ class Detail : AppCompatActivity() {
             ProductData(1, "Leche Deslactosada", 3500, 2),
             ProductData(2, "Leche De Almendras", 3500, 2),
             ProductData(3, "Leche Achocolatada", 3500, 2),
-
             ProductData(0, "Leche Entera", 3500, 2),
             ProductData(1, "Leche Deslactosada", 3500, 2),
             ProductData(2, "Leche De Almendras", 3500, 2),
             ProductData(3, "Leche Achocolatada", 3500, 2),
-
             ProductData(0, "Leche Entera", 3500, 2),
             ProductData(1, "Leche Deslactosada", 3500, 2),
             ProductData(2, "Leche De Almendras", 3500, 2),
             ProductData(3, "Leche Achocolatada", 3500, 2),
-
             ProductData(0, "Leche Entera", 3500, 2),
             ProductData(1, "Leche Deslactosada", 3500, 2),
             ProductData(2, "Leche De Almendras", 3500, 2),
@@ -45,7 +41,6 @@ class Detail : AppCompatActivity() {
 
         )
 
-        val adapter = ProductsArrayAdapter(this, products)
 
         //articleList.adapter = adapter
         if (orderState == "Revisada") {
@@ -63,7 +58,6 @@ class Detail : AppCompatActivity() {
 
             for (i in products) {
                 val v: View = layoutInflater.inflate(R.layout.article_data_detail_preview, null)
-                v.posicion.text = "${products.indexOf(i)}"
                 v.name.text = i.name
                 v.idProduct.text = "${i.id}"
                 v.price.text = "$ ${i.price}"

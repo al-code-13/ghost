@@ -10,8 +10,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:inputType="textPersonName"
-        android:text="Name" />
+        android:hint="Observaciones"
+        android:inputType="textPersonName" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -25,18 +25,32 @@
             android:layout_weight="1"
             android:text="Cerrar" />
 
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+
         <Button
             android:id="@+id/button4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Liberar" />
+            android:background="@drawable/button_background"
+            android:text="Liberar"
+            android:textColor="#FF0000" />
+
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
 
         <Button
             android:id="@+id/button5"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Guardar" />
+            android:background="@drawable/button_blue_background"
+            android:text="Guardar"
+            android:textColor="#FFFFFF" />
     </LinearLayout>
 </LinearLayout>

@@ -15,7 +15,9 @@
         android:id="@+id/button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Cerrar" />
+        android:background="@drawable/button_background"
+        android:text="Cerrar"
+        android:textColor="#FF0000" />
 
     <Space
         android:layout_width="16dp"
@@ -26,7 +28,9 @@
         android:id="@+id/button2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Tomar" />
+        android:background="@drawable/button_blue_background"
+        android:text="Tomar"
+        android:textColor="#FFFFFF" />
 
     <Space
         android:layout_width="wrap_content"

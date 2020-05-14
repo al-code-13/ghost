@@ -1,17 +1,19 @@
 package com.example.nami.adapter
 
 import android.content.Context
+import android.content.Intent
+import android.graphics.EmbossMaskFilter
+import android.graphics.drawable.GradientDrawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
 import android.widget.BaseAdapter
-import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.recyclerview.widget.RecyclerView
 import com.example.nami.R
 import com.example.nami.model.ModelOrders
-import com.example.nami.model.ProductData
-import kotlinx.android.synthetic.main.article_data_detail.view.*
+
 
 class LanguageAdapters(var context: Context,var arrayList: ArrayList<ModelOrders>):BaseAdapter() {
 
@@ -28,13 +30,13 @@ class LanguageAdapters(var context: Context,var arrayList: ArrayList<ModelOrders
         return arrayList.size
     }
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
-        var view: View = View.inflate(context, R.layout.card_view_item_grid ,null)
-        var names : TextView = view.findViewById(R.id.name)
-        var idOrder : TextView = view.findViewById(R.id.idOrder)
-        var amount : TextView = view.findViewById(R.id.amount)
-        var date : TextView = view.findViewById(R.id.date)
-        var cell : TextView = view.findViewById(R.id.phone)
-        var total : TextView = view.findViewById(R.id.total)
+        var v: View = View.inflate(context, R.layout.card_view_item_grid ,null)
+        var names : TextView = v.findViewById(R.id.name)
+        var idOrder : TextView = v.findViewById(R.id.idOrder)
+        var amount : TextView = v.findViewById(R.id.amount)
+        var date : TextView = v.findViewById(R.id.date)
+        var cell : TextView = v.findViewById(R.id.phone)
+        var total : TextView = v.findViewById(R.id.total)
 
         var listItem: ModelOrders = arrayList[position]
         names.text = listItem.name
@@ -43,22 +45,55 @@ class LanguageAdapters(var context: Context,var arrayList: ArrayList<ModelOrders
         date.text = listItem.date
         cell.text = listItem.cell
         total.text = listItem.total.toString()
-        return view
+        return v
     }
 }
 
-class ProductsArrayAdapter (private val  mContext: Context, private val listaProducts :List<ProductData>):
-    ArrayAdapter<ProductData>(mContext,0,listaProducts){
-    override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
-        val layout= LayoutInflater.from(mContext).inflate(R.layout.article_data_detail,parent,false)
-        val product=listaProducts[position]
-        layout.posicion.text="$position"
-        layout.name.text=product.name
-        layout.idProduct.text="${product.id}"
-        layout.price.text="$ ${product.price}"
-        layout.cant.text="${product.cant}"
+class DemoAdapter(
+    private val mContext: Context,
+    private val mDataSet: Array<ModelOrders>
+) :
+    RecyclerView.Adapter<DemoAdapter.ViewHolder>() {
 
-        return layout
+    class ViewHolder(v: View) : RecyclerView.ViewHolder(v) {
+        var names : TextView = v.findViewById(R.id.name)
+        var idOrder : TextView = v.findViewById(R.id.idOrder)
+        var amount : TextView = v.findViewById(R.id.amount)
+        var date : TextView = v.findViewById(R.id.date)
+        var cell : TextView = v.findViewById(R.id.phone)
+        var total : TextView = v.findViewById(R.id.total)
+
     }
 
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int
+    ): ViewHolder {
+        // Create a new View
+        val v: View =
+            LayoutInflater.from(mContext).inflate(R.layout.card_view_item_grid, parent, false)
+        return ViewHolder(v)
+    }
+
+    override fun onBindViewHolder(
+        holder: ViewHolder,
+        position: Int
+    ) {
+        holder.names.text = mDataSet[position].name
+
+        holder.idOrder.text=mDataSet[position].idOrder.toString()
+
+        holder.amount.text=mDataSet[position].amount.toString()
+
+        holder.date.text=mDataSet[position].date.toString()
+
+        holder.cell.text=mDataSet[position].cell.toString()
+
+        holder.total.text=mDataSet[position].total.toString()
+
+    }
+
+    override fun getItemCount(): Int {
+        return mDataSet.size
+    }
 }

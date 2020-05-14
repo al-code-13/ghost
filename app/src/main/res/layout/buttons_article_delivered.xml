@@ -11,10 +11,13 @@
 
     <Button
         android:id="@+id/button8"
+        style="@style/Widget.AppCompat.Button.Small"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:text="Cerrar" />
+        android:background="@drawable/button_background"
+        android:text="Cerrar"
+        android:textColor="#FF0000" />
 
     <Space
         android:layout_width="wrap_content"

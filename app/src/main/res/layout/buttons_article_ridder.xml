@@ -14,7 +14,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:text="Cerrar" />
+        android:background="@drawable/button_background"
+        android:text="Cerrar"
+        android:textColor="#FF0000" />
 
     <Space
         android:layout_width="wrap_content"
@@ -26,7 +28,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:text="Entregar" />
+        android:background="@drawable/button_blue_background"
+        android:text="Entregar"
+        android:textColor="#FFFFFF" />
 
     <Space
         android:layout_width="wrap_content"

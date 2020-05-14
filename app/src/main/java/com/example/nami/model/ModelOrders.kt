@@ -1,5 +1,6 @@
 package com.example.nami.model
 
+
 class ModelOrders {
 
     var name: String? = null
@@ -30,5 +31,8 @@ class ModelOrders {
 }
 
 class ProductData(
-    val id: Int, val name: String, val price: Int, val cant: Int
+    val id: Int,
+    val name: String,
+    val price: Int,
+    val cant: Int
 )
