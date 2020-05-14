@@ -29,4 +29,7 @@
 
     <string name="grid_layout_add_remove">Grid layout, add and remove</string>
     <string name="add_item">Add item</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

@@ -10,184 +10,49 @@ import android.widget.AdapterView.OnItemClickListener
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.viewpager.widget.ViewPager
 import com.example.nami.adapter.DemoAdapter
 import com.example.nami.adapter.LanguageAdapters
+import com.example.nami.adapter.MyAdapter
 import com.example.nami.model.ModelOrders
+import com.google.android.material.tabs.TabLayout
 
 
 class MainActivity : AppCompatActivity(), OnItemClickListener {
 
     private var arrayList: ArrayList<ModelOrders>? = null
-    private var languageAdapters: LanguageAdapters? = null
+    var tabLayout: TabLayout? = null
+    var viewPager: ViewPager? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        val getData: Array<ModelOrders> =
-            arrayOf(
-                ModelOrders(
-                    "Juenito Perez",
-                    12310,
-                    "30",
-                    "2020/15/16",
-                    "300004489",
-                    200016,
-                    "Pendiente"
-                ),
-                ModelOrders(
-                    "Pepito XS",
-                    11380,
-                    "50",
-                    "2020/19/24",
-                    "300204487",
-                    40000,
-                    "Revisada"
-                ),
-                ModelOrders(
-                    "No se que nombre",
-                    13370,
-                    "30",
-                    "2020/14/14",
-                    "302004485",
-                    2216,
-                    "Ridder"
-                ),
-                ModelOrders(
-                    "Dali Gaes",
-                    14360,
-                    "10",
-                    "2020/13/34",
-                    "303004488",
-                    16000,
-                    "Finalizada"
-                ),
-                ModelOrders(
-                    "Nombre Lored",
-                    15350,
-                    "20",
-                    "2020/12/14",
-                    "300204481",
-                    20136,
-                    "Pendiente"
-                ),
-                ModelOrders(
-                    "naolia",
-                    16340,
-                    "60",
-                    "2020/11/20",
-                    "313004483",
-                    203316,
-                    "Pendiente"
-                ),
-                ModelOrders(
-                    "Naomy",
-                    17330,
-                    "100",
-                    "2020/10/08",
-                    "313004482",
-                    78101,
-                    "Pendiente"
-                ),
-                ModelOrders(
-                    "Flen Caroline",
-                    18320,
-                    "2",
-                    "2020/01/01",
-                    "300035481",
-                    79516,
-                    "Pendiente"
-                ),
-                ModelOrders(
-                    "Flen Caroline",
-                    18320,
-                    "2",
-                    "2020/01/01",
-                    "300035481",
-                    79516,
-                    "Pendiente"
-                ),
-                ModelOrders(
-                    "Flen Caroline",
-                    18320,
-                    "2",
-                    "2020/01/01",
-                    "300035481",
-                    79516,
-                    "Pendiente"
-                ),
-                ModelOrders(
-                    "Flen Caroline",
-                    18320,
-                    "2",
-                    "2020/01/01",
-                    "300035481",
-                    79516,
-                    "Pendiente"
-                ),
-                ModelOrders(
-                    "Flen Caroline",
-                    18320,
-                    "2",
-                    "2020/01/01",
-                    "300035481",
-                    79516,
-                    "Pendiente"
-                ),
-                ModelOrders(
-                    "Flen Caroline",
-                    18320,
-                    "2",
-                    "2020/01/01",
-                    "300035481",
-                    79516,
-                    "Pendiente"
-                ),
-                ModelOrders(
-                    "Flen Caroline",
-                    18320,
-                    "2",
-                    "2020/01/01",
-                    "300035481",
-                    79516,
-                    "Pendiente"
-                ),
-                ModelOrders(
-                    "Flen Caroline",
-                    18320,
-                    "2",
-                    "2020/01/01",
-                    "300035481",
-                    79516,
-                    "Pendiente"
-                ),
-                ModelOrders(
-                    "Flen Caroline",
-                    18320,
-                    "2",
-                    "2020/01/01",
-                    "300035481",
-                    79516,
-                    "Pendiente"
-                )
-            )
-        val reciclerView=findViewById<AutofitRecyclerView>(R.id.my_grid_view_list)
-        reciclerView.setHasFixedSize(true)
-        reciclerView.adapter = DemoAdapter(this, getData)
-        //arrayList = ArrayList()
-        //arrayList = getData.setDataList()
-        //languageAdapters = LanguageAdapters(applicationContext, arrayList!!)
-        //reciclerView?.adapter = languageAdapters
-        //reciclerView?.onItemClickListener = this
+        tabLayout = findViewById(R.id.tabLayout)
+        viewPager = findViewById(R.id.viewPager)
+        tabLayout!!.addTab(tabLayout!!.newTab().setText("Pedientes"))
+        tabLayout!!.addTab(tabLayout!!.newTab().setText("Revisados"))
+        tabLayout!!.addTab(tabLayout!!.newTab().setText("Ridder"))
+        tabLayout!!.addTab(tabLayout!!.newTab().setText("Entregados"))
+        tabLayout?.tabGravity = TabLayout.GRAVITY_FILL
+        val adapter = MyAdapter(this, supportFragmentManager, tabLayout!!.tabCount)
+        viewPager!!.adapter = adapter
 
-    }
-    private fun calculateNoOfColumns(
-        context: Context,
-        columnWidthDp: Float
-    ): Int {
-        val displayMetrics: DisplayMetrics = context.resources.displayMetrics
-        val screenWidthDp = displayMetrics.widthPixels / displayMetrics.density
-        return (screenWidthDp / columnWidthDp + 0.5).toInt()
+        viewPager!!.addOnPageChangeListener(TabLayout.TabLayoutOnPageChangeListener(tabLayout))
+
+        tabLayout!!.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+            override fun onTabSelected(tab: TabLayout.Tab) {
+                viewPager!!.currentItem = tab.position
+            }
+
+            override fun onTabUnselected(tab: TabLayout.Tab) {
+
+            }
+
+            override fun onTabReselected(tab: TabLayout.Tab) {
+
+            }
+        })
     }
     override fun onItemClick(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
         var items: ModelOrders = arrayList!![position]
