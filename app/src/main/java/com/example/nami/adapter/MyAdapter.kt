@@ -8,24 +8,15 @@ import com.example.nami.HomeFragment
 
 
 @Suppress("DEPRECATION")
-class MyAdapter(private val myContext: Context, fm: FragmentManager, var totalTabs: Int) : FragmentPagerAdapter(fm) {
+class MyAdapter(private val myContext: Context, fm: FragmentManager, var totalTabs: Int) :
+    FragmentPagerAdapter(fm) {
 
     override fun getItem(position: Int): Fragment {
-        return when (position) {
-            0 -> {
-                HomeFragment(myContext)
-            }
-            1 -> {
-                HomeFragment(myContext)
-            }
-            2 -> {
-                HomeFragment(myContext)
-            }
-            3 -> {
-                HomeFragment(myContext)
-            }
+        return if (position == 0) {
+            HomeFragment(myContext,true)
+        } else {
+            HomeFragment(myContext,false)
 
-            else -> HomeFragment(myContext)
         }
     }
 

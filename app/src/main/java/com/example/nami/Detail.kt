@@ -41,12 +41,9 @@ class Detail : AppCompatActivity() {
 
         )
 
-
-        //articleList.adapter = adapter
         if (orderState == "Revisada") {
             for (i in products) {
                 val v: View = layoutInflater.inflate(R.layout.article_data_detail, null)
-                v.posicion.text = "${products.indexOf(i)}"
                 v.name.text = i.name
                 v.idProduct.text = "${i.id}"
                 v.price.text = "$ ${i.price}"
