@@ -3,184 +3,66 @@ package com.example.nami
 import android.content.Context
 import android.content.res.Configuration
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
+import android.widget.GridView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.example.nami.adapter.DemoAdapter
-import com.example.nami.model.ModelOrders
+import com.example.nami.adapter.IndicatorsAdapter
+import com.example.nami.model.ItemIndicators
+import com.example.nami.models.auth.sections.Legend
+import com.example.nami.models.auth.sections.SectionFragment
+import com.example.nami.models.auth.sections.SectionResponse
+import com.example.nami.presenters.SectionPresenter
+import com.example.nami.presenters.SectionUI
 
-class HomeFragment(private val mContext: Context, private val visibility: Boolean) : Fragment() {
-    private val getData: Array<ModelOrders> =
-        arrayOf(
-            ModelOrders(
-                "Juenito Perez",
-                12310,
-                "30",
-                "2020/15/16",
-                "300004489",
-                200016,
-                "Pendiente"
-            ),
-            ModelOrders(
-                "Pepito XS",
-                11380,
-                "50",
-                "2020/19/24",
-                "300204487",
-                40000,
-                "Revisada"
-            ),
-            ModelOrders(
-                "No se que nombre",
-                13370,
-                "30",
-                "2020/14/14",
-                "302004485",
-                2216,
-                "Ridder"
-            ),
-            ModelOrders(
-                "Dali Gaes",
-                14360,
-                "10",
-                "2020/13/34",
-                "303004488",
-                16000,
-                "Finalizada"
-            ),
-            ModelOrders(
-                "Nombre Lored",
-                15350,
-                "20",
-                "2020/12/14",
-                "300204481",
-                20136,
-                "Pendiente"
-            ),
-            ModelOrders(
-                "naolia",
-                16340,
-                "60",
-                "2020/11/20",
-                "313004483",
-                203316,
-                "Pendiente"
-            ),
-            ModelOrders(
-                "Naomy",
-                17330,
-                "100",
-                "2020/10/08",
-                "313004482",
-                78101,
-                "Pendiente"
-            ),
-            ModelOrders(
-                "Flen Caroline",
-                18320,
-                "2",
-                "2020/01/01",
-                "300035481",
-                79516,
-                "Pendiente"
-            ),
-            ModelOrders(
-                "Flen Caroline",
-                18320,
-                "2",
-                "2020/01/01",
-                "300035481",
-                79516,
-                "Pendiente"
-            ),
-            ModelOrders(
-                "Flen Caroline",
-                18320,
-                "2",
-                "2020/01/01",
-                "300035481",
-                79516,
-                "Pendiente"
-            ),
-            ModelOrders(
-                "Flen Caroline",
-                18320,
-                "2",
-                "2020/01/01",
-                "300035481",
-                79516,
-                "Pendiente"
-            ),
-            ModelOrders(
-                "Flen Caroline",
-                18320,
-                "2",
-                "2020/01/01",
-                "300035481",
-                79516,
-                "Pendiente"
-            ),
-            ModelOrders(
-                "Flen Caroline",
-                18320,
-                "2",
-                "2020/01/01",
-                "300035481",
-                79516,
-                "Pendiente"
-            ),
-            ModelOrders(
-                "Flen Caroline",
-                18320,
-                "2",
-                "2020/01/01",
-                "300035481",
-                79516,
-                "Pendiente"
-            ),
-            ModelOrders(
-                "Flen Caroline",
-                18320,
-                "2",
-                "2020/01/01",
-                "300035481",
-                79516,
-                "Pendiente"
-            ),
-            ModelOrders(
-                "Flen Caroline",
-                18320,
-                "2",
-                "2020/01/01",
-                "300035481",
-                79516,
-                "Pendiente"
-            )
-        )
-
+class HomeFragment(
+    private val mContext: Context,
+    private val legendList: List<Legend>,
+    private val sectionid: Long
+) : Fragment(), SectionUI {
+    private val presenter = SectionPresenter(this)
+    var reciclerView: AutofitRecyclerView? = null
+    private var adapter: IndicatorsAdapter ?= null
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
+        presenter.actionSection(
+            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Mjk5LCJpYXQiOjE1ODk5ODQxODUsImV4cCI6MTU5MDA3MDU4NX0.hRDc-6Z5Ht8JslSf2SD79-YeF_QgXCCIm1z2eACWTe4",
+            sectionid
+        )
         val v: View
-        var orientation = activity?.resources?.configuration?.orientation
-        v = if (orientation == Configuration.ORIENTATION_PORTRAIT){
+        val orientation = activity?.resources?.configuration?.orientation
+        v = if (orientation == Configuration.ORIENTATION_PORTRAIT) {
             inflater.inflate(R.layout.fragment_home, container, false)
-        }else{
+        } else {
             inflater.inflate(R.layout.home_fragment_landscape, container, false)
         }
-        val reciclerView = v.findViewById<AutofitRecyclerView>(R.id.my_grid_view_list)
-        reciclerView.setHasFixedSize(true)
-        reciclerView.adapter = DemoAdapter(mContext, getData)
-        if (visibility) {
-            v.findViewById<LinearLayout>(R.id.indicators).visibility = View.VISIBLE
-        } else {
-           v.findViewById<LinearLayout>(R.id.indicators).visibility = View.GONE
-        }
+        reciclerView = v.findViewById<AutofitRecyclerView>(R.id.my_grid_view_list)
+        //reciclerView.setHasFixedSize(true)
+        adapter = IndicatorsAdapter(mContext,legendList)
+        val gridView = v.findViewById<GridView>(R.id.gridItems)
+        gridView?.adapter = adapter
         return v
+    }
+
+
+    override fun showData(data: SectionFragment) {
+
+        activity?.runOnUiThread {
+
+            reciclerView?.adapter = DemoAdapter(mContext," ", data.orders.list)
+        }
+    }
+
+    override fun showError(error: String) {
+        activity?.runOnUiThread {
+            Toast.makeText(mContext, error, Toast.LENGTH_LONG).show()
+        }
     }
 }

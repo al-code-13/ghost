@@ -5,6 +5,7 @@ import android.app.Dialog
 import android.content.Context
 import android.content.Intent
 import android.graphics.drawable.ColorDrawable
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,10 +16,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.nami.Detail
 import com.example.nami.R
 import com.example.nami.model.ModelOrders
+import com.example.nami.models.auth.sections.OrdersList
+import com.example.nami.models.auth.sections.SectionFragment
 
 class DemoAdapter(
     private val mContext: Context,
-    private val mDataSet: Array<ModelOrders>
+    private val titleOrder: String,
+    private val mDataSet: List<OrdersList>
 ) :
     RecyclerView.Adapter<DemoAdapter.ViewHolder>() {
 
@@ -55,34 +59,19 @@ class DemoAdapter(
             val title = dialogView.findViewById<TextView>(R.id.titleOrderId)
             val option = dialogView.findViewById<TextView>(R.id.optionone)
             val detail = dialogView.findViewById<TextView>(R.id.detail)
-            title.text = "Orden #${items.idOrder}"
-            when (items.state) {
-                "Pendiente" -> {
-                    option.text = "Tomar"
-                    option.setCompoundDrawablesWithIntrinsicBounds(R.drawable.car, 0, 0, 0)
-                }
-                "Revisada" -> {
-                    option.text = "Comprar"
-                    option.setCompoundDrawablesWithIntrinsicBounds(R.drawable.bag, 0, 0, 0)
-                }
-                "Ridder" -> {
-                    option.text = "Entregar"
-                    option.setCompoundDrawablesWithIntrinsicBounds(R.drawable.persons, 0, 0, 0)
-                }
-                else->{
-                    option.visibility=View.GONE
-                }
-            }
+            title.text = "Orden #${items.pickingOrder.list[0].id}"
+            option.text = titleOrder
+
             option.setOnClickListener {
                 val intent: Intent = Intent(mContext, Detail::class.java)
-                intent.putExtra("orderId", items.idOrder.toString())
-                intent.putExtra("state", items.state)
+                intent.putExtra("orderId", items.pickingOrder.list[0].id.toString())
+                intent.putExtra("state", titleOrder)
                 startActivity(mContext,intent,null)
             }
             detail.setOnClickListener {
                 val intent: Intent = Intent(mContext, Detail::class.java)
-                intent.putExtra("orderId", items.idOrder.toString())
-                intent.putExtra("state", items.state)
+                intent.putExtra("orderId", items.pickingOrder.list[0].id.toString())
+                intent.putExtra("state", titleOrder)
                 startActivity(mContext,intent,null)
             }
             detail.text = "Detalles"
@@ -95,17 +84,20 @@ class DemoAdapter(
         holder: ViewHolder,
         position: Int
     ) {
+
+        //Log.i("Lista ",mDataSet[position].pickingOrder.list[0].totalPicker.toString() )
+
         holder.names.text = mDataSet[position].name
 
-        holder.idOrder.text = mDataSet[position].idOrder.toString()
+        holder.idOrder.text = mDataSet[position].id.toString()
 
-        holder.amount.text = mDataSet[position].amount.toString()
+        holder.amount.text = mDataSet[position].detailOrder.totalItems.toString()
 
-        holder.date.text = mDataSet[position].date.toString()
+        holder.date.text = mDataSet[position].date
 
-        holder.cell.text = mDataSet[position].cell.toString()
+        holder.cell.text = mDataSet[position].phoneClient
 
-        holder.total.text = mDataSet[position].total.toString()
+        //holder.total.text = mDataSet[position].pickingOrder.list[0].totalPicker
 
     }
 

@@ -1,14 +1,15 @@
 package com.example.nami.models.auth.sections
 
-data class SectionFragment (
-    val orders: Orders
+data class SectionFragment(
+    val orders: Orders,
+    val message: String?
 )
 
-data class Orders (
+data class Orders(
     val list: List<OrdersList>
 )
 
-data class OrdersList (
+data class OrdersList(
     val id: Long,
     val name: String,
     val lastname: String,
@@ -27,11 +28,11 @@ data class OrdersList (
     val action: Long? = null
 )
 
-data class DetailOrder (
+data class DetailOrder(
     val totalItems: Long
 )
 
-data class MethodPay (
+data class MethodPay(
     val id: Long,
     val name: Name
 )
@@ -49,11 +50,11 @@ enum class Origin {
     Pf
 }
 
-data class PickingOrder (
+data class PickingOrder(
     val list: List<PickingOrderList>
 )
 
-data class PickingOrderList (
+data class PickingOrderList(
     val id: Long,
     val idUser: Long,
     val totalPicker: String? = null,

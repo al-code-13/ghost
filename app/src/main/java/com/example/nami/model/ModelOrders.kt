@@ -35,3 +35,8 @@ class ProductData(
     val price: Int,
     val cant: Int
 )
+
+data class ItemIndicators(
+    val name: String ?= null,
+    val drawable: String? = null
+)
