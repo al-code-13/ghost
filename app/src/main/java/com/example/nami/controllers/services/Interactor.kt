@@ -3,6 +3,7 @@ package com.example.nami.controllers.services
 import android.util.Log
 import com.example.nami.models.auth.LoginRequest
 import com.example.nami.models.auth.LoginResponse
+import com.example.nami.models.auth.sections.SectionsResponse
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import okhttp3.Call
@@ -45,18 +46,19 @@ class ServiceInteractor : ServiceFactory() {
     }
 
     fun getSections(
-        then: (LoginResponse) -> Unit,
+        token:String,
+        then: (SectionsResponse) -> Unit,
         error: (String) -> Unit
     ) {
 
         val url = serverUrl + routeBase + routePicker +routeSections
-        get(url).enqueue(object :Callback{
+        get(url,token).enqueue(object :Callback{
             override fun onResponse(call: Call, response: Response) {
 
                 val body = response.body?.string()
 
                 val gson = GsonBuilder().create()
-                val res = gson.fromJson(body, LoginResponse::class.java)
+                val res = gson.fromJson(body, SectionsResponse::class.java)
                 if (response.isSuccessful) {
                     then(res)
                 } else {

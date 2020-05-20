@@ -29,7 +29,7 @@ open class ServiceFactory {
     fun get(url: String,token:String): Call {
         val request: Request = Request.Builder()
             .url(url)
-            .addHeader(token)
+            .addHeader("x-access-token-nami",token)
             .build()
         //client!!.newCall(request).execute().use { response -> return response.body!!.string() }
 

@@ -1,14 +1,20 @@
 package com.example.nami
 
+import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.viewpager.widget.ViewPager
 import com.example.nami.adapter.MyAdapter
+import com.example.nami.models.auth.sections.SectionsResponse
+import com.example.nami.presenters.SectionsPresenter
+import com.example.nami.presenters.SectionsUI
 import com.google.android.material.tabs.TabLayout
+import kotlinx.android.synthetic.main.activity_main.*
 
-
-class MainActivity : AppCompatActivity() {
-
+class MainActivity : AppCompatActivity(),SectionsUI {
+    val presenter=SectionsPresenter(this)
     var tabLayout: TabLayout? = null
     var viewPager: ViewPager? = null
 
@@ -16,12 +22,17 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        tabLayout = findViewById(R.id.tabLayout)
-        viewPager = findViewById(R.id.viewPager)
-        tabLayout!!.addTab(tabLayout!!.newTab().setText("Pedientes"))
-        tabLayout!!.addTab(tabLayout!!.newTab().setText("Revisados"))
-        tabLayout!!.addTab(tabLayout!!.newTab().setText("Ridder"))
-        tabLayout!!.addTab(tabLayout!!.newTab().setText("Entregados"))
+        presenter.actionSections("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Mjk5LCJpYXQiOjE1ODk5ODQxODUsImV4cCI6MTU5MDA3MDU4NX0.hRDc-6Z5Ht8JslSf2SD79-YeF_QgXCCIm1z2eACWTe4")
+
+        tabLayout = tabLayout
+        viewPager = viewPager
+
+    }
+
+    override fun showSection(data: SectionsResponse) {
+        for (section in data.sections){
+        tabLayout!!.addTab(tabLayout!!.newTab().setText(section.name))
+        }
         tabLayout?.tabGravity = TabLayout.GRAVITY_FILL
         val adapter = MyAdapter(this, supportFragmentManager, tabLayout!!.tabCount)
         viewPager!!.adapter = adapter
@@ -41,5 +52,11 @@ class MainActivity : AppCompatActivity() {
 
             }
         })
+    }
+
+    override fun showError(error: String) {
+        runOnUiThread {
+            Toast.makeText(applicationContext,error, Toast.LENGTH_LONG).show()
+        }
     }
 }
