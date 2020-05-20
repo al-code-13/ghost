@@ -1,6 +1,7 @@
 package com.example.nami
 
 import android.content.Context
+import android.content.res.Configuration
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -165,14 +166,20 @@ class HomeFragment(private val mContext: Context, private val visibility: Boolea
         savedInstanceState: Bundle?
     ): View? {
 
-        val v: View = inflater.inflate(R.layout.fragment_home, container, false)
+        val v: View
+        var orientation = activity?.resources?.configuration?.orientation
+        v = if (orientation == Configuration.ORIENTATION_PORTRAIT){
+            inflater.inflate(R.layout.fragment_home, container, false)
+        }else{
+            inflater.inflate(R.layout.home_fragment_landscape, container, false)
+        }
         val reciclerView = v.findViewById<AutofitRecyclerView>(R.id.my_grid_view_list)
         reciclerView.setHasFixedSize(true)
         reciclerView.adapter = DemoAdapter(mContext, getData)
         if (visibility) {
             v.findViewById<LinearLayout>(R.id.indicators).visibility = View.VISIBLE
         } else {
-            v.findViewById<LinearLayout>(R.id.indicators).visibility = View.GONE
+           v.findViewById<LinearLayout>(R.id.indicators).visibility = View.GONE
         }
         return v
     }

@@ -69,10 +69,19 @@ class DemoAdapter(
                     option.text = "Entregar"
                     option.setCompoundDrawablesWithIntrinsicBounds(R.drawable.persons, 0, 0, 0)
                 }
+                else->{
+                    option.visibility=View.GONE
+                }
             }
             option.setOnClickListener {
                 val intent: Intent = Intent(mContext, Detail::class.java)
-                intent.putExtra("orderId", items.idOrder)
+                intent.putExtra("orderId", items.idOrder.toString())
+                intent.putExtra("state", items.state)
+                startActivity(mContext,intent,null)
+            }
+            detail.setOnClickListener {
+                val intent: Intent = Intent(mContext, Detail::class.java)
+                intent.putExtra("orderId", items.idOrder.toString())
                 intent.putExtra("state", items.state)
                 startActivity(mContext,intent,null)
             }
