@@ -1,6 +1,8 @@
 package com.example.nami
 
+import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager.widget.ViewPager
@@ -11,14 +13,17 @@ import com.example.nami.presenters.SectionsUI
 import com.google.android.material.tabs.TabLayout
 
 class MainActivity : AppCompatActivity(), SectionsUI {
-    val presenter = SectionsPresenter(this)
+    private val presenter = SectionsPresenter(this)
     var tabLayout: TabLayout? = null
     var viewPager: ViewPager? = null
-
+    private var token:String = ""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        presenter.actionSections("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Mjk5LCJpYXQiOjE1OTAwNzE2MzMsImV4cCI6MTU5MDE1ODAzM30.lx4RxBJ7ekrOjwjq_MLD13bJ777mIt7S0Fk8Cenh3cc")
+
+        val sharedPreference =  getSharedPreferences("localStorage", Context.MODE_PRIVATE)
+        token = sharedPreference.getString("token","localStorage").toString()
+        presenter.actionSections(token)
 
         tabLayout = findViewById(R.id.tabLayout)
         viewPager = findViewById(R.id.viewPager)

@@ -1,7 +1,9 @@
 package com.example.nami
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
@@ -25,10 +27,17 @@ class Login : AppCompatActivity(), LoginUI {
         presenter.actionLogin(edit_user.text.toString(),edit_password.text.toString())
     }
 
-    override fun showHome() {
+    override fun showHome(token: String) {
+        val sharedPreference =  getSharedPreferences("localStorage", Context.MODE_PRIVATE)
+        var editor = sharedPreference.edit()
+        editor.putString("token",token)
+        editor.commit()
+        Log.i("TOKENCITO",sharedPreference.getString("token","localStorage"))
         val intent = Intent(this, MainActivity::class.java)
         ContextCompat.startActivity(this, intent, null)
+
     }
+
 
     override fun showError(error: String) {
         runOnUiThread {

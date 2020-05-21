@@ -12,12 +12,11 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.example.nami.adapter.DemoAdapter
 import com.example.nami.adapter.IndicatorsAdapter
-import com.example.nami.model.ItemIndicators
 import com.example.nami.models.auth.sections.Legend
 import com.example.nami.models.auth.sections.SectionFragment
-import com.example.nami.models.auth.sections.SectionResponse
 import com.example.nami.presenters.SectionPresenter
 import com.example.nami.presenters.SectionUI
+
 
 class HomeFragment(
     private val mContext: Context,
@@ -27,13 +26,19 @@ class HomeFragment(
     private val presenter = SectionPresenter(this)
     var reciclerView: AutofitRecyclerView? = null
     private var adapter: IndicatorsAdapter ?= null
+    private var token=""
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        val preferences =
+            this.activity!!.getSharedPreferences("localStorage", Context.MODE_PRIVATE)
+
+        token = preferences.getString("token","localStorage").toString()
+        Log.i("TOKENENLAOTRAPARTE",token)
         presenter.actionSection(
-            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Mjk5LCJpYXQiOjE1OTAwNzE2MzMsImV4cCI6MTU5MDE1ODAzM30.lx4RxBJ7ekrOjwjq_MLD13bJ777mIt7S0Fk8Cenh3cc",
+            token,
             sectionid
         )
         val v: View
