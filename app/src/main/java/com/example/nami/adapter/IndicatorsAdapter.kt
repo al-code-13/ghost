@@ -1,14 +1,18 @@
 package com.example.nami.adapter
 
 import android.content.Context
+import android.graphics.Color
 import android.os.Build
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.TextView
 import androidx.annotation.RequiresApi
+import androidx.appcompat.content.res.AppCompatResources
+import androidx.core.graphics.drawable.DrawableCompat
 import com.example.nami.R
 import com.example.nami.models.auth.sections.Legend
+
 
 class IndicatorsAdapter(
     val context: Context,
@@ -18,10 +22,25 @@ class IndicatorsAdapter(
 
     @RequiresApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
+
         var v: View = View.inflate(context, R.layout.item_indicators, null)
         var name: TextView = v.findViewById(R.id.item)
         name.text = arrayList[position].name
-        name.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.blue_circle,0,0,0)
+
+        val unwrappedDrawable =
+            AppCompatResources.getDrawable(context, R.drawable.blue_circle)?.mutate()
+
+        val wrappedDrawable =
+            DrawableCompat.wrap(unwrappedDrawable!!)
+        DrawableCompat.setTint(wrappedDrawable, Color.parseColor(arrayList[position].color))
+
+
+        name.setCompoundDrawablesRelativeWithIntrinsicBounds(
+            wrappedDrawable,
+            null,
+            null,
+            null
+        )
         return v
     }
 
