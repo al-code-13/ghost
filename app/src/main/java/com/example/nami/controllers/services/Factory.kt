@@ -4,7 +4,6 @@ import okhttp3.Call
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import okhttp3.Request
-import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
 import java.io.IOException
 
@@ -18,6 +17,13 @@ open class ServiceFactory {
     val routePicker: String = "/picker"
     val routeLogin: String = "/login"
     val routeSections: String = "/sections"
+    val routeDetail:String="/order"
+    val routeTake:String="/takeOrder"
+    val routeRelease:String="/releaseOrder"
+    val routePicking="/pickingOrder"
+    val routeDeliverCourier:String="/deliverCourier"
+    val routeDeliverConsumer:String="/deliverConsumer"
+
 
     val client: OkHttpClient = OkHttpClient().newBuilder().build()
 

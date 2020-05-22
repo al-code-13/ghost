@@ -5,19 +5,15 @@ import android.app.Dialog
 import android.content.Context
 import android.content.Intent
 import android.graphics.drawable.ColorDrawable
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.example.nami.Detail
 import com.example.nami.R
-import com.example.nami.model.ModelOrders
 import com.example.nami.models.auth.sections.OrdersList
-import com.example.nami.models.auth.sections.SectionFragment
 
 class DemoAdapter(
     private val mContext: Context,
@@ -97,7 +93,12 @@ class DemoAdapter(
 
         holder.cell.text = mDataSet[position].phoneClient
 
-        //holder.total.text = mDataSet[position].pickingOrder.list[0].totalPicker
+        if(mDataSet[position].pickingOrder.list[0]!=null){
+            holder.total.text = mDataSet[position].pickingOrder.list[0].totalPicker
+        }
+        else{
+            holder.total.visibility=View.GONE
+        }
 
     }
 

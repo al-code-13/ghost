@@ -1,4 +1,4 @@
-package com.example.nami.models.auth.sections
+package com.example.nami.models.sections
 
 data class SectionFragment(
     val orders: Orders,
