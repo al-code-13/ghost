@@ -2,10 +2,10 @@ package com.example.nami.presenters
 
 import android.util.Log
 import com.example.nami.controllers.services.ServiceInteractor
-import com.example.nami.models.auth.sections.SectionsResponse
+import com.example.nami.models.sections.SectionsResponse
 
 interface SectionsUI {
-    fun showSection(data:SectionsResponse)
+    fun showSection(data: SectionsResponse)
     fun showError(error: String)
 }
 

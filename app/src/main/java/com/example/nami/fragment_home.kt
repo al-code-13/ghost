@@ -1,5 +1,6 @@
 package com.example.nami
 
+import SectionFragment
 import android.content.Context
 import android.content.res.Configuration
 import android.os.Bundle
@@ -12,8 +13,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.example.nami.adapter.DemoAdapter
 import com.example.nami.adapter.IndicatorsAdapter
-import com.example.nami.models.auth.sections.Legend
-import com.example.nami.models.auth.sections.SectionFragment
+import com.example.nami.models.sections.Legend
 import com.example.nami.presenters.SectionPresenter
 import com.example.nami.presenters.SectionUI
 
@@ -25,8 +25,8 @@ class HomeFragment(
 ) : Fragment(), SectionUI {
     private val presenter = SectionPresenter(this)
     var reciclerView: AutofitRecyclerView? = null
-    private var adapter: IndicatorsAdapter ?= null
-    private var token=""
+    private var adapter: IndicatorsAdapter? = null
+    private var token = ""
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -35,8 +35,8 @@ class HomeFragment(
         val preferences =
             this.activity!!.getSharedPreferences("localStorage", Context.MODE_PRIVATE)
 
-        token = preferences.getString("token","localStorage").toString()
-        Log.i("TOKENENLAOTRAPARTE",token)
+        token = preferences.getString("token", "localStorage").toString()
+        Log.i("TOKENENLAOTRAPARTE", token)
         presenter.actionSection(
             token,
             sectionid
@@ -50,7 +50,7 @@ class HomeFragment(
         }
         reciclerView = v.findViewById<AutofitRecyclerView>(R.id.my_grid_view_list)
         //reciclerView.setHasFixedSize(true)
-        adapter = IndicatorsAdapter(mContext,legendList)
+        adapter = IndicatorsAdapter(mContext, legendList)
         val gridView = v.findViewById<GridView>(R.id.gridItems)
         gridView?.adapter = adapter
         return v
@@ -60,8 +60,7 @@ class HomeFragment(
     override fun showData(data: SectionFragment) {
 
         activity?.runOnUiThread {
-
-            reciclerView?.adapter = DemoAdapter(mContext," ", data.orders.list)
+            reciclerView?.adapter = DemoAdapter(mContext, " ", data.orders, legendList)
         }
     }
 

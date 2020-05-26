@@ -5,8 +5,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import com.example.nami.HomeFragment
-import com.example.nami.models.auth.sections.Legend
-import com.example.nami.models.auth.sections.SectionResponse
+import com.example.nami.models.sections.Legend
+import com.example.nami.models.sections.SectionResponse
 
 
 @Suppress("DEPRECATION")

@@ -1,9 +1,11 @@
 package com.example.nami.adapter
 
+import OrdersList
 import android.annotation.SuppressLint
 import android.app.Dialog
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.view.LayoutInflater
 import android.view.View
@@ -13,12 +15,14 @@ import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.example.nami.Detail
 import com.example.nami.R
-import com.example.nami.models.auth.sections.OrdersList
+import com.example.nami.models.sections.Legend
+import kotlinx.android.synthetic.main.card_view_item_grid.view.*
 
 class DemoAdapter(
     private val mContext: Context,
     private val titleOrder: String,
-    private val mDataSet: List<OrdersList>
+    private val mDataSet: List<OrdersList>,
+    private val colorsList: List<Legend>
 ) :
     RecyclerView.Adapter<DemoAdapter.ViewHolder>() {
 
@@ -48,32 +52,35 @@ class DemoAdapter(
     ): ViewHolder {
         val v: View =
             LayoutInflater.from(mContext).inflate(R.layout.card_view_item_grid, parent, false)
-        return ViewHolder(v).listen { pos, type ->
+
+        return ViewHolder(v).listen { pos, _ ->
             val items = mDataSet[pos]
+            v.card.setCardBackgroundColor(Color.parseColor(colorsList[items.action.toInt()-1].color))
             val dialog = Dialog(mContext)
-            val dialogView = LayoutInflater.from(mContext).inflate(R.layout.activity_popup,null)
+            val dialogView = LayoutInflater.from(mContext).inflate(R.layout.activity_popup, null)
             val title = dialogView.findViewById<TextView>(R.id.titleOrderId)
             val option = dialogView.findViewById<TextView>(R.id.optionone)
             val detail = dialogView.findViewById<TextView>(R.id.detail)
-            title.text = "Orden #${items.pickingOrder.list[0].id}"
+            //title.text = "Orden #${items.pickingOrder.list[0].id}"
             option.text = titleOrder
 
             option.setOnClickListener {
                 val intent: Intent = Intent(mContext, Detail::class.java)
-                intent.putExtra("orderId", items.pickingOrder.list[0].id.toString())
+                //intent.putExtra("orderId", items.pickingOrder.list[0].id.toString())
                 intent.putExtra("state", titleOrder)
-                startActivity(mContext,intent,null)
+                startActivity(mContext, intent, null)
             }
             detail.setOnClickListener {
                 val intent: Intent = Intent(mContext, Detail::class.java)
-                intent.putExtra("orderId", items.pickingOrder.list[0].id.toString())
+                //intent.putExtra("orderId", items.pickingOrder.list[0].id.toString())
                 intent.putExtra("state", titleOrder)
-                startActivity(mContext,intent,null)
+                startActivity(mContext, intent, null)
             }
             detail.text = "Detalles"
             dialog.window?.setBackgroundDrawable(ColorDrawable(android.R.color.black))
             dialog.setContentView(dialogView)
-            dialog.show()}
+            dialog.show()
+        }
     }
 
     override fun onBindViewHolder(
@@ -93,12 +100,11 @@ class DemoAdapter(
 
         holder.cell.text = mDataSet[position].phoneClient
 
-        if(mDataSet[position].pickingOrder.list[0]!=null){
-            holder.total.text = mDataSet[position].pickingOrder.list[0].totalPicker
-        }
-        else{
-            holder.total.visibility=View.GONE
-        }
+        //if (mDataSet[position].pickingOrder.list[0] != null) {
+        //    holder.total.text = mDataSet[position].pickingOrder.list[0].totalPicker
+        //} else {
+        //    holder.total.visibility = View.GONE
+        //}
 
     }
 

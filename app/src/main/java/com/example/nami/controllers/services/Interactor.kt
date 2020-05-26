@@ -1,10 +1,10 @@
 package com.example.nami.controllers.services
 
+import SectionFragment
 import android.util.Log
 import com.example.nami.models.auth.LoginRequest
 import com.example.nami.models.auth.LoginResponse
 import com.example.nami.models.detailModels.*
-import com.example.nami.models.sections.SectionFragment
 import com.example.nami.models.sections.SectionsResponse
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
@@ -85,18 +85,18 @@ class ServiceInteractor : ServiceFactory() {
     ) {
 
         val url = "$serverUrl$routeBase$routePicker$routeSections/$section"
+
         get(url, token).enqueue(object : Callback {
             override fun onResponse(call: Call, response: Response) {
 
                 val body = response.body?.string()
-
+                Log.i("info sin parsear",body.toString())
                 val gson = GsonBuilder().create()
                 val res = gson.fromJson(body, SectionFragment::class.java)
                 if (response.isSuccessful) {
                     then(res)
                 } else {
                     error(res.message.toString())
-                    //Log.i("respuesta",response.message)
                 }
             }
 

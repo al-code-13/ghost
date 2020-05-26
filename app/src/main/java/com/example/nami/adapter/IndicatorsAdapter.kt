@@ -11,7 +11,7 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.graphics.drawable.DrawableCompat
 import com.example.nami.R
-import com.example.nami.models.auth.sections.Legend
+import com.example.nami.models.sections.Legend
 
 
 class IndicatorsAdapter(

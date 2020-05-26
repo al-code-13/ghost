@@ -1,15 +1,10 @@
-package com.example.nami.models.sections
 
-data class SectionFragment(
-    val orders: Orders,
-    val message: String?
+data class SectionFragment (
+    val orders: List<OrdersList>,
+    val message:String?
 )
 
-data class Orders(
-    val list: List<OrdersList>
-)
-
-data class OrdersList(
+data class OrdersList (
     val id: Long,
     val name: String,
     val lastname: String,
@@ -17,46 +12,26 @@ data class OrdersList(
     val value: String,
     val phoneClient: String,
     val date: String,
-    val origin: Origin,
+    val origin: String,
     val idCodBranch: Long,
     val hour: String,
     val idState: Long,
-    val observations: Observations,
+    val observations: String? = null,
     val methodPay: MethodPay,
     val pickingOrder: PickingOrder,
     val detailOrder: DetailOrder,
-    val action: Long? = null
+    val action: Long
 )
 
-data class DetailOrder(
+data class DetailOrder (
     val totalItems: Long
 )
 
-data class MethodPay(
+data class MethodPay (
     val id: Long,
-    val name: Name
+    val name: String
 )
 
-enum class Name {
-    Datafono,
-    Efectivo
-}
-
-enum class Observations {
-    Ok
-}
-
-enum class Origin {
-    Pf
-}
-
-data class PickingOrder(
-    val list: List<PickingOrderList>
-)
-
-data class PickingOrderList(
-    val id: Long,
-    val idUser: Long,
-    val totalPicker: String? = null,
-    val observations: Any? = null
+data class PickingOrder (
+    val list: List<Any?>
 )

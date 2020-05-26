@@ -1,8 +1,8 @@
 package com.example.nami.presenters
 
+import SectionFragment
 import android.util.Log
 import com.example.nami.controllers.services.ServiceInteractor
-import com.example.nami.models.auth.sections.SectionFragment
 
 
 interface SectionUI {
@@ -18,7 +18,7 @@ class SectionPresenter(val ui: SectionUI) {
             token,
             idSection,
             { data ->
-                Log.i("Respuesta de secciones",data.toString())
+                Log.i("Seccion individual",data.toString())
                 ui.showData(data)
             },
             { error ->

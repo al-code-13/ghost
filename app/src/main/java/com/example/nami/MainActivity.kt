@@ -7,7 +7,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager.widget.ViewPager
 import com.example.nami.adapter.MyAdapter
-import com.example.nami.models.auth.sections.SectionsResponse
+import com.example.nami.models.sections.SectionsResponse
 import com.example.nami.presenters.SectionsPresenter
 import com.example.nami.presenters.SectionsUI
 import com.google.android.material.tabs.TabLayout
@@ -32,6 +32,7 @@ class MainActivity : AppCompatActivity(), SectionsUI {
     }
 
     override fun showSection(data: SectionsResponse) {
+
         runOnUiThread {
             for (section in data.sections) {
                 tabLayout!!.addTab(tabLayout!!.newTab().setText(section.name))
@@ -57,8 +58,7 @@ class MainActivity : AppCompatActivity(), SectionsUI {
 
                 }
             })
-        }
-    }
+        }}
 
     override fun showError(error: String) {
         runOnUiThread {
