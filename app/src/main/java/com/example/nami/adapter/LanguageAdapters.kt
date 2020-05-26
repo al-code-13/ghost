@@ -11,6 +11,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.example.nami.Detail
@@ -29,12 +30,14 @@ class DemoAdapter(
 
     class ViewHolder(v: View) : RecyclerView.ViewHolder(v) {
 
+        var card: CardView = v.findViewById(R.id.card)
         var names: TextView = v.findViewById(R.id.name)
         var idOrder: TextView = v.findViewById(R.id.idOrder)
         var amount: TextView = v.findViewById(R.id.amount)
         var date: TextView = v.findViewById(R.id.date)
         var cell: TextView = v.findViewById(R.id.phone)
         var total: TextView = v.findViewById(R.id.total)
+
 
     }
 
@@ -55,7 +58,6 @@ class DemoAdapter(
 
         return ViewHolder(v).listen { pos, _ ->
             val items = mDataSet[pos]
-            v.card.setCardBackgroundColor(Color.parseColor(colorsList[items.action.toInt()-1].color))
             val dialog = Dialog(mContext)
             val dialogView = LayoutInflater.from(mContext).inflate(R.layout.activity_popup, null)
             val title = dialogView.findViewById<TextView>(R.id.titleOrderId)
@@ -89,6 +91,8 @@ class DemoAdapter(
     ) {
 
         //Log.i("Lista ",mDataSet[position].pickingOrder.list[0].totalPicker.toString() )
+
+        holder.card.setCardBackgroundColor(Color.parseColor(colorsList[mDataSet[position].action.toInt()-1].color))
 
         holder.names.text = mDataSet[position].name
 
