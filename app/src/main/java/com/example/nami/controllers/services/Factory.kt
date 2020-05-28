@@ -11,8 +11,8 @@ open class ServiceFactory {
 
     val JSON = "application/json; charset=utf-8".toMediaType()
 
-    val serverUrl: String = "https://d1-picking-test.chefmenu.com.co"
-    val routeBase: String = "/api/v1"
+    val serverUrl: String = "https://d1-dev-test.chefmenu.com.co:6443"
+    val routeBase: String = "/api/v2"
     val routeAuth: String = "/auth"
     val routePicker: String = "/picker"
     val routeLogin: String = "/login"
@@ -25,14 +25,11 @@ open class ServiceFactory {
     val routeDeliverConsumer:String="/deliverConsumer"
 
 
-    val client: OkHttpClient = OkHttpClient().newBuilder().build()
+    private val client: OkHttpClient = OkHttpClient().newBuilder().build()
 
-
-    init {
-    }
 
     @Throws(IOException::class)
-    fun get(url: String,token:String): Call {
+     fun get(url: String,token:String): Call {
         val request: Request = Request.Builder()
             .url(url)
             .addHeader("x-access-token-nami",token)

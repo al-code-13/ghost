@@ -17,7 +17,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.nami.Detail
 import com.example.nami.R
 import com.example.nami.models.sections.Legend
-import kotlinx.android.synthetic.main.card_view_item_grid.view.*
 
 class DemoAdapter(
     private val mContext: Context,
@@ -92,7 +91,7 @@ class DemoAdapter(
 
         //Log.i("Lista ",mDataSet[position].pickingOrder.list[0].totalPicker.toString() )
 
-        holder.card.setCardBackgroundColor(Color.parseColor(colorsList[mDataSet[position].action.toInt()-1].color))
+        holder.card.setCardBackgroundColor(Color.parseColor(colorsList[mDataSet[position].function.toInt()].color))
 
         holder.names.text = mDataSet[position].name
 

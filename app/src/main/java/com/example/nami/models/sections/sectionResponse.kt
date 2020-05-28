@@ -4,6 +4,7 @@ data class SectionFragment (
     val message:String?
 )
 
+
 data class OrdersList (
     val id: Long,
     val name: String,
@@ -16,11 +17,11 @@ data class OrdersList (
     val idCodBranch: Long,
     val hour: String,
     val idState: Long,
-    val observations: String? = null,
+    val observations: String,
     val methodPay: MethodPay,
     val pickingOrder: PickingOrder,
     val detailOrder: DetailOrder,
-    val action: Long
+    val function: Long
 )
 
 data class DetailOrder (

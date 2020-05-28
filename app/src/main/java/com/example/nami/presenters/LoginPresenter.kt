@@ -9,8 +9,8 @@ interface LoginUI{
 }
 
 class LoginPresenter (val ui: LoginUI){
-    val interactor = ServiceInteractor()
-    fun actionLogin(user: String, password: String) {
+    private val interactor = ServiceInteractor()
+    suspend fun actionLogin(user: String, password: String) {
         interactor.postLogin(user, password, { data ->
             Log.i("TOKEN",data.token)
             ui.showHome(data.token)
