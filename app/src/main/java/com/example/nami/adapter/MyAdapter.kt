@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import com.example.nami.HomeFragment
+import com.example.nami.models.sections.Action
 import com.example.nami.models.sections.Legend
 import com.example.nami.models.sections.SectionResponse
 
@@ -14,6 +15,7 @@ class MyAdapter(
     private val myContext: Context,
     fm: FragmentManager,
     var totalTabs: Int,
+    private val actionList:List<Action>,
     private val legendList: Array<Legend>,
     private val sectionsList: List<SectionResponse>
 ) :
@@ -23,6 +25,7 @@ class MyAdapter(
         return HomeFragment(
             myContext,
             legendSection(sectionsList[position].legends),
+            actionList,
             sectionsList[position].id
         )
     }

@@ -39,7 +39,7 @@ class MainActivity : AppCompatActivity(), SectionsUI {
             }
             tabLayout?.tabGravity = TabLayout.GRAVITY_FILL
 
-            val adapter = MyAdapter(this, supportFragmentManager, tabLayout!!.tabCount,data.legends.toTypedArray(),data.sections)
+            val adapter = MyAdapter(this, supportFragmentManager, tabLayout!!.tabCount,data.actions,data.legends.toTypedArray(),data.sections)
 
             viewPager!!.adapter = adapter
 

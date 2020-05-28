@@ -13,6 +13,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.example.nami.adapter.DemoAdapter
 import com.example.nami.adapter.IndicatorsAdapter
+import com.example.nami.models.sections.Action
 import com.example.nami.models.sections.Legend
 import com.example.nami.presenters.SectionPresenter
 import com.example.nami.presenters.SectionUI
@@ -21,6 +22,7 @@ import com.example.nami.presenters.SectionUI
 class HomeFragment(
     private val mContext: Context,
     private val legendList: List<Legend>,
+    private  val actionList:List<Action>,
     private val sectionid: Long
 ) : Fragment(), SectionUI {
     private val presenter = SectionPresenter(this)
@@ -60,7 +62,7 @@ class HomeFragment(
     override fun showData(data: SectionFragment) {
 
         activity?.runOnUiThread {
-            reciclerView?.adapter = DemoAdapter(mContext, " ", data.orders, legendList)
+            reciclerView?.adapter = DemoAdapter(mContext, " ", data.orders, legendList,actionList)
         }
     }
 

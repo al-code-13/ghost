@@ -7,11 +7,11 @@
     android:background="@drawable/popup_background"
     android:orientation="vertical"
     android:padding="8dp"
-    app:cardCornerRadius="16dp"
-    tools:context=".MainActivity">
+    app:cardCornerRadius="16dp">
 
 
     <LinearLayout
+        android:id="@+id/listActions"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="0dp"
@@ -25,26 +25,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:text="TextView"
-            android:textSize="24sp" />
-
-        <TextView
-            android:id="@+id/optionone"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="16dp"
-            android:clickable="true"
-            android:drawableLeft="@drawable/car"
-            android:drawablePadding="8dp"
-            android:textSize="24sp" />
-
-        <TextView
-            android:id="@+id/detail"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:drawableLeft="@drawable/info"
-            android:drawablePadding="8dp"
             android:text="TextView"
             android:textSize="24sp" />
 
