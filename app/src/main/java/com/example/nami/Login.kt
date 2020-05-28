@@ -5,8 +5,8 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.ProgressBar
 import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.example.nami.presenters.LoginPresenter
@@ -14,8 +14,11 @@ import com.example.nami.presenters.LoginUI
 import kotlinx.android.synthetic.main.activity_login.*
 import kotlinx.coroutines.*
 
+
 class Login : AppCompatActivity(), LoginUI {
     private var viewModelJob: Job = Job()
+    var spinner: ProgressBar? = null
+
     private val presenter = LoginPresenter(this)
     private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -23,19 +26,30 @@ class Login : AppCompatActivity(), LoginUI {
         setTheme(R.style.SplashTheme)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
-
+        spinner=findViewById(R.id.progressBar)
+        spinner?.visibility = View.GONE
     }
 
-     fun login(v: View) {
+    fun login(v: View) {
         uiScope.launch {
+            spinner?.visibility = View.VISIBLE
             logins(v)
         }
     }
 
-     suspend fun logins(v: View) {
-         withContext(Dispatchers.IO){
-             presenter.actionLogin(edit_user.text.toString(), edit_password.text.toString())
-         }
+    private suspend fun logins(v: View) {
+        try {
+            withContext(Dispatchers.IO) {
+                Log.i("ELTHREAD", Thread.currentThread().name)
+                spinner?.visibility = View.VISIBLE
+                presenter.actionLogin(edit_user.text.toString(), edit_password.text.toString())
+                spinner?.visibility = View.GONE
+
+            }
+        } catch (e: Exception) {
+            Log.i("ErrorEnLasCorrutinas", e.toString())
+        }
+
 
     }
 
@@ -53,7 +67,12 @@ class Login : AppCompatActivity(), LoginUI {
 
     override fun showError(error: String) {
         runOnUiThread {
+            spinner?.visibility = View.GONE
             Toast.makeText(applicationContext, error, Toast.LENGTH_LONG).show()
         }
+    }
+
+    override fun showLoad() {
+        Log.i("CARGAACTIVA","SI ESTA CARGANDO")
     }
 }

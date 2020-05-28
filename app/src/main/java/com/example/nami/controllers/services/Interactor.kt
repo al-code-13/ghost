@@ -16,7 +16,7 @@ import java.io.IOException
 
 class ServiceInteractor : ServiceFactory() {
 
-    suspend fun postLogin(
+    fun postLogin(
         user: String,
         password: String,
         then: (LoginResponse) -> Unit,
@@ -25,30 +25,18 @@ class ServiceInteractor : ServiceFactory() {
         val url = serverUrl + routeBase + routeAuth + routeLogin
         val request = LoginRequest(user, password)
         val json = Gson().toJson(request)
-        networkRequest(url,json,then,error)
-    }
-
-
-
-    private fun networkRequest(
-        url:String,
-        json:String,
-        then: (LoginResponse) -> Unit,
-        error: (String) -> Unit
-    ){
         post(url, json).enqueue(object : Callback {
 
             override fun onResponse(call: Call, response: Response) {
-                Log.i("JSON",json)
                 val body = response.body?.string()
-                Log.i("DATAAAA",body.toString())
+
                 val gson = GsonBuilder().create()
                 val res = gson.fromJson(body, LoginResponse::class.java)
-                Thread.sleep(3000)
                 if (response.isSuccessful) {
                     then(res)
                 } else {
                     error(res.message.toString())
+                    //Log.i("respuesta",response.message)
                 }
             }
 
@@ -58,7 +46,6 @@ class ServiceInteractor : ServiceFactory() {
             }
         })
     }
-
     fun getSections(
         token: String,
         then: (SectionsResponse) -> Unit,

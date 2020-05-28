@@ -6,13 +6,14 @@ import com.example.nami.controllers.services.ServiceInteractor
 interface LoginUI{
     fun showHome(token:String)
     fun showError(error:String)
+    fun showLoad()
 }
 
-class LoginPresenter (val ui: LoginUI){
+class LoginPresenter (private val ui: LoginUI){
     private val interactor = ServiceInteractor()
-    suspend fun actionLogin(user: String, password: String) {
+    fun actionLogin(user: String, password: String) {
         interactor.postLogin(user, password, { data ->
-            Log.i("TOKEN",data.token)
+            ui.showLoad()
             ui.showHome(data.token)
         }, { error ->
             ui.showError(error)
