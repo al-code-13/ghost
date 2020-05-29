@@ -8,6 +8,7 @@ import com.example.nami.models.detailModels.*
 import com.example.nami.models.sections.SectionsResponse
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
+import kotlinx.coroutines.*
 import okhttp3.Call
 import okhttp3.Callback
 import okhttp3.Response
@@ -16,7 +17,20 @@ import java.io.IOException
 
 class ServiceInteractor : ServiceFactory() {
 
+    private var viewModelJob: Job = Job()
+    private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
     fun postLogin(
+        user: String,
+        password: String,
+        then: (LoginResponse) -> Unit,
+        error: (String) -> Unit
+    ) {
+        uiScope.launch {
+            postLogins(user, password, then, error)
+        }
+    }
+
+    private suspend fun postLogins(
         user: String,
         password: String,
         then: (LoginResponse) -> Unit,
@@ -25,26 +39,29 @@ class ServiceInteractor : ServiceFactory() {
         val url = serverUrl + routeBase + routeAuth + routeLogin
         val request = LoginRequest(user, password)
         val json = Gson().toJson(request)
-        post(url, json).enqueue(object : Callback {
+        withContext(Dispatchers.IO){
+            post(url, json).enqueue(object : Callback {
 
-            override fun onResponse(call: Call, response: Response) {
-                val body = response.body?.string()
+                override fun onResponse(call: Call, response: Response) {
+                    val body = response.body?.string()
 
-                val gson = GsonBuilder().create()
-                val res = gson.fromJson(body, LoginResponse::class.java)
-                if (response.isSuccessful) {
-                    then(res)
-                } else {
-                    error(res.message.toString())
-                    //Log.i("respuesta",response.message)
+                    val gson = GsonBuilder().create()
+                    val res = gson.fromJson(body, LoginResponse::class.java)
+                    if (response.isSuccessful) {
+                        then(res)
+                    } else {
+                        error(res.message.toString())
+                        //Log.i("respuesta",response.message)
+                    }
                 }
-            }
 
-            override fun onFailure(call: Call, e: IOException) {
-                Log.i("Error", e.message.toString())
-                error("Error en el servicio")
-            }
-        })
+                override fun onFailure(call: Call, e: IOException) {
+                    Log.i("Error", e.message.toString())
+                    error("Error en el servicio")
+                }
+            })
+        }
+
     }
     fun getSections(
         token: String,

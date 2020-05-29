@@ -26,29 +26,17 @@ class Login : AppCompatActivity(), LoginUI {
         setTheme(R.style.SplashTheme)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
-        spinner=findViewById(R.id.progressBar)
+        spinner = findViewById(R.id.progressBar)
         spinner?.visibility = View.GONE
     }
 
+
     fun login(v: View) {
-        uiScope.launch {
-            spinner?.visibility = View.VISIBLE
-            logins(v)
-        }
-    }
 
-    private suspend fun logins(v: View) {
-        try {
-            withContext(Dispatchers.IO) {
-                Log.i("ELTHREAD", Thread.currentThread().name)
-                spinner?.visibility = View.VISIBLE
-                presenter.actionLogin(edit_user.text.toString(), edit_password.text.toString())
-                spinner?.visibility = View.GONE
-
-            }
-        } catch (e: Exception) {
-            Log.i("ErrorEnLasCorrutinas", e.toString())
-        }
+        Log.i("ELTHREAD", Thread.currentThread().name)
+        spinner?.visibility = View.VISIBLE
+        presenter.actionLogin(edit_user.text.toString(), edit_password.text.toString())
+        spinner?.visibility = View.GONE
 
 
     }
@@ -73,6 +61,8 @@ class Login : AppCompatActivity(), LoginUI {
     }
 
     override fun showLoad() {
-        Log.i("CARGAACTIVA","SI ESTA CARGANDO")
+        runOnUiThread {
+            spinner?.visibility = View.VISIBLE
+        }
     }
 }
