@@ -1,6 +1,6 @@
 package com.example.nami.models.detailModels
 
-data class DataResponse (
+data class DetailResponse (
     val order: Order,
     val message:String?
 )

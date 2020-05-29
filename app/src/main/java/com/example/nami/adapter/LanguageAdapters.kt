@@ -1,6 +1,8 @@
 package com.example.nami.adapter
 
+import MethodPay
 import OrdersList
+import OrdersListSerializable
 import android.annotation.SuppressLint
 import android.app.Dialog
 import android.content.Context
@@ -21,15 +23,13 @@ import com.example.nami.R
 import com.example.nami.models.sections.Action
 import com.example.nami.models.sections.Legend
 import kotlinx.android.synthetic.main.action_item.view.*
-import kotlinx.android.synthetic.main.activity_detail.*
-import kotlinx.android.synthetic.main.article_data_detail.view.*
 
 class DemoAdapter(
     private val mContext: Context,
-    private val titleOrder: String,
+    private val edyyy: String,
     private val mDataSet: List<OrdersList>,
     private val legendList: List<Legend>,
-    private val actionList:List<Action>
+    private val actionList: List<Action>
 ) :
     RecyclerView.Adapter<DemoAdapter.ViewHolder>() {
 
@@ -64,20 +64,46 @@ class DemoAdapter(
 
         return ViewHolder(v).listen { pos, _ ->
 
-            val serviceActions:List<Long>?=legendList[mDataSet[pos].function.toInt()-1].actions
+            val serviceActions: List<Long>? = legendList[mDataSet[pos].function.toInt() - 1].actions
             val items = mDataSet[pos]
             val dialog = Dialog(mContext)
             val dialogView = LayoutInflater.from(mContext).inflate(R.layout.activity_popup, null)
             val title = dialogView.findViewById<TextView>(R.id.titleOrderId)
-            //title.text = "Orden #${items.pickingOrder.list[0].id}"
-            val layoutActions=dialogView.findViewById<LinearLayout>(R.id.listActions)
+            title.text = "Orden #${items.id}"
+            val layoutActions = dialogView.findViewById<LinearLayout>(R.id.listActions)
             Log.i("lista de acciones", serviceActions.toString())
             for (i in serviceActions!!) {
-                    val v: View = LayoutInflater.from(mContext).inflate(R.layout.action_item, null)
-                    Log.i("accion",actionList[i.toInt()-1].name)
-                    v.action.text=actionList[i.toInt()-1].name
-                    layoutActions.addView(v)
+                 var datos:Array<String> = arrayOf(
+                    items.id.toString(),
+                    items.name,
+                    items.lastname,
+                    items.address,
+                    items.value,
+                    items.phoneClient,
+                    items.date,
+                    items.origin,
+                    items.idCodBranch.toString(),
+                    items.hour,
+                    items.idState.toString(),
+                    items.observations,
+                    items.methodPay.name,
+                    items.pickingOrder.toString(),
+                    items.detailOrder.totalItems.toString(),
+                    items.function.toString())
+
+                val v: View = LayoutInflater.from(mContext).inflate(R.layout.action_item, null)
+                Log.i("accion", actionList[i.toInt() - 1].name)
+                v.setOnClickListener {
+                    val intent: Intent = Intent(mContext, Detail::class.java)
+                    Log.i("Id de la orden enviada", items.id.toString())
+                    intent.putExtra("orderId", items.id.toString())
+                    intent.putExtra("state", items.idState.toString())
+                    intent.putExtra("userInfo",datos)
+                    startActivity(mContext, intent, null)
                 }
+                v.action.text = actionList[i.toInt() - 1].name
+                layoutActions.addView(v)
+            }
 
             dialog.window?.setBackgroundDrawable(ColorDrawable(android.R.color.black))
             dialog.setContentView(dialogView)
@@ -90,7 +116,7 @@ class DemoAdapter(
         position: Int
     ) {
 
-        Log.i("lista de acciones ",actionList.toString())
+        Log.i("lista de acciones ", actionList.toString())
         //Log.i("Lista ",mDataSet[position].pickingOrder.list[0].totalPicker.toString() )
 
         holder.card.setCardBackgroundColor(Color.parseColor(legendList[mDataSet[position].function.toInt()].color))

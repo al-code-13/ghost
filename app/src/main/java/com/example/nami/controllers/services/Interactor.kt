@@ -52,7 +52,7 @@ class ServiceInteractor : ServiceFactory() {
         error: (String) -> Unit
     ) {
 
-        val url = serverUrl + routeBase + routePicker + routeSections
+        val url = serverUrl + routeBase + routeSections
         get(url, token).enqueue(object : Callback {
             override fun onResponse(call: Call, response: Response) {
 
@@ -83,7 +83,7 @@ class ServiceInteractor : ServiceFactory() {
         error: (String) -> Unit
     ) {
 
-        val url = "$serverUrl$routeBase$routePicker$routeSections/$section"
+        val url = "$serverUrl$routeBase$routeSections/$section"
 
         get(url, token).enqueue(object : Callback {
             override fun onResponse(call: Call, response: Response) {
@@ -109,18 +109,19 @@ class ServiceInteractor : ServiceFactory() {
     fun getDetail(
         token: String,
         order: Long,
-        then: (DataResponse) -> Unit,
+        then: (DetailResponse) -> Unit,
         error: (String) -> Unit
     ) {
-
-        val url = "$serverUrl$routeBase$routePicker$routeDetail$order"
+        Log.i("token peticion detail",token)
+        val url = "$serverUrl$routeBase$routeOrders/$order"
         get(url, token).enqueue(object : Callback {
             override fun onResponse(call: Call, response: Response) {
 
                 val body = response.body?.string()
 
+                Log.i("info detail sin parsear",body.toString())
                 val gson = GsonBuilder().create()
-                val res = gson.fromJson(body, DataResponse::class.java)
+                val res = gson.fromJson(body, DetailResponse::class.java)
                 if (response.isSuccessful) {
                     then(res)
                 } else {
