@@ -21,14 +21,14 @@ class Detail : AppCompatActivity(), DetailUI {
     private var token = ""
     var orderId=""
     var orderState=""
-
+    var userInfo= arrayOf<String>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detail)
         val intent: Intent = intent
          orderId = intent.getStringExtra("orderId")
          orderState = intent.getStringExtra("state")
-        val userInfo= intent.getStringArrayExtra("userInfo")
+        userInfo= intent.getStringArrayExtra("userInfo")
         Log.i("Id de la orden",userInfo.toString())
         name.text=userInfo[1]+" "+userInfo[2]
         idProduct.text=userInfo[0]
@@ -60,6 +60,9 @@ class Detail : AppCompatActivity(), DetailUI {
                     v.idProduct.text = "${i.article.id}"
                     v.price.text = "$ ${i.valueTotalArticle}"
                     v.cant.text = "${i.quantityArticle}"
+                    v.minusButton.setOnClickListener {
+                        i.quantityArticle=(i.quantityArticle.toInt()-1).toString()
+                    }
 
                     layoutArticles.addView(v)
                 }
@@ -83,7 +86,7 @@ class Detail : AppCompatActivity(), DetailUI {
                     val takebutton=layoutTakeButton.findViewById<Button>(R.id.takeButton)
                     val closeButton=layoutCloseButton.findViewById<Button>(R.id.closeButton)
                     takebutton.setOnClickListener {
-                        presenter.actionTake(token,orderId.toLong(),token.toLong(),"hoy")
+                        presenter.actionTake(token,orderId.toLong(),"2020-05-18")
                     }
                     closeButton.setOnClickListener {
 
@@ -97,7 +100,7 @@ class Detail : AppCompatActivity(), DetailUI {
                     val takebutton=layoutTakeButton.findViewById<Button>(R.id.takeButton)
                     val closeButton=layoutCloseButton.findViewById<Button>(R.id.closeButton)
                     takebutton.setOnClickListener {
-                        presenter.actionTake(token,orderId.toLong(),token.toLong(),"hoy")
+                        presenter.actionTake(token,orderId.toLong(),"2020-05-18")
                     }
                     closeButton.setOnClickListener {
 
@@ -130,6 +133,33 @@ class Detail : AppCompatActivity(), DetailUI {
                     }
                     buttonsLinearLayout.addView(layoutCloseButton)
                     buttonsLinearLayout.addView(layoutDeliverButton)
+                    buttonsLinearLayout.addView(layoutFreeButton)
+                    buttonsLinearLayout.addView(layoutFreezeButton)
+                }
+                "28" -> {
+                    val layoutCloseButton: View = layoutInflater.inflate(R.layout.close_button, null)
+                    val layoutSaveButton:View=layoutInflater.inflate(R.layout.save_button,null)
+                    val layoutFreeButton:View=layoutInflater.inflate(R.layout.free_button,null)
+                    val layoutFreezeButton: View = layoutInflater.inflate(R.layout.freeze_button, null)
+
+                    val closeButton=layoutCloseButton.findViewById<Button>(R.id.closeButton)
+                    closeButton.setOnClickListener {
+
+                    }
+                    val deliverButton=layoutSaveButton.findViewById<Button>(R.id.pickButton)
+                    deliverButton.setOnClickListener {
+                        presenter.actionPutDeliverCustomer(token,orderId.toLong())
+                    }
+                    val freeButton =layoutFreeButton.findViewById<Button>(R.id.freeButton)
+                    freeButton.setOnClickListener {
+                        presenter.actionRelease(token,orderId.toLong(),"observaciones")
+                    }
+                    val freezeButton=layoutFreezeButton.findViewById<Button>(R.id.freezeButton)
+                    freezeButton.setOnClickListener {
+                        presenter.actionPutFreeze(token,orderId.toLong(),2)
+                    }
+                    buttonsLinearLayout.addView(layoutCloseButton)
+                    buttonsLinearLayout.addView(layoutSaveButton)
                     buttonsLinearLayout.addView(layoutFreeButton)
                     buttonsLinearLayout.addView(layoutFreezeButton)
                 }
@@ -179,7 +209,12 @@ class Detail : AppCompatActivity(), DetailUI {
         }
     }
 
-    override fun orderModifiedSuccessfull() {
-        TODO("Not yet implemented")
+    override fun orderModifiedSuccessfull(state:String) {
+        val intent =  Intent(this, Detail::class.java)
+        intent.putExtra("orderId", orderId)
+        intent.putExtra("state", state)
+        intent.putExtra("userInfo",userInfo)
+        startActivity(intent)
+        finish()
     }
 }

@@ -6,7 +6,7 @@ import com.example.nami.models.detailModels.DetailResponse
 interface DetailUI{
     fun showDetailInfo(data: DetailResponse)
     fun showError(error:String)
-    fun orderModifiedSuccessfull()
+    fun orderModifiedSuccessfull(state:String)
 }
 
 class DetailPresenter (private val ui: DetailUI){
@@ -18,23 +18,23 @@ class DetailPresenter (private val ui: DetailUI){
             ui.showError(error)
         })
     }
-    fun actionTake(token:String,orderId: Long,idUser:Long,dateTake:String){
-        interactor.postTakeOrder(orderId,idUser,dateTake, { data ->
-            ui.orderModifiedSuccessfull()
+    fun actionTake(token:String,orderId: Long,dateTake:String){
+        interactor.postTakeOrder(token,orderId,dateTake, { data ->
+            ui.orderModifiedSuccessfull("28")
         }, { error ->
             ui.showError(error)
         })
     }
     fun actionRelease(token:String,orderId: Long,observations:String){
         interactor.putReleaseOrder(token,orderId,observations, { data ->
-            ui.orderModifiedSuccessfull()
+            ui.orderModifiedSuccessfull("9")
         }, { error ->
             ui.showError(error)
         })
     }
     fun actionPutDeliverCourier(token:String,orderId: Long){
         interactor.putDeliverCourier(token,orderId, { data ->
-            ui.orderModifiedSuccessfull()
+            ui.orderModifiedSuccessfull("29")
         }, { error ->
             ui.showError(error)
         })
@@ -42,7 +42,7 @@ class DetailPresenter (private val ui: DetailUI){
 
     fun actionPutDeliverCustomer(token:String,orderId: Long){
         interactor.putDeliverCustomer(token,orderId, { data ->
-            ui.orderModifiedSuccessfull()
+            ui.orderModifiedSuccessfull("25")
         }, { error ->
             ui.showError(error)
         })
@@ -50,7 +50,7 @@ class DetailPresenter (private val ui: DetailUI){
 
     fun actionPutFreeze(token:String,orderId: Long,idReason:Int){
         interactor.putFreeze(token,orderId, idReason ,{ data ->
-            ui.orderModifiedSuccessfull()
+            ui.orderModifiedSuccessfull("25")
         }, { error ->
             ui.showError(error)
         })

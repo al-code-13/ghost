@@ -23,7 +23,7 @@ data class DetailOrder (
 data class ListElement (
     val id: Long,
     val description: Any? = null,
-    val quantityArticle: String,
+    var quantityArticle: String,
     val valueTotalArticle: String,
     val codOptionalsExternals: Any? = null,
     val codTamano: Any? = null,

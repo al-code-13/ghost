@@ -15,10 +15,10 @@ open class ServiceFactory {
     val routeBase: String = "/api/v2"
     val routeAuth: String = "/auth"
     val routePicker: String = "/picker"
-    val routeOrders: String ="/orders"
+    val routeOrders: String ="/orders/"
     val routeLogin: String = "/login"
     val routeSections: String = "/sections"
-    val routeTake:String="/takeOrder"
+    val routeTake:String="/take"
     val routeRelease:String="/releaseOrder"
     val routePicking="/pickingOrder"
     val routeDeliverCourier:String="/deliverCourier"
@@ -45,6 +45,19 @@ open class ServiceFactory {
         val body = json.toRequestBody(JSON)
         val request: Request = Request.Builder()
             .url(url)
+            .post(body)
+            .build()
+        //client!!.newCall(request).execute().use { response -> return response.body!!.string() }
+
+        return client.newCall(request)
+    }
+
+    @Throws(IOException::class)
+    fun postWithToken(token:String,url: String, json: String): Call {
+        val body = json.toRequestBody(JSON)
+        val request: Request = Request.Builder()
+            .url(url)
+            .addHeader("x-access-token-nami",token)
             .post(body)
             .build()
         //client!!.newCall(request).execute().use { response -> return response.body!!.string() }

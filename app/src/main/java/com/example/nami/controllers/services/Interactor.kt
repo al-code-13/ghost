@@ -193,33 +193,34 @@ class ServiceInteractor : ServiceFactory() {
 
 
     fun postTakeOrder(
+        token:String,
         idOrder: Long,
-        idUser: Long,
         dataTake: String,
         then: (TakeOrderResponse) -> Unit,
         error: (String) -> Unit
     ) {
         uiScope.launch {
-            postTakeOrdercorutine(idOrder, idUser, dataTake, then, error)
+            postTakeOrdercorutine(token,idOrder, dataTake, then, error)
         }
     }
 
     private suspend fun postTakeOrdercorutine(
+        token:String,
         idOrder: Long,
-        idUser: Long,
         dataTake: String,
         then: (TakeOrderResponse) -> Unit,
         error: (String) -> Unit
     ) {
-        val url = serverUrl + routeBase + routePicker + routeTake
-        val request = TakeOrderRequest(idOrder, idUser, dataTake)
+        val url = serverUrl + routeBase + routeOrders + idOrder + routeTake
+        val request = TakeOrderRequest(dataTake)
         val json = Gson().toJson(request)
+        Log.i("jsonTake",json)
         withContext(Dispatchers.IO) {
-            post(url, json).enqueue(object : Callback {
+            postWithToken(token,url, json).enqueue(object : Callback {
 
                 override fun onResponse(call: Call, response: Response) {
                     val body = response.body?.string()
-
+                    Log.i("takeservice",body.toString())
                     val gson = GsonBuilder().create()
                     val res = gson.fromJson(body, TakeOrderResponse::class.java)
                     if (response.isSuccessful) {
