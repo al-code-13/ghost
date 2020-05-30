@@ -69,6 +69,16 @@ class ServiceInteractor : ServiceFactory() {
         then: (SectionsResponse) -> Unit,
         error: (String) -> Unit
     ) {
+        uiScope.launch {
+            getSectionsCorrutine(token, then, error)
+        }
+    }
+
+    fun getSectionsCorrutine(
+        token: String,
+        then: (SectionsResponse) -> Unit,
+        error: (String) -> Unit
+    ) {
 
         val url = serverUrl + routeBase + routeSections
         get(url, token).enqueue(object : Callback {
@@ -93,8 +103,18 @@ class ServiceInteractor : ServiceFactory() {
         })
     }
 
-
     fun getSection(
+        token: String,
+        section: Long,
+        then: (SectionFragment) -> Unit,
+        error: (String) -> Unit
+    ) {
+        uiScope.launch {
+            getSectionCorutine(token, section, then, error)
+        }
+    }
+
+    private suspend fun getSectionCorutine(
         token: String,
         section: Long,
         then: (SectionFragment) -> Unit,
@@ -102,26 +122,28 @@ class ServiceInteractor : ServiceFactory() {
     ) {
 
         val url = "$serverUrl$routeBase$routeSections/$section"
+        withContext(Dispatchers.IO) {
+            get(url, token).enqueue(object : Callback {
+                override fun onResponse(call: Call, response: Response) {
 
-        get(url, token).enqueue(object : Callback {
-            override fun onResponse(call: Call, response: Response) {
-
-                val body = response.body?.string()
-                Log.i("info sin parsear", body.toString())
-                val gson = GsonBuilder().create()
-                val res = gson.fromJson(body, SectionFragment::class.java)
-                if (response.isSuccessful) {
-                    then(res)
-                } else {
-                    error(res.message.toString())
+                    val body = response.body?.string()
+                    Log.i("info sin parsear", body.toString())
+                    val gson = GsonBuilder().create()
+                    val res = gson.fromJson(body, SectionFragment::class.java)
+                    if (response.isSuccessful) {
+                        then(res)
+                    } else {
+                        error(res.message.toString())
+                    }
                 }
-            }
 
-            override fun onFailure(call: Call, e: IOException) {
-                Log.i("Error", e.message.toString())
-                error("Error en el servicio")
-            }
-        })
+                override fun onFailure(call: Call, e: IOException) {
+                    Log.i("Error", e.message.toString())
+                    error("Error en el servicio")
+                }
+            })
+        }
+
     }
 
     fun getDetail(
@@ -130,32 +152,59 @@ class ServiceInteractor : ServiceFactory() {
         then: (DetailResponse) -> Unit,
         error: (String) -> Unit
     ) {
-        Log.i("token peticion detail", token)
-        val url = "$serverUrl$routeBase$routeOrders/$order"
-        get(url, token).enqueue(object : Callback {
-            override fun onResponse(call: Call, response: Response) {
-
-                val body = response.body?.string()
-
-                Log.i("info detail sin parsear", body.toString())
-                val gson = GsonBuilder().create()
-                val res = gson.fromJson(body, DetailResponse::class.java)
-                if (response.isSuccessful) {
-                    then(res)
-                } else {
-                    error(res.message.toString())
-                    //Log.i("respuesta",response.message)
-                }
-            }
-
-            override fun onFailure(call: Call, e: IOException) {
-                Log.i("Error", e.message.toString())
-                error("Error en el servicio")
-            }
-        })
+        uiScope.launch {
+            getDetailCorutine(token, order, then, error)
+        }
     }
 
+    private suspend fun getDetailCorutine(
+        token: String,
+        order: Long,
+        then: (DetailResponse) -> Unit,
+        error: (String) -> Unit
+    ) {
+        Log.i("token peticion detail", token)
+        val url = "$serverUrl$routeBase$routeOrders/$order"
+        withContext(Dispatchers.IO) {
+            get(url, token).enqueue(object : Callback {
+                override fun onResponse(call: Call, response: Response) {
+
+                    val body = response.body?.string()
+
+                    Log.i("info detail sin parsear", body.toString())
+                    val gson = GsonBuilder().create()
+                    val res = gson.fromJson(body, DetailResponse::class.java)
+                    if (response.isSuccessful) {
+                        then(res)
+                    } else {
+                        error(res.message.toString())
+                        //Log.i("respuesta",response.message)
+                    }
+                }
+
+                override fun onFailure(call: Call, e: IOException) {
+                    Log.i("Error", e.message.toString())
+                    error("Error en el servicio")
+                }
+            })
+        }
+
+    }
+
+
     fun postTakeOrder(
+        idOrder: Long,
+        idUser: Long,
+        dataTake: String,
+        then: (TakeOrderResponse) -> Unit,
+        error: (String) -> Unit
+    ) {
+        uiScope.launch {
+            postTakeOrdercorutine(idOrder, idUser, dataTake, then, error)
+        }
+    }
+
+    private suspend fun postTakeOrdercorutine(
         idOrder: Long,
         idUser: Long,
         dataTake: String,
@@ -165,26 +214,29 @@ class ServiceInteractor : ServiceFactory() {
         val url = serverUrl + routeBase + routePicker + routeTake
         val request = TakeOrderRequest(idOrder, idUser, dataTake)
         val json = Gson().toJson(request)
-        post(url, json).enqueue(object : Callback {
+        withContext(Dispatchers.IO) {
+            post(url, json).enqueue(object : Callback {
 
-            override fun onResponse(call: Call, response: Response) {
-                val body = response.body?.string()
+                override fun onResponse(call: Call, response: Response) {
+                    val body = response.body?.string()
 
-                val gson = GsonBuilder().create()
-                val res = gson.fromJson(body, TakeOrderResponse::class.java)
-                if (response.isSuccessful) {
-                    then(res)
-                } else {
-                    error(res.message.toString())
-                    //Log.i("respuesta",response.message)
+                    val gson = GsonBuilder().create()
+                    val res = gson.fromJson(body, TakeOrderResponse::class.java)
+                    if (response.isSuccessful) {
+                        then(res)
+                    } else {
+                        error(res.message.toString())
+                        //Log.i("respuesta",response.message)
+                    }
                 }
-            }
 
-            override fun onFailure(call: Call, e: IOException) {
-                Log.i("Error", e.message.toString())
-                error("Error en el servicio")
-            }
-        })
+                override fun onFailure(call: Call, e: IOException) {
+                    Log.i("Error", e.message.toString())
+                    error("Error en el servicio")
+                }
+            })
+        }
+
     }
 
     fun putReleaseOrder(
@@ -194,32 +246,71 @@ class ServiceInteractor : ServiceFactory() {
         then: (ReleaseOrderResponse) -> Unit,
         error: (String) -> Unit
     ) {
+        uiScope.launch {
+            putReleaseOrderCorutine(token, idOrder, observations, then, error)
+        }
+    }
+
+    private suspend fun putReleaseOrderCorutine(
+        token: String,
+        idOrder: Long,
+        observations: String,
+        then: (ReleaseOrderResponse) -> Unit,
+        error: (String) -> Unit
+    ) {
         val url = serverUrl + routeBase + routeOrders + idOrder + routeRelease
         val request = ReleaseOrderRequest(observations)
         val json = Gson().toJson(request)
-        put(url, token, json).enqueue(object : Callback {
+        withContext(Dispatchers.IO) {
+            put(url, token, json).enqueue(object : Callback {
 
-            override fun onResponse(call: Call, response: Response) {
-                val body = response.body?.string()
+                override fun onResponse(call: Call, response: Response) {
+                    val body = response.body?.string()
 
-                val gson = GsonBuilder().create()
-                val res = gson.fromJson(body, ReleaseOrderResponse::class.java)
-                if (response.isSuccessful) {
-                    then(res)
-                } else {
-                    error(res.message.toString())
-                    //Log.i("respuesta",response.message)
+                    val gson = GsonBuilder().create()
+                    val res = gson.fromJson(body, ReleaseOrderResponse::class.java)
+                    if (response.isSuccessful) {
+                        then(res)
+                    } else {
+                        error(res.message.toString())
+                        //Log.i("respuesta",response.message)
+                    }
                 }
-            }
 
-            override fun onFailure(call: Call, e: IOException) {
-                Log.i("Error", e.message.toString())
-                error("Error en el servicio")
-            }
-        })
+                override fun onFailure(call: Call, e: IOException) {
+                    Log.i("Error", e.message.toString())
+                    error("Error en el servicio")
+                }
+            })
+        }
+
     }
 
     fun postPickingOrder(
+        listDataPicker: List<ListDataPicker>,
+        idOrder: Long,
+        idUser: Long,
+        productosok: Boolean,
+        totalPicker: String,
+        observations: String,
+        then: (PickingOrderResponse) -> Unit,
+        error: (String) -> Unit
+    ) {
+        uiScope.launch {
+            postPickingOrderCorutine(
+                listDataPicker,
+                idOrder,
+                idUser,
+                productosok,
+                totalPicker,
+                observations,
+                then,
+                error
+            )
+        }
+    }
+
+    private suspend fun postPickingOrderCorutine(
         listDataPicker: List<ListDataPicker>,
         idOrder: Long,
         idUser: Long,
@@ -239,29 +330,45 @@ class ServiceInteractor : ServiceFactory() {
             observations
         )
         val json = Gson().toJson(request)
-        post(url, json).enqueue(object : Callback {
+        withContext(Dispatchers.IO) {
+            post(url, json).enqueue(object : Callback {
 
-            override fun onResponse(call: Call, response: Response) {
-                val body = response.body?.string()
+                override fun onResponse(call: Call, response: Response) {
+                    val body = response.body?.string()
 
-                val gson = GsonBuilder().create()
-                val res = gson.fromJson(body, PickingOrderResponse::class.java)
-                if (response.isSuccessful) {
-                    then(res)
-                } else {
-                    error(res.message.toString())
-                    //Log.i("respuesta",response.message)
+                    val gson = GsonBuilder().create()
+                    val res = gson.fromJson(body, PickingOrderResponse::class.java)
+                    if (response.isSuccessful) {
+                        then(res)
+                    } else {
+                        error(res.message.toString())
+                        //Log.i("respuesta",response.message)
+                    }
                 }
-            }
 
-            override fun onFailure(call: Call, e: IOException) {
-                Log.i("Error", e.message.toString())
-                error("Error en el servicio")
-            }
-        })
+                override fun onFailure(call: Call, e: IOException) {
+                    Log.i("Error", e.message.toString())
+                    error("Error en el servicio")
+                }
+            })
+        }
+
     }
 
+
     fun putDeliverCourier(
+        token: String,
+        idOrder: Long,
+        then: (DeliverCourierResponse) -> Unit,
+        error: (String) -> Unit
+    ) {
+        uiScope.launch {
+            putDeliverCourierCorutine(token, idOrder, then, error)
+        }
+    }
+
+
+    private suspend fun putDeliverCourierCorutine(
         token: String,
         idOrder: Long,
         then: (DeliverCourierResponse) -> Unit,
@@ -270,26 +377,29 @@ class ServiceInteractor : ServiceFactory() {
         val url = serverUrl + routeBase + routeOrders + idOrder + routeDeliverCourier
         val request = DeliverCourierRequest(idOrder)
         val json = Gson().toJson(request)
-        put(token, url, json).enqueue(object : Callback {
+        withContext(Dispatchers.IO) {
+            put(token, url, json).enqueue(object : Callback {
 
-            override fun onResponse(call: Call, response: Response) {
-                val body = response.body?.string()
+                override fun onResponse(call: Call, response: Response) {
+                    val body = response.body?.string()
 
-                val gson = GsonBuilder().create()
-                val res = gson.fromJson(body, DeliverCourierResponse::class.java)
-                if (response.isSuccessful) {
-                    then(res)
-                } else {
-                    error(res.message.toString())
-                    //Log.i("respuesta",response.message)
+                    val gson = GsonBuilder().create()
+                    val res = gson.fromJson(body, DeliverCourierResponse::class.java)
+                    if (response.isSuccessful) {
+                        then(res)
+                    } else {
+                        error(res.message.toString())
+                        //Log.i("respuesta",response.message)
+                    }
                 }
-            }
 
-            override fun onFailure(call: Call, e: IOException) {
-                Log.i("Error", e.message.toString())
-                error("Error en el servicio")
-            }
-        })
+                override fun onFailure(call: Call, e: IOException) {
+                    Log.i("Error", e.message.toString())
+                    error("Error en el servicio")
+                }
+            })
+        }
+
     }
 
     fun putDeliverCustomer(
@@ -298,32 +408,57 @@ class ServiceInteractor : ServiceFactory() {
         then: (DeliverConsumerResponse) -> Unit,
         error: (String) -> Unit
     ) {
+        uiScope.launch {
+            putDeliverCustomerCorutine(token, idOrder, then, error)
+        }
+    }
+
+    private suspend fun putDeliverCustomerCorutine(
+        token: String,
+        idOrder: Long,
+        then: (DeliverConsumerResponse) -> Unit,
+        error: (String) -> Unit
+    ) {
         val url = serverUrl + routeBase + routePicker + idOrder + routeDeliverConsumer
         val request = DeliverConsumerRequest(idOrder)
         val json = Gson().toJson(request)
-        put(token, url, json).enqueue(object : Callback {
+        withContext(Dispatchers.IO) {
+            put(token, url, json).enqueue(object : Callback {
 
-            override fun onResponse(call: Call, response: Response) {
-                val body = response.body?.string()
+                override fun onResponse(call: Call, response: Response) {
+                    val body = response.body?.string()
 
-                val gson = GsonBuilder().create()
-                val res = gson.fromJson(body, DeliverConsumerResponse::class.java)
-                if (response.isSuccessful) {
-                    then(res)
-                } else {
-                    error(res.message.toString())
-                    //Log.i("respuesta",response.message)
+                    val gson = GsonBuilder().create()
+                    val res = gson.fromJson(body, DeliverConsumerResponse::class.java)
+                    if (response.isSuccessful) {
+                        then(res)
+                    } else {
+                        error(res.message.toString())
+                        //Log.i("respuesta",response.message)
+                    }
                 }
-            }
 
-            override fun onFailure(call: Call, e: IOException) {
-                Log.i("Error", e.message.toString())
-                error("Error en el servicio")
-            }
-        })
+                override fun onFailure(call: Call, e: IOException) {
+                    Log.i("Error", e.message.toString())
+                    error("Error en el servicio")
+                }
+            })
+        }
+
+    }
+    fun putFreeze(
+        token: String,
+        idOrder: Long,
+        idReason: Int,
+        then: (FreezeResponse) -> Unit,
+        error: (String) -> Unit
+    ) {
+        uiScope.launch {
+            putFreezeCorutine(token, idOrder,idReason, then, error)
+        }
     }
 
-    fun putFreeze(
+    private suspend fun putFreezeCorutine(
         token: String,
         idOrder: Long,
         idReason: Int,
@@ -333,25 +468,28 @@ class ServiceInteractor : ServiceFactory() {
         val url = serverUrl + routeBase + routePicker + idOrder + routeFreeze
         val request = FreezeRequest(idReason)
         val json = Gson().toJson(request)
-        put(token, url, json).enqueue(object : Callback {
+        withContext(Dispatchers.IO){
+            put(token, url, json).enqueue(object : Callback {
 
-            override fun onResponse(call: Call, response: Response) {
-                val body = response.body?.string()
+                override fun onResponse(call: Call, response: Response) {
+                    val body = response.body?.string()
 
-                val gson = GsonBuilder().create()
-                val res = gson.fromJson(body, FreezeResponse::class.java)
-                if (response.isSuccessful) {
-                    then(res)
-                } else {
-                    error(res.message.toString())
-                    //Log.i("respuesta",response.message)
+                    val gson = GsonBuilder().create()
+                    val res = gson.fromJson(body, FreezeResponse::class.java)
+                    if (response.isSuccessful) {
+                        then(res)
+                    } else {
+                        error(res.message.toString())
+                        //Log.i("respuesta",response.message)
+                    }
                 }
-            }
 
-            override fun onFailure(call: Call, e: IOException) {
-                Log.i("Error", e.message.toString())
-                error("Error en el servicio")
-            }
-        })
+                override fun onFailure(call: Call, e: IOException) {
+                    Log.i("Error", e.message.toString())
+                    error("Error en el servicio")
+                }
+            })
+        }
+
     }
 }
