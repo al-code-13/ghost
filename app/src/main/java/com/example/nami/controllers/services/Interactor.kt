@@ -39,7 +39,7 @@ class ServiceInteractor : ServiceFactory() {
         val url = serverUrl + routeBase + routeAuth + routeLogin
         val request = LoginRequest(user, password)
         val json = Gson().toJson(request)
-        withContext(Dispatchers.IO){
+        withContext(Dispatchers.IO) {
             post(url, json).enqueue(object : Callback {
 
                 override fun onResponse(call: Call, response: Response) {
@@ -63,6 +63,7 @@ class ServiceInteractor : ServiceFactory() {
         }
 
     }
+
     fun getSections(
         token: String,
         then: (SectionsResponse) -> Unit,
@@ -106,7 +107,7 @@ class ServiceInteractor : ServiceFactory() {
             override fun onResponse(call: Call, response: Response) {
 
                 val body = response.body?.string()
-                Log.i("info sin parsear",body.toString())
+                Log.i("info sin parsear", body.toString())
                 val gson = GsonBuilder().create()
                 val res = gson.fromJson(body, SectionFragment::class.java)
                 if (response.isSuccessful) {
@@ -129,14 +130,14 @@ class ServiceInteractor : ServiceFactory() {
         then: (DetailResponse) -> Unit,
         error: (String) -> Unit
     ) {
-        Log.i("token peticion detail",token)
+        Log.i("token peticion detail", token)
         val url = "$serverUrl$routeBase$routeOrders/$order"
         get(url, token).enqueue(object : Callback {
             override fun onResponse(call: Call, response: Response) {
 
                 val body = response.body?.string()
 
-                Log.i("info detail sin parsear",body.toString())
+                Log.i("info detail sin parsear", body.toString())
                 val gson = GsonBuilder().create()
                 val res = gson.fromJson(body, DetailResponse::class.java)
                 if (response.isSuccessful) {
@@ -186,17 +187,17 @@ class ServiceInteractor : ServiceFactory() {
         })
     }
 
-    fun postReleaseOrder(
+    fun putReleaseOrder(
+        token: String,
         idOrder: Long,
-        idUser: Long,
         observations: String,
         then: (ReleaseOrderResponse) -> Unit,
         error: (String) -> Unit
     ) {
-        val url = serverUrl + routeBase + routePicker + routeRelease
-        val request = ReleaseOrderRequest(idOrder, idUser, observations)
+        val url = serverUrl + routeBase + routeOrders + idOrder + routeRelease
+        val request = ReleaseOrderRequest(observations)
         val json = Gson().toJson(request)
-        post(url, json).enqueue(object : Callback {
+        put(url, token, json).enqueue(object : Callback {
 
             override fun onResponse(call: Call, response: Response) {
                 val body = response.body?.string()
@@ -229,7 +230,14 @@ class ServiceInteractor : ServiceFactory() {
         error: (String) -> Unit
     ) {
         val url = serverUrl + routeBase + routePicker + routePicking
-        val request = PickingOrderRequest(listDataPicker,idOrder, idUser, productosok,totalPicker,observations)
+        val request = PickingOrderRequest(
+            listDataPicker,
+            idOrder,
+            idUser,
+            productosok,
+            totalPicker,
+            observations
+        )
         val json = Gson().toJson(request)
         post(url, json).enqueue(object : Callback {
 
@@ -253,16 +261,16 @@ class ServiceInteractor : ServiceFactory() {
         })
     }
 
-    fun postDeliverCourier(
+    fun putDeliverCourier(
+        token: String,
         idOrder: Long,
-        idUser: Long,
         then: (DeliverCourierResponse) -> Unit,
         error: (String) -> Unit
     ) {
-        val url = serverUrl + routeBase + routePicker + routeDeliverCourier
-        val request = DeliverCourierRequest(idOrder, idUser)
+        val url = serverUrl + routeBase + routeOrders + idOrder + routeDeliverCourier
+        val request = DeliverCourierRequest(idOrder)
         val json = Gson().toJson(request)
-        post(url, json).enqueue(object : Callback {
+        put(token, url, json).enqueue(object : Callback {
 
             override fun onResponse(call: Call, response: Response) {
                 val body = response.body?.string()
@@ -284,22 +292,54 @@ class ServiceInteractor : ServiceFactory() {
         })
     }
 
-    fun postDeliverCustomer(
+    fun putDeliverCustomer(
+        token: String,
         idOrder: Long,
-        idUser: Long,
         then: (DeliverConsumerResponse) -> Unit,
         error: (String) -> Unit
     ) {
-        val url = serverUrl + routeBase + routePicker + routeDeliverConsumer
-        val request = DeliverConsumerRequest(idOrder, idUser)
+        val url = serverUrl + routeBase + routePicker + idOrder + routeDeliverConsumer
+        val request = DeliverConsumerRequest(idOrder)
         val json = Gson().toJson(request)
-        post(url, json).enqueue(object : Callback {
+        put(token, url, json).enqueue(object : Callback {
 
             override fun onResponse(call: Call, response: Response) {
                 val body = response.body?.string()
 
                 val gson = GsonBuilder().create()
                 val res = gson.fromJson(body, DeliverConsumerResponse::class.java)
+                if (response.isSuccessful) {
+                    then(res)
+                } else {
+                    error(res.message.toString())
+                    //Log.i("respuesta",response.message)
+                }
+            }
+
+            override fun onFailure(call: Call, e: IOException) {
+                Log.i("Error", e.message.toString())
+                error("Error en el servicio")
+            }
+        })
+    }
+
+    fun putFreeze(
+        token: String,
+        idOrder: Long,
+        idReason: Int,
+        then: (FreezeResponse) -> Unit,
+        error: (String) -> Unit
+    ) {
+        val url = serverUrl + routeBase + routePicker + idOrder + routeFreeze
+        val request = FreezeRequest(idReason)
+        val json = Gson().toJson(request)
+        put(token, url, json).enqueue(object : Callback {
+
+            override fun onResponse(call: Call, response: Response) {
+                val body = response.body?.string()
+
+                val gson = GsonBuilder().create()
+                val res = gson.fromJson(body, FreezeResponse::class.java)
                 if (response.isSuccessful) {
                     then(res)
                 } else {

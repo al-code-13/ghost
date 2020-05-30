@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.nami.models.detailModels.DetailResponse
@@ -20,8 +21,7 @@ class Detail : AppCompatActivity(), DetailUI {
     private var token = ""
     var orderId=""
     var orderState=""
-    var actionList=""
-    private val gson=GsonBuilder().create()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detail)
@@ -30,7 +30,6 @@ class Detail : AppCompatActivity(), DetailUI {
          orderState = intent.getStringExtra("state")
         val userInfo= intent.getStringArrayExtra("userInfo")
         Log.i("Id de la orden",userInfo.toString())
-         //actionList = intent.getStringExtra("actionList")
         name.text=userInfo[1]+" "+userInfo[2]
         idProduct.text=userInfo[0]
         phoneNumber.text=userInfo[5]
@@ -78,16 +77,36 @@ class Detail : AppCompatActivity(), DetailUI {
                 }
             }
             when (orderState) {
-                "Pendiente" -> {
+                "5" -> {
                     val v: View = layoutInflater.inflate(R.layout.buttons_article_pending, null)
-                    contentDetailPage.addView(v)
-                }
+                    val takebutton=v.findViewById<Button>(R.id.takeButton)
+                    val closeButton=v.findViewById<Button>(R.id.closeButton)
+                    takebutton.setOnClickListener {
+                        presenter.actionTake(token,orderId.toLong(),token.toLong(),"hoy")
+                    }
+                    closeButton.setOnClickListener {
 
-                "Revisada" -> {
-                    val v: View = layoutInflater.inflate(R.layout.buttons_article_revised, null)
+                    }
                     contentDetailPage.addView(v)
                 }
-                "Ridder" -> {
+                "9" -> {
+                    val v: View = layoutInflater.inflate(R.layout.buttons_article_pending, null)
+                    val takebutton=v.findViewById<Button>(R.id.takeButton)
+                    val closeButton=v.findViewById<Button>(R.id.closeButton)
+                    takebutton.setOnClickListener {
+                        presenter.actionTake(token,orderId.toLong(),token.toLong(),"hoy")
+                    }
+                    closeButton.setOnClickListener {
+
+                    }
+                    contentDetailPage.addView(v)
+                }
+                "10" -> {
+                    val v: View = layoutInflater.inflate(R.layout.buttons_article_revised, null)
+
+                    contentDetailPage.addView(v)
+                }
+                "29" -> {
                     val v: View = layoutInflater.inflate(R.layout.buttons_article_ridder, null)
                     contentDetailPage.addView(v)
                 }
@@ -104,5 +123,9 @@ class Detail : AppCompatActivity(), DetailUI {
         runOnUiThread {
             Toast.makeText(this, error, Toast.LENGTH_LONG).show()
         }
+    }
+
+    override fun orderModifiedSuccessfull() {
+        TODO("Not yet implemented")
     }
 }

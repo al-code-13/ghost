@@ -23,6 +23,7 @@ open class ServiceFactory {
     val routePicking="/pickingOrder"
     val routeDeliverCourier:String="/deliverCourier"
     val routeDeliverConsumer:String="/deliverConsumer"
+    val routeFreeze:String="freeze"
 
 
     private val client: OkHttpClient = OkHttpClient().newBuilder().build()
@@ -50,5 +51,20 @@ open class ServiceFactory {
 
         return client.newCall(request)
     }
+    @Throws(IOException::class)
+    fun put(url: String,token:String,json:String): Call {
+        val body=json.toRequestBody(JSON)
+        val request: Request = Request.Builder()
+            .url(url)
+            .addHeader("x-access-token-nami",token)
+            .put(body)
+            .build()
+        //client!!.newCall(request).execute().use { response -> return response.body!!.string() }
+
+        return client.newCall(request)
+    }
+
+
+
 
 }

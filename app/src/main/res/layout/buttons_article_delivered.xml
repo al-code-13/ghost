@@ -10,7 +10,7 @@
         android:layout_weight="1" />
 
     <Button
-        android:id="@+id/button8"
+        android:id="@+id/closeButton"
         style="@style/Widget.AppCompat.Button.Small"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

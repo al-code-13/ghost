@@ -116,9 +116,6 @@ class DemoAdapter(
         position: Int
     ) {
 
-        Log.i("lista de acciones ", actionList.toString())
-        //Log.i("Lista ",mDataSet[position].pickingOrder.list[0].totalPicker.toString() )
-
         holder.card.setCardBackgroundColor(Color.parseColor(legendList[mDataSet[position].function.toInt()].color))
 
         holder.names.text = mDataSet[position].name
@@ -131,11 +128,7 @@ class DemoAdapter(
 
         holder.cell.text = mDataSet[position].phoneClient
 
-        //if (mDataSet[position].pickingOrder.list[0] != null) {
-        //    holder.total.text = mDataSet[position].pickingOrder.list[0].totalPicker
-        //} else {
-        //    holder.total.visibility = View.GONE
-        //}
+        holder.total.text=mDataSet[position].value
 
     }
 
