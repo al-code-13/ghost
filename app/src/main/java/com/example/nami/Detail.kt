@@ -78,41 +78,95 @@ class Detail : AppCompatActivity(), DetailUI {
             }
             when (orderState) {
                 "5" -> {
-                    val v: View = layoutInflater.inflate(R.layout.buttons_article_pending, null)
-                    val takebutton=v.findViewById<Button>(R.id.takeButton)
-                    val closeButton=v.findViewById<Button>(R.id.closeButton)
+                    val layoutCloseButton: View = layoutInflater.inflate(R.layout.close_button, null)
+                    val layoutTakeButton:View=layoutInflater.inflate(R.layout.take_button,null)
+                    val takebutton=layoutTakeButton.findViewById<Button>(R.id.takeButton)
+                    val closeButton=layoutCloseButton.findViewById<Button>(R.id.closeButton)
                     takebutton.setOnClickListener {
                         presenter.actionTake(token,orderId.toLong(),token.toLong(),"hoy")
                     }
                     closeButton.setOnClickListener {
 
                     }
-                    contentDetailPage.addView(v)
+                    buttonsLinearLayout.addView(layoutCloseButton)
+                    buttonsLinearLayout.addView(layoutTakeButton)
                 }
                 "9" -> {
-                    val v: View = layoutInflater.inflate(R.layout.buttons_article_pending, null)
-                    val takebutton=v.findViewById<Button>(R.id.takeButton)
-                    val closeButton=v.findViewById<Button>(R.id.closeButton)
+                    val layoutCloseButton: View = layoutInflater.inflate(R.layout.close_button, null)
+                    val layoutTakeButton:View=layoutInflater.inflate(R.layout.take_button,null)
+                    val takebutton=layoutTakeButton.findViewById<Button>(R.id.takeButton)
+                    val closeButton=layoutCloseButton.findViewById<Button>(R.id.closeButton)
                     takebutton.setOnClickListener {
                         presenter.actionTake(token,orderId.toLong(),token.toLong(),"hoy")
                     }
                     closeButton.setOnClickListener {
 
                     }
-                    contentDetailPage.addView(v)
+                    buttonsLinearLayout.addView(layoutCloseButton)
+                    buttonsLinearLayout.addView(layoutTakeButton)
                 }
                 "10" -> {
-                    val v: View = layoutInflater.inflate(R.layout.buttons_article_revised, null)
 
-                    contentDetailPage.addView(v)
+                    val layoutCloseButton: View = layoutInflater.inflate(R.layout.close_button, null)
+                    val layoutDeliverButton:View=layoutInflater.inflate(R.layout.deliver_button,null)
+                    val layoutFreeButton:View=layoutInflater.inflate(R.layout.free_button,null)
+                    val layoutFreezeButton: View = layoutInflater.inflate(R.layout.freeze_button, null)
+
+                    val closeButton=layoutCloseButton.findViewById<Button>(R.id.closeButton)
+                    closeButton.setOnClickListener {
+
+                    }
+                    val deliverButton=layoutDeliverButton.findViewById<Button>(R.id.deliverButton)
+                    deliverButton.setOnClickListener {
+                        presenter.actionPutDeliverCourier(token,orderId.toLong())
+                    }
+                    val freeButton =layoutFreeButton.findViewById<Button>(R.id.freeButton)
+                    freeButton.setOnClickListener {
+                        presenter.actionRelease(token,orderId.toLong(),"observaciones")
+                    }
+                    val freezeButton=layoutFreezeButton.findViewById<Button>(R.id.freezeButton)
+                    freezeButton.setOnClickListener {
+                        presenter.actionPutFreeze(token,orderId.toLong(),2)
+                    }
+                    buttonsLinearLayout.addView(layoutCloseButton)
+                    buttonsLinearLayout.addView(layoutDeliverButton)
+                    buttonsLinearLayout.addView(layoutFreeButton)
+                    buttonsLinearLayout.addView(layoutFreezeButton)
                 }
                 "29" -> {
-                    val v: View = layoutInflater.inflate(R.layout.buttons_article_ridder, null)
-                    contentDetailPage.addView(v)
+                    val layoutCloseButton: View = layoutInflater.inflate(R.layout.close_button, null)
+                    val layoutDeliverButton:View=layoutInflater.inflate(R.layout.deliver_button,null)
+                    val layoutFreeButton:View=layoutInflater.inflate(R.layout.free_button,null)
+                    val layoutFreezeButton: View = layoutInflater.inflate(R.layout.freeze_button, null)
+
+                    val closeButton=layoutCloseButton.findViewById<Button>(R.id.closeButton)
+                    closeButton.setOnClickListener {
+
+                    }
+                    val deliverButton=layoutDeliverButton.findViewById<Button>(R.id.deliverButton)
+                    deliverButton.setOnClickListener {
+                        presenter.actionPutDeliverCustomer(token,orderId.toLong())
+                    }
+                    val freeButton =layoutFreeButton.findViewById<Button>(R.id.freeButton)
+                    freeButton.setOnClickListener {
+                        presenter.actionRelease(token,orderId.toLong(),"observaciones")
+                    }
+                    val freezeButton=layoutFreezeButton.findViewById<Button>(R.id.freezeButton)
+                    freezeButton.setOnClickListener {
+                        presenter.actionPutFreeze(token,orderId.toLong(),2)
+                    }
+                    buttonsLinearLayout.addView(layoutCloseButton)
+                    buttonsLinearLayout.addView(layoutDeliverButton)
+                    buttonsLinearLayout.addView(layoutFreeButton)
+                    buttonsLinearLayout.addView(layoutFreezeButton)
                 }
                 else -> {
-                    val v: View = layoutInflater.inflate(R.layout.buttons_article_delivered, null)
-                    contentDetailPage.addView(v)
+                    val layoutCloseButton: View = layoutInflater.inflate(R.layout.close_button, null)
+                    val closeButton=layoutCloseButton.findViewById<Button>(R.id.closeButton)
+                    closeButton.setOnClickListener {
+
+                    }
+                    buttonsLinearLayout.addView(layoutCloseButton)
                 }
             }
         }
