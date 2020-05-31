@@ -1,57 +1,63 @@
 package com.example.nami.presenters
 
-import android.content.Context
 import com.example.nami.controllers.services.ServiceInteractor
 import com.example.nami.models.detailModels.DetailResponse
 
-interface DetailUI{
+interface DetailUI {
     fun showDetailInfo(data: DetailResponse)
-    fun showError(error:String)
-    fun orderModifiedSuccessfull(state:String)
+    fun showError(error: String)
+    fun showDetailFunctionReleased()
+    fun showDetailFunctionTaked()
+    fun showDetailFunctioDeliverCourier()
+    fun showDetailFunctionDeliverCustomer()
+    fun showDetailFunctionFreeze()
 }
 
-class DetailPresenter (private val orderId:Int,private val ui: DetailUI){
+class DetailPresenter(private val orderId: Int, private val ui: DetailUI) {
     private val interactor = ServiceInteractor()
     fun actionDetail() {
-        interactor.getDetail( orderId, { data ->
+        interactor.getDetail(orderId, { data ->
             ui.showDetailInfo(data)
         }, { error ->
             ui.showError(error)
         })
     }
-    fun actionTake(dateTake:String){
-        interactor.postTakeOrder(orderId,dateTake, { data ->
-            ui.orderModifiedSuccessfull("28")
+
+    fun actionTake(dateTake: String) {
+        interactor.postTakeOrder(orderId, dateTake, { data ->
+            ui.showDetailFunctionTaked()
         }, { error ->
             ui.showError(error)
         })
     }
-    fun actionRelease(observations:String){
-        interactor.putReleaseOrder(orderId,observations, { data ->
-            ui.orderModifiedSuccessfull("9")
+
+    fun actionRelease(observations: String) {
+        interactor.putReleaseOrder(orderId, observations, { data ->
+            ui.showDetailFunctionReleased()
         }, { error ->
             ui.showError(error)
         })
     }
-    fun actionPutDeliverCourier(){
+
+    fun actionPutDeliverCourier() {
         interactor.putDeliverCourier(orderId, { data ->
-            ui.orderModifiedSuccessfull("29")
+            ui.showDetailFunctioDeliverCourier()
         }, { error ->
             ui.showError(error)
         })
     }
 
-    fun actionPutDeliverCustomer(){
+    fun actionPutDeliverCustomer() {
         interactor.putDeliverCustomer(orderId, { data ->
-            ui.orderModifiedSuccessfull("25")
+            ui.showDetailFunctionDeliverCustomer()
         }, { error ->
             ui.showError(error)
         })
     }
 
-    fun actionPutFreeze(idReason:Int){
-        interactor.putFreeze(orderId, idReason ,{ data ->
-            ui.orderModifiedSuccessfull("25")
+    fun actionPutFreeze(idReason: Int) {
+        interactor.putFreeze(orderId, idReason, { data ->
+            ui.showDetailFunctionFreeze()
         }, { error ->
             ui.showError(error)
         })

@@ -13,16 +13,16 @@ import androidx.fragment.app.Fragment
 import com.example.nami.adapter.OrdersAdapter
 import com.example.nami.adapter.IndicatorsAdapter
 import com.example.nami.models.sections.Action
-import com.example.nami.models.sections.Legend
+import com.example.nami.models.sections.Behavior
 import com.example.nami.presenters.SectionPresenter
 import com.example.nami.presenters.SectionUI
 
 
 class SectionFragment(
     private val mContext: Context,
-    private val legendList: List<Legend>,
+    private val legendList: List<Behavior>,
     private  val actionList:List<Action>,
-    private val sectionId: Long
+    private val sectionId: Int
 ) : Fragment(), SectionUI {
     private val presenter = SectionPresenter(this)
     var reciclerView: AutofitRecyclerView? = null
@@ -54,7 +54,7 @@ class SectionFragment(
 
     override fun showData(data: SectionResponse) {
         activity?.runOnUiThread {
-            reciclerView?.adapter = OrdersAdapter(mContext, data.orders, legendList,actionList,sectionId)
+            reciclerView?.adapter = OrdersAdapter(mContext, data.orders)
         }
     }
 

@@ -21,7 +21,7 @@ data class OrdersList(
     val methodPay: MethodPay,
     val pickingOrder: PickingOrder,
     val detailOrder: DetailOrder,
-    val function: Int
+    val behavior: Int
 )
 
 data class DetailOrder(

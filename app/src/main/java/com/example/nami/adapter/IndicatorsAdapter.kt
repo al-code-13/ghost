@@ -11,12 +11,12 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.graphics.drawable.DrawableCompat
 import com.example.nami.R
-import com.example.nami.models.sections.Legend
+import com.example.nami.models.sections.Behavior
 
 
 class IndicatorsAdapter(
     val context: Context,
-    var arrayList: List<Legend>
+    var arrayList: List<Behavior>
 ) : BaseAdapter() {
 
 

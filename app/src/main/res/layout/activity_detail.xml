@@ -262,18 +262,21 @@
             </LinearLayout>
 
 
-            <LinearLayout
+            <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/layoutArticles"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
                 android:orientation="vertical">
-            </LinearLayout>
+            </androidx.recyclerview.widget.RecyclerView>
 
             <LinearLayout
                 android:id="@+id/buttonsLinearLayout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_margin="16dp"
+                android:dividerPadding="8dp"
+                android:gravity="center"
                 android:orientation="horizontal"></LinearLayout>
 
         </LinearLayout>

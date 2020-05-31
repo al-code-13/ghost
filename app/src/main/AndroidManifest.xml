@@ -23,7 +23,11 @@
             </intent-filter>
         </activity>
         <activity android:name=".Popup" />
-        <activity android:name=".Detail" />
+        <activity
+            android:name=".Detail"
+            android:parentActivityName=".MainActivity" >
+
+        </activity>
         <activity
             android:name=".MainActivity"
             android:configChanges="orientation|screenSize">

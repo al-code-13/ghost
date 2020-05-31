@@ -20,10 +20,10 @@ open class ServiceFactory {
     val routeLogin: String = "/login"
     val routeSections: String = "/sections"
     val routeTake: String = "/take"
-    val routeRelease: String = "/releaseOrder"
-    val routePicking = "/pickingOrder"
-    val routeDeliverCourier: String = "/deliverCourier"
-    val routeDeliverConsumer: String = "/deliverConsumer"
+    val routeRelease: String = "/release"
+    val routePicking = "/checked"
+    val routeDeliverCourier: String = "/deliver-courier"
+    val routeDeliverConsumer: String = "/deliver-customer"
     val routeFreeze: String = "freeze"
 
 

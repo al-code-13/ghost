@@ -1,31 +1,38 @@
 package com.example.nami
 
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
-import android.view.View
 import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.marginBottom
+import androidx.core.view.marginRight
+import androidx.recyclerview.widget.RecyclerView
+import com.example.nami.adapter.ItemsDetailAdapter
+import com.example.nami.controllers.services.ServiceFactory
 import com.example.nami.models.detailModels.DetailResponse
 import com.example.nami.presenters.DetailPresenter
 import com.example.nami.presenters.DetailUI
 import kotlinx.android.synthetic.main.activity_detail.*
-import kotlinx.android.synthetic.main.article_data_detail.view.*
 
 class Detail : AppCompatActivity(), DetailUI {
 
-    private var presenter : DetailPresenter?=null
+    private var presenter: DetailPresenter? = null
+    var recyclerItemsDetail:RecyclerView?=null
     var userInfo = arrayOf<String>()
+    var behavior=-1
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detail)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
         val intent: Intent = intent
         val orderId = intent.getIntExtra("orderId", -1)
-        val function
+        behavior = intent.getIntExtra("behavior",-1)
         userInfo = intent.getStringArrayExtra("userInfo")
         Log.i("Id de la orden", userInfo.toString())
-        presenter = DetailPresenter(orderId,this)
+        presenter = DetailPresenter(orderId, this)
         name.text = userInfo[1] + " " + userInfo[2]
         idProduct.text = userInfo[0]
         phoneNumber.text = userInfo[5]
@@ -36,177 +43,65 @@ class Detail : AppCompatActivity(), DetailUI {
         type.text = "Domicilio"
         //pay.text
         //change
+        recyclerItemsDetail=findViewById(R.id.layoutArticles)
         presenter!!.actionDetail()
     }
 
     override fun showDetailInfo(data: DetailResponse) {
 
         runOnUiThread {
-            if (orderState == "28") {
-                val articles = data.order.detailOrder.list
-                for (i in articles) {
-                    val v: View = layoutInflater.inflate(R.layout.article_data_detail, null)
-                    v.name.text = i.article.name
-                    v.idProduct.text = "${i.article.id}"
-                    v.price.text = "$ ${i.valueTotalArticle}"
-                    v.cant.text = "${i.quantityArticle}"
-                    v.minusButton.setOnClickListener {
-                        i.quantityArticle = (i.quantityArticle.toInt() - 1).toString()
-                    }
-
-                    v.moreButton.setOnClickListener {
-                        i.quantityArticle = (i.quantityArticle.toInt() + 1).toString()
-                    }
-
-                    layoutArticles.addView(v)
-                }
-            } else {
-
-                val articles = data.order.detailOrder.list
-                for (i in articles) {
-                    val v: View = layoutInflater.inflate(R.layout.article_data_detail_preview, null)
-                    v.name.text = i.article.name
-                    v.idProduct.text = "${i.article.id}"
-                    v.price.text = "$ ${i.valueTotalArticle}"
-                    v.cant.text = "${i.quantityArticle}"
-
-                    layoutArticles.addView(v)
-                }
+            Log.i("daotos",data.order.detailOrder.list.toString())
+            if(recyclerItemsDetail!=null){
+                Log.i("reciclernonullo",recyclerItemsDetail.toString())
             }
-            when (orderState) {
-                "5" -> {
-                    val layoutCloseButton: View =
-                        layoutInflater.inflate(R.layout.close_button, null)
-                    val layoutTakeButton: View = layoutInflater.inflate(R.layout.take_button, null)
-                    val takebutton = layoutTakeButton.findViewById<Button>(R.id.takeButton)
-                    val closeButton = layoutCloseButton.findViewById<Button>(R.id.closeButton)
-                    takebutton.setOnClickListener {
-                        presenter.actionTake(orderId.toLong(), "2020-05-18")
-                    }
-                    closeButton.setOnClickListener {
-
-                    }
-                    buttonsLinearLayout.addView(layoutCloseButton)
-                    buttonsLinearLayout.addView(layoutTakeButton)
-                }
-                "9" -> {
-                    val layoutCloseButton: View =
-                        layoutInflater.inflate(R.layout.close_button, null)
-                    val layoutTakeButton: View = layoutInflater.inflate(R.layout.take_button, null)
-                    val takebutton = layoutTakeButton.findViewById<Button>(R.id.takeButton)
-                    val closeButton = layoutCloseButton.findViewById<Button>(R.id.closeButton)
-                    takebutton.setOnClickListener {
-                        presenter.actionTake(orderId.toLong(), "2020-05-18")
-                    }
-                    closeButton.setOnClickListener {
-
-                    }
-                    buttonsLinearLayout.addView(layoutCloseButton)
-                    buttonsLinearLayout.addView(layoutTakeButton)
-                }
-                "10" -> {
-
-                    val layoutCloseButton: View =
-                        layoutInflater.inflate(R.layout.close_button, null)
-                    val layoutDeliverButton: View =
-                        layoutInflater.inflate(R.layout.deliver_button, null)
-                    val layoutFreeButton: View = layoutInflater.inflate(R.layout.free_button, null)
-                    val layoutFreezeButton: View =
-                        layoutInflater.inflate(R.layout.freeze_button, null)
-
-                    val closeButton = layoutCloseButton.findViewById<Button>(R.id.closeButton)
-                    closeButton.setOnClickListener {
-
-                    }
-                    val deliverButton = layoutDeliverButton.findViewById<Button>(R.id.deliverButton)
-                    deliverButton.setOnClickListener {
-                        presenter.actionPutDeliverCourier(orderId.toLong())
-                    }
-                    val freeButton = layoutFreeButton.findViewById<Button>(R.id.freeButton)
-                    freeButton.setOnClickListener {
-                        presenter.actionRelease(orderId.toLong(), "observaciones")
-                    }
-                    val freezeButton = layoutFreezeButton.findViewById<Button>(R.id.freezeButton)
-                    freezeButton.setOnClickListener {
-                        presenter.actionPutFreeze(orderId.toLong(), 2)
-                    }
-                    buttonsLinearLayout.addView(layoutCloseButton)
-                    buttonsLinearLayout.addView(layoutDeliverButton)
-                    buttonsLinearLayout.addView(layoutFreeButton)
-                    buttonsLinearLayout.addView(layoutFreezeButton)
-                }
-                "28" -> {
-                    val layoutCloseButton: View =
-                        layoutInflater.inflate(R.layout.close_button, null)
-                    val layoutSaveButton: View = layoutInflater.inflate(R.layout.save_button, null)
-                    val layoutFreeButton: View = layoutInflater.inflate(R.layout.free_button, null)
-                    val layoutFreezeButton: View =
-                        layoutInflater.inflate(R.layout.freeze_button, null)
-
-                    val closeButton = layoutCloseButton.findViewById<Button>(R.id.closeButton)
-                    closeButton.setOnClickListener {
-
-                    }
-                    val deliverButton = layoutSaveButton.findViewById<Button>(R.id.pickButton)
-                    deliverButton.setOnClickListener {
-                        presenter.actionPutDeliverCustomer(orderId.toLong())
-                    }
-                    val freeButton = layoutFreeButton.findViewById<Button>(R.id.freeButton)
-                    freeButton.setOnClickListener {
-                        presenter.actionRelease(orderId.toLong(), "observaciones")
-                    }
-                    val freezeButton = layoutFreezeButton.findViewById<Button>(R.id.freezeButton)
-                    freezeButton.setOnClickListener {
-                        presenter.actionPutFreeze(orderId.toLong(), 2)
-                    }
-                    buttonsLinearLayout.addView(layoutCloseButton)
-                    buttonsLinearLayout.addView(layoutSaveButton)
-                    buttonsLinearLayout.addView(layoutFreeButton)
-                    buttonsLinearLayout.addView(layoutFreezeButton)
-                }
-                "29" -> {
-                    val layoutCloseButton: View =
-                        layoutInflater.inflate(R.layout.close_button, null)
-                    val layoutDeliverButton: View =
-                        layoutInflater.inflate(R.layout.deliver_button, null)
-                    val layoutFreeButton: View = layoutInflater.inflate(R.layout.free_button, null)
-                    val layoutFreezeButton: View =
-                        layoutInflater.inflate(R.layout.freeze_button, null)
-
-                    val closeButton = layoutCloseButton.findViewById<Button>(R.id.closeButton)
-                    closeButton.setOnClickListener {
-
-                    }
-                    val deliverButton = layoutDeliverButton.findViewById<Button>(R.id.deliverButton)
-                    deliverButton.setOnClickListener {
-                        presenter.actionPutDeliverCustomer(orderId.toLong())
-                    }
-                    val freeButton = layoutFreeButton.findViewById<Button>(R.id.freeButton)
-                    freeButton.setOnClickListener {
-                        presenter.actionRelease(orderId.toLong(), "observaciones")
-                    }
-                    val freezeButton = layoutFreezeButton.findViewById<Button>(R.id.freezeButton)
-                    freezeButton.setOnClickListener {
-                        presenter.actionPutFreeze(orderId.toLong(), 2)
-                    }
-                    buttonsLinearLayout.addView(layoutCloseButton)
-                    buttonsLinearLayout.addView(layoutDeliverButton)
-                    buttonsLinearLayout.addView(layoutFreeButton)
-                    buttonsLinearLayout.addView(layoutFreezeButton)
-                }
-                else -> {
-                    val layoutCloseButton: View =
-                        layoutInflater.inflate(R.layout.close_button, null)
-                    val closeButton = layoutCloseButton.findViewById<Button>(R.id.closeButton)
-                    closeButton.setOnClickListener {
-
-                    }
-                    buttonsLinearLayout.addView(layoutCloseButton)
-                }
-            }
+            recyclerItemsDetail?.adapter=ItemsDetailAdapter(this,data.order.detailOrder.list)
+            createButtons(behavior)
         }
     }
 
+    fun createButtons(newFunction: Int) {
+        buttonsLinearLayout.removeAllViews()
+        var actionsList = ServiceFactory.data.behaviors.firstOrNull { it.id == newFunction }?.actions
+        for (i in actionsList!!) {
+            val action = ServiceFactory.data.actions.firstOrNull { it.id == i }
+            val layoutNewButton = layoutInflater.inflate(R.layout.save_button, null)
+            val button = layoutNewButton.findViewById<Button>(R.id.pickButton)
+            Log.i("accion",action!!.name)
+            if(action!!.destructive){
+                button.setBackgroundColor(Color.parseColor("#ff0000"))
+            }
+            button.text = "${action!!.name}"
+            button.setOnClickListener {
+                when (action.id) {
+                    1 -> {
+
+                    }
+                    2 -> {
+
+                    }
+                    3 -> {
+                        presenter!!.actionTake("2020-05-18")
+                    }
+                    4 -> {
+
+                    }
+                    5 -> {
+                        presenter!!.actionRelease("mklklm")
+                    }
+                    6 -> {
+                        presenter!!.actionPutDeliverCourier()
+                    }
+                    7 -> {
+                        presenter!!.actionPutDeliverCustomer()
+                    }
+                    8 -> {
+                        presenter!!.actionPutFreeze(2)
+                    }
+                }
+            }
+            buttonsLinearLayout.addView(layoutNewButton)
+        }
+    }
 
     override fun showError(error: String) {
         runOnUiThread {
@@ -214,12 +109,24 @@ class Detail : AppCompatActivity(), DetailUI {
         }
     }
 
-    override fun orderModifiedSuccessfull(state: String) {
-        val intent = Intent(this, Detail::class.java)
-        intent.putExtra("orderId", orderId)
-        intent.putExtra("state", state)
-        intent.putExtra("userInfo", userInfo)
-        startActivity(intent)
-        finish()
+    override fun showDetailFunctionReleased() {
+            createButtons(3)
     }
+
+    override fun showDetailFunctionTaked() {
+            createButtons(2)
+    }
+
+    override fun showDetailFunctioDeliverCourier() {
+            createButtons(8)
+    }
+
+    override fun showDetailFunctionDeliverCustomer() {
+            createButtons(9)
+    }
+
+    override fun showDetailFunctionFreeze() {
+            createButtons(behavior)
+    }
+
 }

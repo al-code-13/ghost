@@ -14,7 +14,7 @@ interface SectionUI {
 class SectionPresenter(val ui: SectionUI) {
 
     val interactor = ServiceInteractor()
-    fun actionSection(idSection:Long) {
+    fun actionSection(idSection:Int) {
         interactor.getSection(
 
             idSection,

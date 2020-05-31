@@ -23,8 +23,7 @@ import kotlinx.android.synthetic.main.action_item.view.*
 
 class OrdersAdapter(
     private val mContext: Context,
-    private val mDataSet: List<OrdersList>,
-    private val sectionId: Long
+    private val mDataSet: List<OrdersList>
 ) :
     RecyclerView.Adapter<OrdersAdapter.ViewHolder>() {
 
@@ -59,7 +58,7 @@ class OrdersAdapter(
 
         return ViewHolder(v).listen { pos, _ ->
             val items = mDataSet[pos]
-            val legend = ServiceFactory.data.legends.firstOrNull { it.id == items.function }
+            val legend = ServiceFactory.data.behaviors.firstOrNull { it.id == items.behavior }
             if (legend != null) {
                 if (legend.action != null) {
                     verDetalle(items)
@@ -108,12 +107,12 @@ class OrdersAdapter(
             items.methodPay.name,
             items.pickingOrder.toString(),
             items.detailOrder.totalItems.toString(),
-            items.function.toString()
+            items.behavior.toString()
         )
         val intent: Intent = Intent(mContext, Detail::class.java)
         intent.putExtra("orderId", items.id)
         intent.putExtra("userInfo", datos)
-        intent.putExtra("function", items.function)
+        intent.putExtra("behavior", items.behavior)
         startActivity(mContext, intent, null)
     }
 
@@ -122,7 +121,7 @@ class OrdersAdapter(
         position: Int
     ) {
 
-        holder.card.setCardBackgroundColor(Color.parseColor(ServiceFactory.data.legends[mDataSet[position].function].color))
+        holder.card.setCardBackgroundColor(Color.parseColor(ServiceFactory.data.behaviors.firstOrNull{it.id==mDataSet[position].behavior}!!.color))
 
         holder.names.text = mDataSet[position].name
 

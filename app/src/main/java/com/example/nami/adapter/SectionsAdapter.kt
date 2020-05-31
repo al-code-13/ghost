@@ -6,7 +6,7 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import com.example.nami.SectionFragment
 import com.example.nami.models.sections.Action
-import com.example.nami.models.sections.Legend
+import com.example.nami.models.sections.Behavior
 import com.example.nami.models.sections.Section
 
 
@@ -16,7 +16,7 @@ class SectionsAdapter(
     fm: FragmentManager,
     var totalTabs: Int,
     private val actionList:List<Action>,
-    private val legendList: Array<Legend>,
+    private val legendList: Array<Behavior>,
     private val sectionsList: List<Section>
 ) :
     FragmentPagerAdapter(fm) {
@@ -24,14 +24,14 @@ class SectionsAdapter(
     override fun getItem(position: Int): Fragment {
         return SectionFragment(
             myContext,
-            legendSection(sectionsList[position].legends),
+            legendSection(sectionsList[position].behaviors),
             actionList,
             sectionsList[position].id
         )
     }
 
-    fun legendSection(indicators: List<Long>): List<Legend> {
-        val newList = mutableListOf<Legend>()
+    fun legendSection(indicators: List<Int>): List<Behavior> {
+        val newList = mutableListOf<Behavior>()
         var i: Int = 0
         indicators.forEach {
             if (legendList[i].visible) {

@@ -1,6 +1,7 @@
 package com.example.nami
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -35,7 +36,7 @@ class MainActivity : AppCompatActivity(), SectionsUI {
             }
             tabLayout?.tabGravity = TabLayout.GRAVITY_FILL
 
-            val adapter = SectionsAdapter(this, supportFragmentManager, tabLayout!!.tabCount,data.actions,data.legends.toTypedArray(),data.sections)
+            val adapter = SectionsAdapter(this, supportFragmentManager, tabLayout!!.tabCount,data.actions,data.behaviors.toTypedArray(),data.sections)
 
             viewPager!!.adapter = adapter
 
@@ -58,7 +59,15 @@ class MainActivity : AppCompatActivity(), SectionsUI {
 
     override fun showError(error: String) {
         runOnUiThread {
+            if(error.contains("token")){
+                this.getSharedPreferences("localStorage", Context.MODE_PRIVATE).edit().clear()
+
+                val intent= Intent(this,Login::class.java)
+                startActivity(intent)
+            }
+            else{
             Toast.makeText(applicationContext, error, Toast.LENGTH_LONG).show()
+            }
         }
     }
 }
