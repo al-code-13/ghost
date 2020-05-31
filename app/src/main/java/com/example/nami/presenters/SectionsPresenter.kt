@@ -1,5 +1,6 @@
 package com.example.nami.presenters
 
+import android.content.Context
 import android.util.Log
 import com.example.nami.controllers.services.ServiceInteractor
 import com.example.nami.models.sections.SectionsResponse
@@ -10,11 +11,10 @@ interface SectionsUI {
 }
 
 class SectionsPresenter(val ui: SectionsUI) {
-
     val interactor = ServiceInteractor()
-    fun actionSections(token: String) {
+    fun actionSections() {
         interactor.getSections(
-            token,
+
             { data ->
                 Log.i("Respuesta de secciones",data.toString())
                 ui.showSection(data)

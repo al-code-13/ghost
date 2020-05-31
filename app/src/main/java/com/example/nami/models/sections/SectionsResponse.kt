@@ -3,32 +3,32 @@ package com.example.nami.models.sections
 data class SectionsResponse(
     val actions: List<Action>,
     val legends: List<Legend>,
-    val sections: List<SectionResponse>,
+    val sections: List<Section>,
     val message: String?
 
 )
 
 data class Action(
-    val id: Long,
+    val id: Int,
     val name: String,
     val description: String? = null,
     val destructive: Boolean
 )
 
 data class Legend(
-    val id: Long,
+    val id: Int,
     val name: String,
     val description: String? = null,
-    val color: String,
+    val color: String?=null,
     val visible: Boolean,
-    val actions: List<Long>? = null,
-    val action: List<Long>? = null
+    val actions: List<Int>? = null,
+    val action: List<Int>? = null
 )
 
 
-data class SectionResponse(
-    val id: Long,
+data class Section(
+    val id: Int,
     val name: String,
     val color: String,
-    val legends: List<Long>
+    val legends: List<Int>
 )

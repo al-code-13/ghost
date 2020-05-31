@@ -1,17 +1,16 @@
 package com.example.nami
 
-import SectionFragment
+import SectionResponse
 import android.content.Context
 import android.content.res.Configuration
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.GridView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import com.example.nami.adapter.DemoAdapter
+import com.example.nami.adapter.OrdersAdapter
 import com.example.nami.adapter.IndicatorsAdapter
 import com.example.nami.models.sections.Action
 import com.example.nami.models.sections.Legend
@@ -19,29 +18,23 @@ import com.example.nami.presenters.SectionPresenter
 import com.example.nami.presenters.SectionUI
 
 
-class HomeFragment(
+class SectionFragment(
     private val mContext: Context,
     private val legendList: List<Legend>,
     private  val actionList:List<Action>,
-    private val sectionid: Long
+    private val sectionId: Long
 ) : Fragment(), SectionUI {
     private val presenter = SectionPresenter(this)
     var reciclerView: AutofitRecyclerView? = null
     private var adapter: IndicatorsAdapter? = null
-    private var token = ""
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val preferences =
-            this.activity!!.getSharedPreferences("localStorage", Context.MODE_PRIVATE)
 
-        token = preferences.getString("token", "localStorage").toString()
-        Log.i("TOKENENLAOTRAPARTE", token)
         presenter.actionSection(
-            token,
-            sectionid
+            sectionId
         )
         val v: View
         val orientation = activity?.resources?.configuration?.orientation
@@ -59,10 +52,9 @@ class HomeFragment(
     }
 
 
-    override fun showData(data: SectionFragment) {
-
+    override fun showData(data: SectionResponse) {
         activity?.runOnUiThread {
-            reciclerView?.adapter = DemoAdapter(mContext, " ", data.orders, legendList,actionList)
+            reciclerView?.adapter = OrdersAdapter(mContext, data.orders, legendList,actionList,sectionId)
         }
     }
 

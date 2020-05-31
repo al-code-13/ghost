@@ -1,5 +1,6 @@
 package com.example.nami.controllers.services
 
+import com.example.nami.models.sections.SectionsResponse
 import okhttp3.Call
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
@@ -15,25 +16,25 @@ open class ServiceFactory {
     val routeBase: String = "/api/v2"
     val routeAuth: String = "/auth"
     val routePicker: String = "/picker"
-    val routeOrders: String ="/orders/"
+    val routeOrders: String = "/orders/"
     val routeLogin: String = "/login"
     val routeSections: String = "/sections"
-    val routeTake:String="/take"
-    val routeRelease:String="/releaseOrder"
-    val routePicking="/pickingOrder"
-    val routeDeliverCourier:String="/deliverCourier"
-    val routeDeliverConsumer:String="/deliverConsumer"
-    val routeFreeze:String="freeze"
+    val routeTake: String = "/take"
+    val routeRelease: String = "/releaseOrder"
+    val routePicking = "/pickingOrder"
+    val routeDeliverCourier: String = "/deliverCourier"
+    val routeDeliverConsumer: String = "/deliverConsumer"
+    val routeFreeze: String = "freeze"
 
 
     private val client: OkHttpClient = OkHttpClient().newBuilder().build()
 
 
     @Throws(IOException::class)
-     fun get(url: String,token:String): Call {
+    fun get(url: String, token: String): Call {
         val request: Request = Request.Builder()
             .url(url)
-            .addHeader("x-access-token-nami",token)
+            .addHeader("x-access-token-nami", token)
             .build()
         //client!!.newCall(request).execute().use { response -> return response.body!!.string() }
 
@@ -53,23 +54,24 @@ open class ServiceFactory {
     }
 
     @Throws(IOException::class)
-    fun postWithToken(token:String,url: String, json: String): Call {
+    fun postWithToken(token: String, url: String, json: String): Call {
         val body = json.toRequestBody(JSON)
         val request: Request = Request.Builder()
             .url(url)
-            .addHeader("x-access-token-nami",token)
+            .addHeader("x-access-token-nami", token)
             .post(body)
             .build()
         //client!!.newCall(request).execute().use { response -> return response.body!!.string() }
 
         return client.newCall(request)
     }
+
     @Throws(IOException::class)
-    fun put(url: String,token:String,json:String): Call {
-        val body=json.toRequestBody(JSON)
+    fun put(url: String, token: String, json: String): Call {
+        val body = json.toRequestBody(JSON)
         val request: Request = Request.Builder()
             .url(url)
-            .addHeader("x-access-token-nami",token)
+            .addHeader("x-access-token-nami", token)
             .put(body)
             .build()
         //client!!.newCall(request).execute().use { response -> return response.body!!.string() }
@@ -77,7 +79,10 @@ open class ServiceFactory {
         return client.newCall(request)
     }
 
-
+    companion object {
+        lateinit var data: SectionsResponse
+        lateinit var token: String
+    }
 
 
 }

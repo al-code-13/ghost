@@ -1,6 +1,5 @@
 package com.example.nami.adapter
 
-import MethodPay
 import OrdersList
 import android.annotation.SuppressLint
 import android.app.Dialog
@@ -19,17 +18,15 @@ import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.example.nami.Detail
 import com.example.nami.R
-import com.example.nami.models.sections.Action
-import com.example.nami.models.sections.Legend
+import com.example.nami.controllers.services.ServiceFactory
 import kotlinx.android.synthetic.main.action_item.view.*
 
-class DemoAdapter(
+class OrdersAdapter(
     private val mContext: Context,
     private val mDataSet: List<OrdersList>,
-    private val legendList: List<Legend>,
-    private val actionList: List<Action>
+    private val sectionId: Long
 ) :
-    RecyclerView.Adapter<DemoAdapter.ViewHolder>() {
+    RecyclerView.Adapter<OrdersAdapter.ViewHolder>() {
 
 
     class ViewHolder(v: View) : RecyclerView.ViewHolder(v) {
@@ -61,54 +58,63 @@ class DemoAdapter(
             LayoutInflater.from(mContext).inflate(R.layout.card_view_item_grid, parent, false)
 
         return ViewHolder(v).listen { pos, _ ->
-
-            val serviceActions: List<Long>? = legendList[mDataSet[pos].function.toInt() - 1].actions
             val items = mDataSet[pos]
-            val dialog = Dialog(mContext)
-            val dialogView = LayoutInflater.from(mContext).inflate(R.layout.activity_popup, null)
-            val title = dialogView.findViewById<TextView>(R.id.titleOrderId)
-            title.text = "Orden #${items.id}"
-            val layoutActions = dialogView.findViewById<LinearLayout>(R.id.listActions)
-            Log.i("lista de acciones", serviceActions.toString())
-            for (i in serviceActions!!) {
-                 var datos:Array<String> = arrayOf(
-                    items.id.toString(),
-                    items.name,
-                    items.lastname,
-                    items.address,
-                    items.value,
-                    items.phoneClient,
-                    items.date,
-                    items.origin,
-                    items.idCodBranch.toString(),
-                    items.hour,
-                    items.idState.toString(),
-                    items.observations,
-                    items.methodPay.name,
-                    items.pickingOrder.toString(),
-                    items.detailOrder.totalItems.toString(),
-                    items.function.toString()
-                 )
+            val legend = ServiceFactory.data.legends.firstOrNull { it.id == items.function }
+            if (legend != null) {
+                if (legend.action != null) {
+                    verDetalle(items)
+                } else {
+                    val dialog = Dialog(mContext)
+                    val dialogView =
+                        LayoutInflater.from(mContext).inflate(R.layout.activity_popup, null)
+                    val title = dialogView.findViewById<TextView>(R.id.titleOrderId)
+                    title.text = "Orden #${items.id}"
+                    val layoutActions = dialogView.findViewById<LinearLayout>(R.id.listActions)
+                    for (id in legend.actions!!) {
+                        val v: View =
+                            LayoutInflater.from(mContext).inflate(R.layout.action_item, null)
+                        v.setOnClickListener {
+                            if (id == 2) {//Ver detalle
+                                verDetalle(items)
+                            }
+                        }
+                        v.action.text =
+                            ServiceFactory.data.actions.firstOrNull { it.id == id }?.name
+                        layoutActions.addView(v)
+                    }
 
-                val v: View = LayoutInflater.from(mContext).inflate(R.layout.action_item, null)
-                Log.i("accion", actionList[i.toInt() - 1].name)
-                actionList.firstOrNull()
-                v.setOnClickListener {
-                    val intent: Intent = Intent(mContext, Detail::class.java)
-                    Log.i("Id de la orden enviada", items.id.toString())
-                    intent.putExtra("orderId", items.id.toString())
-                    intent.putExtra("state", items.idState.toString())
-                    intent.putExtra("userInfo",datos)
-                    startActivity(mContext, intent, null)
+                    dialog.window?.setBackgroundDrawable(ColorDrawable(android.R.color.black))
+                    dialog.setContentView(dialogView)
+                    dialog.show()
                 }
-                v.action.text = actionList[i.toInt() - 1].name
-                layoutActions.addView(v)
             }
-
-            dialog.window?.setBackgroundDrawable(ColorDrawable(android.R.color.black))
-            dialog.setContentView(dialogView)
-            dialog.show()
         }
+    }
+
+    fun verDetalle(items: OrdersList) {
+        var datos: Array<String> = arrayOf(
+            items.id.toString(),
+            items.name,
+            items.lastname,
+            items.address,
+            items.value,
+            items.phoneClient,
+            items.date,
+            items.origin,
+            items.idCodBranch.toString(),
+            items.hour,
+            items.idState.toString(),
+            items.observations,
+            items.methodPay.name,
+            items.pickingOrder.toString(),
+            items.detailOrder.totalItems.toString(),
+            items.function.toString()
+        )
+        val intent: Intent = Intent(mContext, Detail::class.java)
+        intent.putExtra("orderId", items.id)
+        intent.putExtra("userInfo", datos)
+        intent.putExtra("function", items.function)
+        startActivity(mContext, intent, null)
     }
 
     override fun onBindViewHolder(
@@ -116,7 +122,7 @@ class DemoAdapter(
         position: Int
     ) {
 
-        holder.card.setCardBackgroundColor(Color.parseColor(legendList[mDataSet[position].function.toInt()].color))
+        holder.card.setCardBackgroundColor(Color.parseColor(ServiceFactory.data.legends[mDataSet[position].function].color))
 
         holder.names.text = mDataSet[position].name
 
@@ -128,7 +134,7 @@ class DemoAdapter(
 
         holder.cell.text = mDataSet[position].phoneClient
 
-        holder.total.text=mDataSet[position].value
+        holder.total.text = mDataSet[position].value
 
     }
 

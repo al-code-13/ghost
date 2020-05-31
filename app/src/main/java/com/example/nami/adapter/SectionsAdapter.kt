@@ -4,25 +4,25 @@ import android.content.Context
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
-import com.example.nami.HomeFragment
+import com.example.nami.SectionFragment
 import com.example.nami.models.sections.Action
 import com.example.nami.models.sections.Legend
-import com.example.nami.models.sections.SectionResponse
+import com.example.nami.models.sections.Section
 
 
 @Suppress("DEPRECATION")
-class MyAdapter(
+class SectionsAdapter(
     private val myContext: Context,
     fm: FragmentManager,
     var totalTabs: Int,
     private val actionList:List<Action>,
     private val legendList: Array<Legend>,
-    private val sectionsList: List<SectionResponse>
+    private val sectionsList: List<Section>
 ) :
     FragmentPagerAdapter(fm) {
 
     override fun getItem(position: Int): Fragment {
-        return HomeFragment(
+        return SectionFragment(
             myContext,
             legendSection(sectionsList[position].legends),
             actionList,

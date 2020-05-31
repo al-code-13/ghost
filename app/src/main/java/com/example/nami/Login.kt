@@ -16,18 +16,21 @@ import kotlinx.coroutines.*
 
 
 class Login : AppCompatActivity(), LoginUI {
-    private var viewModelJob: Job = Job()
-    var spinner: ProgressBar? = null
 
-    private val presenter = LoginPresenter(this)
-    private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
+    var spinner: ProgressBar? = null
+    private val presenter = LoginPresenter(this,this)
+
     override fun onCreate(savedInstanceState: Bundle?) {
-        Thread.sleep(2000)
         setTheme(R.style.SplashTheme)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
         spinner = findViewById(R.id.progressBar)
         spinner?.visibility = View.GONE
+    }
+
+    override fun onResume() {
+        super.onResume()
+        presenter.actionAutoLogin()
     }
 
 
@@ -41,12 +44,8 @@ class Login : AppCompatActivity(), LoginUI {
 
     }
 
-    override fun showHome(token: String) {
-        val sharedPreference = getSharedPreferences("localStorage", Context.MODE_PRIVATE)
-        var editor = sharedPreference.edit()
-        editor.putString("token", token)
-        editor.commit()
-        Log.i("TOKENCITO", sharedPreference.getString("token", "localStorage"))
+    override fun showHome() {
+
         val intent = Intent(this, MainActivity::class.java)
         ContextCompat.startActivity(this, intent, null)
 

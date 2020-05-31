@@ -10,7 +10,7 @@
     app:cardCornerRadius="8dp"
     app:cardElevation="5dp"
     app:cardPreventCornerOverlap="true"
-    tools:context=".HomeFragment">
+    tools:context=".SectionFragment">
 
     <RelativeLayout
         android:layout_width="match_parent"

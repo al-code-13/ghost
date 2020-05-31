@@ -6,7 +6,7 @@ data class DetailResponse (
 )
 
 data class Order (
-    val id: Long,
+    val id: Int,
     val comments: String,
     val email: String,
     val turns: String,
@@ -21,7 +21,7 @@ data class DetailOrder (
 )
 
 data class ListElement (
-    val id: Long,
+    val id: Int,
     val description: Any? = null,
     var quantityArticle: String,
     val valueTotalArticle: String,
@@ -33,7 +33,7 @@ data class ListElement (
 )
 
 data class Article (
-    val id: Long,
+    val id: Int,
     val name: String,
     val description: String,
     val value: String,
