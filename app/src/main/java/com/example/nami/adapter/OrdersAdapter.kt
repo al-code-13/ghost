@@ -2,7 +2,6 @@ package com.example.nami.adapter
 
 import MethodPay
 import OrdersList
-import OrdersListSerializable
 import android.annotation.SuppressLint
 import android.app.Dialog
 import android.content.Context
@@ -26,7 +25,6 @@ import kotlinx.android.synthetic.main.action_item.view.*
 
 class DemoAdapter(
     private val mContext: Context,
-    private val edyyy: String,
     private val mDataSet: List<OrdersList>,
     private val legendList: List<Legend>,
     private val actionList: List<Action>
@@ -89,10 +87,12 @@ class DemoAdapter(
                     items.methodPay.name,
                     items.pickingOrder.toString(),
                     items.detailOrder.totalItems.toString(),
-                    items.function.toString())
+                    items.function.toString()
+                 )
 
                 val v: View = LayoutInflater.from(mContext).inflate(R.layout.action_item, null)
                 Log.i("accion", actionList[i.toInt() - 1].name)
+                actionList.firstOrNull()
                 v.setOnClickListener {
                     val intent: Intent = Intent(mContext, Detail::class.java)
                     Log.i("Id de la orden enviada", items.id.toString())
