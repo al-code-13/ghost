@@ -1,7 +1,6 @@
 package com.example.nami.adapter
 
 import android.content.Context
-import android.media.Image
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,17 +12,19 @@ import com.example.nami.models.detailModels.ListElement
 
 class ItemsDetailAdapter(
     private val mContext: Context,
-    private var data: List<ListElement>
+    private var data: List<ListElement>,
+    private val behavior: Int
 
 ) : RecyclerView.Adapter<ItemsDetailAdapter.ViewHolder>() {
 
     class ViewHolder(v: View) : RecyclerView.ViewHolder(v) {
         var name: TextView = v.findViewById(R.id.name)
-        var idProduct:TextView = v.findViewById(R.id.idProduct)
-        var price:TextView = v.findViewById(R.id.price)
-        var cant:TextView = v.findViewById(R.id.cant)
-        var minusButton:ImageView = v.findViewById(R.id.minusButton)
-        var moreButton:ImageView=v.findViewById(R.id.moreButton)
+        var idProduct: TextView = v.findViewById(R.id.idProduct)
+        var price: TextView = v.findViewById(R.id.price)
+        var cant: TextView = v.findViewById(R.id.cant)
+
+        var minusButton: ImageView ?= v.findViewById(R.id.minusButton)
+        var moreButton: ImageView ?= v.findViewById(R.id.moreButton)
     }
 
 
@@ -31,9 +32,14 @@ class ItemsDetailAdapter(
         parent: ViewGroup,
         viewType: Int
     ): ViewHolder {
+        val v: View
+        v =
+            if (behavior == 2) {
+                LayoutInflater.from(mContext).inflate(R.layout.article_data_detail, parent, false)
+            } else {
+                LayoutInflater.from(mContext).inflate(R.layout.article_data_detail_preview, parent, false)
 
-        val v: View =
-            LayoutInflater.from(mContext).inflate(R.layout.article_data_detail, parent, false)
+            }
         return ViewHolder(v)
 
     }
@@ -51,11 +57,11 @@ class ItemsDetailAdapter(
         v.idProduct.text = "${elements.article.id}"
         v.price.text = "$ ${elements.article.value}"
         v.cant.text = "${elements.quantityArticle}"
-        v.minusButton.setOnClickListener {
+        v.minusButton?.setOnClickListener {
             elements.quantityArticle = (elements.quantityArticle.toInt() - 1).toString()
 
         }
-        v.moreButton.setOnClickListener {
+        v.moreButton?.setOnClickListener {
             elements.quantityArticle = (elements.quantityArticle.toInt() + 1).toString()
 
         }

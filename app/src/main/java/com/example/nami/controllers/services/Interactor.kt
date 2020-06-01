@@ -190,22 +190,27 @@ class ServiceInteractor : ServiceFactory() {
 
     fun putTakeOrder(
         idOrder: Int,
+        dataTake: String,
         then: (TakeOrderResponse) -> Unit,
         error: (String) -> Unit
     ) {
         uiScope.launch {
-            putTakeOrdercorutine(idOrder, then, error)
+            putTakeOrdercorutine(idOrder, dataTake, then, error)
         }
     }
 
     private suspend fun putTakeOrdercorutine(
         idOrder: Int,
+        dataTake: String,
         then: (TakeOrderResponse) -> Unit,
         error: (String) -> Unit
     ) {
         val url = serverUrl + routeBase + routeOrders + idOrder + routeTake
+        val request = TakeOrderRequest(dataTake)
+        val json = Gson().toJson(request)
+        Log.i("jsonTake", json)
         withContext(Dispatchers.IO) {
-            put( url,token).enqueue(object : Callback {
+            put( url,token, json).enqueue(object : Callback {
 
                 override fun onResponse(call: Call, response: Response) {
                     val body = response.body?.string()
@@ -215,7 +220,8 @@ class ServiceInteractor : ServiceFactory() {
                     if (response.isSuccessful) {
                         then(res)
                     } else {
-                        error(res.message)
+                        error(res.message.toString())
+                        //Log.i("respuesta",response.message)
                     }
                 }
 
@@ -249,7 +255,7 @@ class ServiceInteractor : ServiceFactory() {
         val request = ReleaseOrderRequest(observations)
         val json = Gson().toJson(request)
         withContext(Dispatchers.IO) {
-            putWithBody(url, token, json).enqueue(object : Callback {
+            put(url, token, json).enqueue(object : Callback {
 
                 override fun onResponse(call: Call, response: Response) {
                     val body = response.body?.string()
@@ -360,8 +366,10 @@ class ServiceInteractor : ServiceFactory() {
         error: (String) -> Unit
     ) {
         val url = "$serverUrl$routeBase$routeOrders/$idOrder$routeDeliverCourier"
+        val request = DeliverCourierRequest(idOrder)
+        val json = Gson().toJson(request)
         withContext(Dispatchers.IO) {
-            put(token, url).enqueue(object : Callback {
+            put(token, url, json).enqueue(object : Callback {
 
                 override fun onResponse(call: Call, response: Response) {
                     val body = response.body?.string()
@@ -371,7 +379,8 @@ class ServiceInteractor : ServiceFactory() {
                     if (response.isSuccessful) {
                         then(res)
                     } else {
-                        error(res.message)
+                        error(res.message.toString())
+                        //Log.i("respuesta",response.message)
                     }
                 }
 
@@ -400,8 +409,10 @@ class ServiceInteractor : ServiceFactory() {
         error: (String) -> Unit
     ) {
         val url = "$serverUrl$routeBase$routeOrders/$idOrder$routeDeliverConsumer"
+        val request = DeliverConsumerRequest(idOrder)
+        val json = Gson().toJson(request)
         withContext(Dispatchers.IO) {
-            put(token, url).enqueue(object : Callback {
+            put(token, url, json).enqueue(object : Callback {
 
                 override fun onResponse(call: Call, response: Response) {
                     val body = response.body?.string()
@@ -411,7 +422,8 @@ class ServiceInteractor : ServiceFactory() {
                     if (response.isSuccessful) {
                         then(res)
                     } else {
-                        error(res.message)
+                        error(res.message.toString())
+                        //Log.i("respuesta",response.message)
                     }
                 }
 
@@ -441,11 +453,11 @@ class ServiceInteractor : ServiceFactory() {
         then: (FreezeResponse) -> Unit,
         error: (String) -> Unit
     ) {
-        val url = "$serverUrl$routeBase$routeOrders$idOrder$routeFreeze"
+        val url = "$serverUrl$routeBase$routeOrders/$idOrder$routeFreeze"
         val request = FreezeRequest(idReason)
         val json = Gson().toJson(request)
         withContext(Dispatchers.IO) {
-            putWithBody( url,token, json).enqueue(object : Callback {
+            put(token, url, json).enqueue(object : Callback {
 
                 override fun onResponse(call: Call, response: Response) {
                     val body = response.body?.string()
@@ -455,7 +467,8 @@ class ServiceInteractor : ServiceFactory() {
                     if (response.isSuccessful) {
                         then(res)
                     } else {
-                        error(res.message)
+                        error(res.message.toString())
+                        //Log.i("respuesta",response.message)
                     }
                 }
 

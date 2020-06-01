@@ -5,5 +5,5 @@ data class TakeOrderRequest (
 )
 data class TakeOrderResponse (
     val message: String,
-    val idPickingxOrder: Int
+    val idPickingxOrder:Int?=null
 )

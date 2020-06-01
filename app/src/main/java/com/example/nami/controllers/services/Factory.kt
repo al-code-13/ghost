@@ -1,6 +1,5 @@
 package com.example.nami.controllers.services
 
-import android.util.Log
 import com.example.nami.models.sections.SectionsResponse
 import okhttp3.Call
 import okhttp3.MediaType.Companion.toMediaType
@@ -25,7 +24,7 @@ open class ServiceFactory {
     val routePicking = "/checked"
     val routeDeliverCourier: String = "/deliver-courier"
     val routeDeliverConsumer: String = "/deliver-customer"
-    val routeFreeze: String = "/freeze"
+    val routeFreeze: String = "freeze"
 
 
     private val client: OkHttpClient = OkHttpClient().newBuilder().build()
@@ -55,19 +54,8 @@ open class ServiceFactory {
     }
 
     @Throws(IOException::class)
-    fun put(url: String, token: String): Call {
-        val request: Request = Request.Builder()
-            .url(url)
-            .addHeader("x-access-token-nami", token)
-            .build()
-        //client!!.newCall(request).execute().use { response -> return response.body!!.string() }
-
-        return client.newCall(request)
-    }
-    @Throws(IOException::class)
-    fun putWithBody(url: String, token: String, json: String): Call {
+    fun put(url: String, token: String, json: String): Call {
         val body = json.toRequestBody(JSON)
-                Log.i("url",url)
         val request: Request = Request.Builder()
             .url(url)
             .addHeader("x-access-token-nami", token)
