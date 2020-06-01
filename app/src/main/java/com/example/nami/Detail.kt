@@ -4,6 +4,7 @@ import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
@@ -13,7 +14,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.nami.adapter.ItemsDetailAdapter
 import com.example.nami.controllers.services.ServiceFactory
+import com.example.nami.models.detailModels.Article
+import com.example.nami.models.detailModels.DetailOrder
 import com.example.nami.models.detailModels.DetailResponse
+import com.example.nami.models.detailModels.ListElement
 import com.example.nami.presenters.DetailPresenter
 import com.example.nami.presenters.DetailUI
 import kotlinx.android.synthetic.main.activity_detail.*
@@ -26,6 +30,8 @@ class Detail : AppCompatActivity(), DetailUI {
     var behavior = -1
     private var observations:String?=null
     lateinit var data: DetailResponse
+    lateinit var articleList: List<ListElement>
+    private lateinit var observationsView:EditText
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detail)
@@ -46,6 +52,7 @@ class Detail : AppCompatActivity(), DetailUI {
         type.text = "Domicilio"
         //pay.text
         //change
+        observationsView= findViewById(R.id.editObservations)
         recyclerItemsDetail = findViewById(R.id.layoutArticles)
         presenter!!.actionDetail()
     }
@@ -61,6 +68,7 @@ class Detail : AppCompatActivity(), DetailUI {
 
         runOnUiThread {
             this.data = data
+            this.articleList=data.order.detailOrder.list
             createArticleView()
             createButtons(behavior)
         }
@@ -69,10 +77,13 @@ class Detail : AppCompatActivity(), DetailUI {
     fun createButtons(newFunction: Int) {
         runOnUiThread {
             buttonsLinearLayout.removeAllViews()
+
             if(behavior==2){
-                val observationsView=layoutInflater.inflate(R.layout.observations_view,null)
-                observations= observationsView.findViewById<EditText>(R.id.editObservations).text.toString()
-                contentDetailPage.addView(observationsView)
+                observations= observationsView.text.toString()
+                observationsView.visibility= View.VISIBLE
+            }
+            else{
+                observationsView.visibility= View.GONE
             }
             var actionsList =
                 ServiceFactory.data.behaviors.firstOrNull { it.id == newFunction }?.actions
@@ -101,10 +112,12 @@ class Detail : AppCompatActivity(), DetailUI {
                             presenter!!.actionTake()
                         }
                         4 -> {
-
+                            presenter!!.actionPick(data,articleList,observations)
                         }
                         5 -> {
-                            presenter!!.actionRelease("mklklm")
+                            Log.i("newdata",data.toString())
+                            Log.i("observaciones",observations)
+                            presenter!!.actionRelease(observations)
                         }
                         6 -> {
                             presenter!!.actionPutDeliverCourier()
@@ -133,6 +146,12 @@ class Detail : AppCompatActivity(), DetailUI {
             createArticleView()
             createButtons(3)
         }
+    }
+
+    override fun showDetailFunctionPicked() {   runOnUiThread {
+        createArticleView()
+        createButtons(7)
+    }
     }
 
     override fun showDetailFunctionTaked() {

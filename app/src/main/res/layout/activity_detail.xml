@@ -270,6 +270,14 @@
                 android:orientation="vertical">
             </androidx.recyclerview.widget.RecyclerView>
 
+            <EditText
+                android:id="@+id/editObservations"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:ems="10"
+                android:hint="Observaciones"
+                android:inputType="textPersonName" />
             <LinearLayout
                 android:id="@+id/buttonsLinearLayout"
                 android:layout_width="match_parent"

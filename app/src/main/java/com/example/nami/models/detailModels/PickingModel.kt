@@ -2,11 +2,9 @@ package com.example.nami.models.detailModels
 
 data class PickingOrderRequest (
     val listDataPicker: List<ListDataPicker>,
-    val idOrder: Int,
-    val idUser: Int,
     val productosok: Boolean,
     val totalPicker: String,
-    val observations: String
+    val observations: String?=null
 )
 
 data class ListDataPicker (

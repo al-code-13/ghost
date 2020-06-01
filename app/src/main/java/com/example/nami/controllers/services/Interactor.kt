@@ -236,7 +236,7 @@ class ServiceInteractor : ServiceFactory() {
 
     fun putReleaseOrder(
         idOrder: Int,
-        observations: String,
+        observations: String?,
         then: (ReleaseOrderResponse) -> Unit,
         error: (String) -> Unit
     ) {
@@ -247,7 +247,7 @@ class ServiceInteractor : ServiceFactory() {
 
     private suspend fun putReleaseOrderCorutine(
         idOrder: Int,
-        observations: String,
+        observations: String?,
         then: (ReleaseOrderResponse) -> Unit,
         error: (String) -> Unit
     ) {
@@ -279,21 +279,19 @@ class ServiceInteractor : ServiceFactory() {
 
     }
 
-    fun postPickingOrder(
+    fun putPickingOrder(
         listDataPicker: List<ListDataPicker>,
         idOrder: Int,
-        idUser: Int,
         productosok: Boolean,
         totalPicker: String,
-        observations: String,
+        observations: String?,
         then: (PickingOrderResponse) -> Unit,
         error: (String) -> Unit
     ) {
         uiScope.launch {
-            postPickingOrderCorutine(
+            putPickingOrderCorutine(
                 listDataPicker,
                 idOrder,
-                idUser,
                 productosok,
                 totalPicker,
                 observations,
@@ -303,28 +301,25 @@ class ServiceInteractor : ServiceFactory() {
         }
     }
 
-    private suspend fun postPickingOrderCorutine(
+    private suspend fun putPickingOrderCorutine(
         listDataPicker: List<ListDataPicker>,
         idOrder: Int,
-        idUser: Int,
         productosok: Boolean,
         totalPicker: String,
-        observations: String,
+        observations: String?,
         then: (PickingOrderResponse) -> Unit,
         error: (String) -> Unit
     ) {
-        val url = "$serverUrl$routeBase$routeOrders/$idOrder$routePicking"
+        val url = "$serverUrl$routeBase$routeOrders$idOrder$routePicking"
         val request = PickingOrderRequest(
             listDataPicker,
-            idOrder,
-            idUser,
             productosok,
             totalPicker,
             observations
         )
         val json = Gson().toJson(request)
         withContext(Dispatchers.IO) {
-            post(url, json).enqueue(object : Callback {
+            put(url, token,json).enqueue(object : Callback {
 
                 override fun onResponse(call: Call, response: Response) {
                     val body = response.body?.string()
