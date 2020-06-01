@@ -1,5 +1,6 @@
 package com.example.nami
 
+import OrdersList
 import SectionResponse
 import android.content.Context
 import android.content.res.Configuration
@@ -16,6 +17,8 @@ import androidx.fragment.app.Fragment
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.nami.adapter.OrdersAdapter
 import com.example.nami.adapter.IndicatorsAdapter
+import com.example.nami.controllers.services.ServiceFactory
+import com.example.nami.controllers.services.ServiceFactory.Companion.data
 import com.example.nami.models.sections.Action
 import com.example.nami.models.sections.Behavior
 import com.example.nami.presenters.SectionPresenter
@@ -33,6 +36,7 @@ class SectionFragment(
     private var reciclerView: AutofitRecyclerView? = null
     private var adapter: IndicatorsAdapter? = null
     private var itemsRefresh: SwipeRefreshLayout? = null
+    private lateinit var gridView :GridView
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -51,32 +55,39 @@ class SectionFragment(
         }
 
         reciclerView = v.findViewById(R.id.my_grid_view_list)
+        gridView = v.findViewById<GridView>(R.id.gridItems)
         adapter = IndicatorsAdapter(mContext, legendList)
-        val gridView = v.findViewById<GridView>(R.id.gridItems)
         gridView?.adapter = adapter
+        itemsRefresh = v.findViewById(R.id.itemsswipetorefresh)
 
-        itemsRefresh?.setProgressBackgroundColorSchemeColor(
-            ContextCompat.getColor(
-                mContext,
-                R.color.colorPrimaryDark
-            )
-        )
-        itemsRefresh?.setColorSchemeColors(Color.BLUE)
-        itemsRefresh?.setOnRefreshListener {
-            presenter.actionSection(
-                sectionId
-            )
-            gridView?.adapter = adapter
-            Log.i("SI SE REFRESH", "SE")
-            itemsRefresh!!.isRefreshing = false
-        }
+
         return v
     }
 
 
     override fun showData(data: SectionResponse) {
         activity?.runOnUiThread {
-            reciclerView?.adapter = OrdersAdapter(mContext, data.orders)
+            reciclerView?.adapter = OrdersAdapter(mContext, data.orders )
+
+            itemsRefresh?.setProgressBackgroundColorSchemeColor(
+                ContextCompat.getColor(
+                    mContext,
+                    R.color.colorPrimary
+                )
+            )
+            itemsRefresh?.setColorSchemeColors(Color.WHITE)
+            itemsRefresh?.setOnRefreshListener {
+                Log.i("SI SE REFRESH", "SE")
+
+                presenter.actionSection(
+                    sectionId
+                )
+
+                reciclerView?.adapter = OrdersAdapter(mContext, data.orders)
+                gridView?.adapter = adapter
+                itemsRefresh?.isRefreshing = false
+            }
+
         }
     }
 

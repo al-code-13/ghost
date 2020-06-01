@@ -14,8 +14,10 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.cardview.widget.CardView
+import androidx.core.content.ContextCompat
 import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.nami.Detail
 import com.example.nami.R
 import com.example.nami.controllers.services.ServiceFactory
@@ -27,6 +29,7 @@ class OrdersAdapter(
 ) :
     RecyclerView.Adapter<OrdersAdapter.ViewHolder>() {
 
+    private var itemsRefresh: SwipeRefreshLayout?=null
 
     class ViewHolder(v: View) : RecyclerView.ViewHolder(v) {
 
