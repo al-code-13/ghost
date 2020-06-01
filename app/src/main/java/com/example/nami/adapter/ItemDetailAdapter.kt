@@ -1,6 +1,7 @@
 package com.example.nami.adapter
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -55,14 +56,17 @@ class ItemsDetailAdapter(
         val elements = data[position]
         v.name.text = elements.article.name
         v.idProduct.text = "${elements.article.id}"
-        v.price.text = "$ ${elements.article.value}"
+        v.price.text = "$ ${elements.valueTotalArticle}"
         v.cant.text = "${elements.quantityArticle}"
         v.minusButton?.setOnClickListener {
+            if(elements.quantityArticle.toInt()>0){
             elements.quantityArticle = (elements.quantityArticle.toInt() - 1).toString()
+            onBindViewHolder(v,position)}
 
         }
         v.moreButton?.setOnClickListener {
             elements.quantityArticle = (elements.quantityArticle.toInt() + 1).toString()
+            onBindViewHolder(v,position)
 
         }
     }

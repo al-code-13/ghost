@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -23,6 +24,7 @@ class Detail : AppCompatActivity(), DetailUI {
     var recyclerItemsDetail: RecyclerView? = null
     var userInfo = arrayOf<String>()
     var behavior = -1
+    private var observations:String?=null
     lateinit var data: DetailResponse
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -67,6 +69,11 @@ class Detail : AppCompatActivity(), DetailUI {
     fun createButtons(newFunction: Int) {
         runOnUiThread {
             buttonsLinearLayout.removeAllViews()
+            if(behavior==2){
+                val observationsView=layoutInflater.inflate(R.layout.observations_view,null)
+                observations= observationsView.findViewById<EditText>(R.id.editObservations).text.toString()
+                contentDetailPage.addView(observationsView)
+            }
             var actionsList =
                 ServiceFactory.data.behaviors.firstOrNull { it.id == newFunction }?.actions
             for (i in actionsList!!) {
