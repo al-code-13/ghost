@@ -23,8 +23,8 @@ class DetailPresenter(private val orderId: Int, private val ui: DetailUI) {
         })
     }
 
-    fun actionTake(dateTake: String) {
-        interactor.postTakeOrder(orderId, dateTake, { data ->
+    fun actionTake() {
+        interactor.putTakeOrder(orderId, { data ->
             ui.showDetailFunctionTaked()
         }, { error ->
             ui.showError(error)

@@ -59,7 +59,7 @@ class MainActivity : AppCompatActivity(), SectionsUI {
 
     override fun showError(error: String) {
         runOnUiThread {
-            if(error.contains("token")){
+            if(error.contains("Error al autenticar el token")){
                 this.getSharedPreferences("localStorage", Context.MODE_PRIVATE).edit().clear()
 
                 val intent= Intent(this,Login::class.java)

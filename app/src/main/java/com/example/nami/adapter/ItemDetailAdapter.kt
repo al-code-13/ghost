@@ -1,18 +1,19 @@
 package com.example.nami.adapter
 
 import android.content.Context
+import android.media.Image
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.nami.R
 import com.example.nami.models.detailModels.ListElement
-import kotlinx.android.synthetic.main.article_data_detail.view.*
 
 class ItemsDetailAdapter(
     private val mContext: Context,
-    private val data: List<ListElement>
+    private var data: List<ListElement>
 
 ) : RecyclerView.Adapter<ItemsDetailAdapter.ViewHolder>() {
 
@@ -21,7 +22,8 @@ class ItemsDetailAdapter(
         var idProduct:TextView = v.findViewById(R.id.idProduct)
         var price:TextView = v.findViewById(R.id.price)
         var cant:TextView = v.findViewById(R.id.cant)
-        var minusButton:TextView = v.findViewById(R.id.minusButton)
+        var minusButton:ImageView = v.findViewById(R.id.minusButton)
+        var moreButton:ImageView=v.findViewById(R.id.moreButton)
     }
 
 
@@ -51,6 +53,10 @@ class ItemsDetailAdapter(
         v.cant.text = "${elements.quantityArticle}"
         v.minusButton.setOnClickListener {
             elements.quantityArticle = (elements.quantityArticle.toInt() - 1).toString()
+
+        }
+        v.moreButton.setOnClickListener {
+            elements.quantityArticle = (elements.quantityArticle.toInt() + 1).toString()
 
         }
     }

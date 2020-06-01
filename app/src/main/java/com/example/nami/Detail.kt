@@ -9,6 +9,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.marginBottom
 import androidx.core.view.marginRight
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.nami.adapter.ItemsDetailAdapter
 import com.example.nami.controllers.services.ServiceFactory
@@ -50,16 +51,15 @@ class Detail : AppCompatActivity(), DetailUI {
     override fun showDetailInfo(data: DetailResponse) {
 
         runOnUiThread {
-            Log.i("daotos",data.order.detailOrder.list.toString())
-            if(recyclerItemsDetail!=null){
-                Log.i("reciclernonullo",recyclerItemsDetail.toString())
-            }
+            recyclerItemsDetail!!.setHasFixedSize(true)
+            recyclerItemsDetail!!.layoutManager=LinearLayoutManager(this)
             recyclerItemsDetail?.adapter=ItemsDetailAdapter(this,data.order.detailOrder.list)
             createButtons(behavior)
         }
     }
 
     fun createButtons(newFunction: Int) {
+        runOnUiThread {
         buttonsLinearLayout.removeAllViews()
         var actionsList = ServiceFactory.data.behaviors.firstOrNull { it.id == newFunction }?.actions
         for (i in actionsList!!) {
@@ -80,7 +80,7 @@ class Detail : AppCompatActivity(), DetailUI {
 
                     }
                     3 -> {
-                        presenter!!.actionTake("2020-05-18")
+                        presenter!!.actionTake()
                     }
                     4 -> {
 
@@ -101,6 +101,7 @@ class Detail : AppCompatActivity(), DetailUI {
             }
             buttonsLinearLayout.addView(layoutNewButton)
         }
+        }
     }
 
     override fun showError(error: String) {
@@ -110,23 +111,28 @@ class Detail : AppCompatActivity(), DetailUI {
     }
 
     override fun showDetailFunctionReleased() {
-            createButtons(3)
-    }
+        runOnUiThread {
+        createButtons(3)
+    }}
 
     override fun showDetailFunctionTaked() {
+        runOnUiThread {
             createButtons(2)
-    }
+        }}
 
     override fun showDetailFunctioDeliverCourier() {
+        runOnUiThread {
             createButtons(8)
+        }
     }
-
     override fun showDetailFunctionDeliverCustomer() {
+        runOnUiThread {
             createButtons(9)
+        }
     }
-
     override fun showDetailFunctionFreeze() {
-            createButtons(behavior)
-    }
+        runOnUiThread {
+        createButtons(behavior)
+    }}
 
 }
