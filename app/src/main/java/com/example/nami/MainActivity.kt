@@ -2,7 +2,10 @@ package com.example.nami
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color.RED
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager.widget.ViewPager
@@ -17,6 +20,9 @@ class MainActivity : AppCompatActivity(), SectionsUI {
     var tabLayout: TabLayout? = null
     var viewPager: ViewPager? = null
     override fun onCreate(savedInstanceState: Bundle?) {
+        val actionbar = supportActionBar
+        actionbar!!.title = "TITULO ESTABLISHMENT"
+        actionbar.setBackgroundDrawable(ColorDrawable(RED))
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
@@ -36,7 +42,14 @@ class MainActivity : AppCompatActivity(), SectionsUI {
             }
             tabLayout?.tabGravity = TabLayout.GRAVITY_FILL
 
-            val adapter = SectionsAdapter(this, supportFragmentManager, tabLayout!!.tabCount,data.actions,data.behaviors.toTypedArray(),data.sections)
+            val adapter = SectionsAdapter(
+                this,
+                supportFragmentManager,
+                tabLayout!!.tabCount,
+                data.actions,
+                data.behaviors.toTypedArray(),
+                data.sections
+            )
 
             viewPager!!.adapter = adapter
 
@@ -55,18 +68,23 @@ class MainActivity : AppCompatActivity(), SectionsUI {
 
                 }
             })
-        }}
+
+        }
+    }
 
     override fun showError(error: String) {
-        runOnUiThread {
-            if(error.contains("Error al autenticar el token")){
-                this.getSharedPreferences("localStorage", Context.MODE_PRIVATE).edit().clear()
 
-                val intent= Intent(this,Login::class.java)
+        runOnUiThread {
+
+            if (error.contains("Error al autenticar el token")) {
+
+                this.getSharedPreferences("localStorage", Context.MODE_PRIVATE).edit().clear().apply()
+                finish()
+
+                val intent = Intent(this, Login::class.java)
                 startActivity(intent)
-            }
-            else{
-            Toast.makeText(applicationContext, error, Toast.LENGTH_LONG).show()
+            } else {
+                Toast.makeText(applicationContext, error, Toast.LENGTH_LONG).show()
             }
         }
     }

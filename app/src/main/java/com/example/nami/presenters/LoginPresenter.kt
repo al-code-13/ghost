@@ -18,8 +18,12 @@ class LoginPresenter (val context: Context,private val ui: LoginUI){
     fun actionAutoLogin(){
         val sharedPreference = this.context.getSharedPreferences("localStorage", Context.MODE_PRIVATE)
 
-        val token = sharedPreference.getString("token","localStorage").toString()
-        if(token!=null){
+        val token = sharedPreference.getString("token","null").toString()
+        Log.i("SI es el token",token)
+        if(token=="null"){
+            ui.showError("Vuelve a iniciar sesion prro")
+        }
+        else{
             ServiceFactory.token=token
             ui.showHome()
         }

@@ -2,6 +2,7 @@ package com.example.nami
 
 import android.content.Intent
 import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -14,8 +15,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.nami.adapter.ItemsDetailAdapter
 import com.example.nami.controllers.services.ServiceFactory
-import com.example.nami.models.detailModels.Article
-import com.example.nami.models.detailModels.DetailOrder
 import com.example.nami.models.detailModels.DetailResponse
 import com.example.nami.models.detailModels.ListElement
 import com.example.nami.presenters.DetailPresenter
@@ -36,8 +35,13 @@ class Detail : AppCompatActivity(), DetailUI {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detail)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
         val intent: Intent = intent
         val orderId = intent.getIntExtra("orderId", -1)
+
+        val actionbar = supportActionBar
+        actionbar!!.title = "Orden #$orderId"
+        actionbar.setBackgroundDrawable(ColorDrawable(Color.RED))
         behavior = intent.getIntExtra("behavior", -1)
         userInfo = intent.getStringArrayExtra("userInfo")
         Log.i("Id de la orden", userInfo.toString())
