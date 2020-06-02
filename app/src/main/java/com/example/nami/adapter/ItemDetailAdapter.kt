@@ -1,6 +1,7 @@
 package com.example.nami.adapter
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -32,17 +33,15 @@ class ItemsDetailAdapter(
         parent: ViewGroup,
         viewType: Int
     ): ViewHolder {
-        val v: View
-        v =
+        var v: View
             if (behavior == 2) {
-                LayoutInflater.from(mContext).inflate(R.layout.article_data_detail, parent, false)
+               v= LayoutInflater.from(mContext).inflate(R.layout.article_data_detail, parent, false)
+                Log.i("vista que cambia","shi")
             } else {
-                LayoutInflater.from(mContext)
-                    .inflate(R.layout.article_data_detail_preview, parent, false)
-
+                v=LayoutInflater.from(mContext).inflate(R.layout.article_data_detail_preview, parent, false)
+                Log.i("vista que cambia","ño")
             }
         return ViewHolder(v)
-
     }
 
     override fun getItemCount(): Int {

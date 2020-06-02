@@ -1,8 +1,6 @@
 package com.example.nami.presenters
 
-import android.util.Log
 import com.example.nami.controllers.services.ServiceInteractor
-import com.example.nami.models.detailModels.DetailOrder
 import com.example.nami.models.detailModels.DetailResponse
 import com.example.nami.models.detailModels.ListDataPicker
 import com.example.nami.models.detailModels.ListElement
@@ -56,8 +54,6 @@ class DetailPresenter(private val orderId: Int, private val ui: DetailUI) {
             totalPicker += i.valueTotalArticle.toDouble()
             listDataPicker.add(ListDataPicker(i.id,i.quantityArticle))
         }
-        Log.i("el nuevo total",totalPicker.toString())
-        Log.i("la nueva lista",listDataPicker.toString())
         interactor.putPickingOrder(
             listDataPicker,
             orderId,

@@ -360,11 +360,11 @@ class ServiceInteractor : ServiceFactory() {
         then: (DeliverCourierResponse) -> Unit,
         error: (String) -> Unit
     ) {
-        val url = "$serverUrl$routeBase$routeOrders/$idOrder$routeDeliverCourier"
+        val url = "$serverUrl$routeBase$routeOrders$idOrder$routeDeliverCourier"
         val request = DeliverCourierRequest(idOrder)
         val json = Gson().toJson(request)
         withContext(Dispatchers.IO) {
-            put(token, url, json).enqueue(object : Callback {
+            put( url,token, json).enqueue(object : Callback {
 
                 override fun onResponse(call: Call, response: Response) {
                     val body = response.body?.string()
@@ -407,7 +407,7 @@ class ServiceInteractor : ServiceFactory() {
         val request = DeliverConsumerRequest(idOrder)
         val json = Gson().toJson(request)
         withContext(Dispatchers.IO) {
-            put(token, url, json).enqueue(object : Callback {
+            put( url,token, json).enqueue(object : Callback {
 
                 override fun onResponse(call: Call, response: Response) {
                     val body = response.body?.string()
@@ -448,7 +448,7 @@ class ServiceInteractor : ServiceFactory() {
         then: (FreezeResponse) -> Unit,
         error: (String) -> Unit
     ) {
-        val url = "$serverUrl$routeBase$routeOrders/$idOrder$routeFreeze"
+        val url = "$serverUrl$routeBase$routeOrders$idOrder$routeFreeze"
         val request = FreezeRequest(idReason)
         val json = Gson().toJson(request)
         withContext(Dispatchers.IO) {

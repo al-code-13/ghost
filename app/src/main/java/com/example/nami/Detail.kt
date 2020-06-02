@@ -57,11 +57,11 @@ class Detail : AppCompatActivity(), DetailUI {
         presenter!!.actionDetail()
     }
 
-    fun createArticleView() {
+    fun createArticleView(newFunction:Int) {
         recyclerItemsDetail!!.setHasFixedSize(true)
         recyclerItemsDetail!!.layoutManager = LinearLayoutManager(this)
         recyclerItemsDetail?.adapter =
-            ItemsDetailAdapter(this, data.order.detailOrder.list, behavior)
+            ItemsDetailAdapter(this, data.order.detailOrder.list, newFunction)
     }
 
     override fun showDetailInfo(data: DetailResponse) {
@@ -69,7 +69,7 @@ class Detail : AppCompatActivity(), DetailUI {
         runOnUiThread {
             this.data = data
             this.articleList=data.order.detailOrder.list
-            createArticleView()
+            createArticleView(behavior)
             createButtons(behavior)
         }
     }
@@ -78,8 +78,7 @@ class Detail : AppCompatActivity(), DetailUI {
         runOnUiThread {
             buttonsLinearLayout.removeAllViews()
 
-            if(behavior==2){
-                observations= observationsView.text.toString()
+            if(newFunction==2){
                 observationsView.visibility= View.VISIBLE
             }
             else{
@@ -88,6 +87,7 @@ class Detail : AppCompatActivity(), DetailUI {
             var actionsList =
                 ServiceFactory.data.behaviors.firstOrNull { it.id == newFunction }?.actions
             for (i in actionsList!!) {
+                if(i!=2){
                 val action = ServiceFactory.data.actions.firstOrNull { it.id == i }
                 val layoutNewButton = layoutInflater.inflate(R.layout.save_button, null)
                 val button = layoutNewButton.findViewById<Button>(R.id.pickButton)
@@ -112,11 +112,11 @@ class Detail : AppCompatActivity(), DetailUI {
                             presenter!!.actionTake()
                         }
                         4 -> {
+                            observations= observationsView.text.toString()
                             presenter!!.actionPick(data,articleList,observations)
                         }
                         5 -> {
-                            Log.i("newdata",data.toString())
-                            Log.i("observaciones",observations)
+                            observations= observationsView.text.toString()
                             presenter!!.actionRelease(observations)
                         }
                         6 -> {
@@ -131,6 +131,7 @@ class Detail : AppCompatActivity(), DetailUI {
                     }
                 }
                 buttonsLinearLayout.addView(layoutNewButton)
+                }
             }
         }
     }
@@ -143,41 +144,41 @@ class Detail : AppCompatActivity(), DetailUI {
 
     override fun showDetailFunctionReleased() {
         runOnUiThread {
-            createArticleView()
+            createArticleView(3)
             createButtons(3)
         }
     }
 
     override fun showDetailFunctionPicked() {   runOnUiThread {
-        createArticleView()
+        createArticleView(7)
         createButtons(7)
     }
     }
 
     override fun showDetailFunctionTaked() {
         runOnUiThread {
-            createArticleView()
+            createArticleView(2)
             createButtons(2)
         }
     }
 
     override fun showDetailFunctioDeliverCourier() {
         runOnUiThread {
-            createArticleView()
+            createArticleView(8)
             createButtons(8)
         }
     }
 
     override fun showDetailFunctionDeliverCustomer() {
         runOnUiThread {
-            createArticleView()
+            createArticleView(9)
             createButtons(9)
         }
     }
 
     override fun showDetailFunctionFreeze() {
         runOnUiThread {
-            createArticleView()
+            createArticleView(behavior)
             createButtons(behavior)
         }
     }
