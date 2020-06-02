@@ -1,15 +1,15 @@
 package com.example.nami
 
+import android.app.Dialog
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.EditText
-import android.widget.Toast
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -19,6 +19,7 @@ import com.example.nami.models.detailModels.DetailResponse
 import com.example.nami.models.detailModels.ListElement
 import com.example.nami.presenters.DetailPresenter
 import com.example.nami.presenters.DetailUI
+import kotlinx.android.synthetic.main.action_item.view.*
 import kotlinx.android.synthetic.main.activity_detail.*
 
 class Detail : AppCompatActivity(), DetailUI {
@@ -82,15 +83,18 @@ class Detail : AppCompatActivity(), DetailUI {
         runOnUiThread {
             buttonsLinearLayout.removeAllViews()
 
-            if(newFunction==2){
+            var actionsList =
+                ServiceFactory.data.behaviors.firstOrNull { it.id == newFunction }?.actions
+
+            if(actionsList!!.contains(5)||actionsList!!.contains(4)){
                 observationsView.visibility= View.VISIBLE
             }
             else{
                 observationsView.visibility= View.GONE
             }
-            var actionsList =
-                ServiceFactory.data.behaviors.firstOrNull { it.id == newFunction }?.actions
+
             for (i in actionsList!!) {
+
                 if(i!=2){
                 val action = ServiceFactory.data.actions.firstOrNull { it.id == i }
                 val layoutNewButton = layoutInflater.inflate(R.layout.save_button, null)
@@ -116,12 +120,65 @@ class Detail : AppCompatActivity(), DetailUI {
                             presenter!!.actionTake()
                         }
                         4 -> {
-                            observations= observationsView.text.toString()
-                            presenter!!.actionPick(data,articleList,observations)
+
+                            val dialog = Dialog(this)
+                            val dialogView =
+                                LayoutInflater.from(this).inflate(R.layout.activity_popup, null)
+                            val title = dialogView.findViewById<TextView>(R.id.titleOrderId)
+                            title.text = "¿Esta seguro de guardar esta orden?"
+
+                            val layoutActions = dialogView.findViewById<LinearLayout>(R.id.listActions)
+                            val v: View =
+                                LayoutInflater.from(this).inflate(R.layout.action_item, null)
+                            v.setOnClickListener {
+                                observations= observationsView.text.toString()
+                                observationsView.text=null
+                                presenter!!.actionPick(data,articleList,observations)
+                                dialog.dismiss()
+                            }
+                            v.action.text ="Aceptar"
+                            layoutActions.addView(v)
+
+                            val cancel: View =
+                                LayoutInflater.from(this).inflate(R.layout.action_item, null)
+                            cancel.setOnClickListener {
+                                dialog.dismiss()
+                            }
+                            cancel.action.text ="Cancelar"
+                            layoutActions.addView(cancel)
+
+                            dialog.setContentView(dialogView)
+                            dialog.show()
                         }
                         5 -> {
-                            observations= observationsView.text.toString()
-                            presenter!!.actionRelease(observations)
+                            val dialog = Dialog(this)
+                            val dialogView =
+                                LayoutInflater.from(this).inflate(R.layout.activity_popup, null)
+                            val title = dialogView.findViewById<TextView>(R.id.titleOrderId)
+                            title.text = "¿Esta seguro de liberar esta orden?"
+
+                            val layoutActions = dialogView.findViewById<LinearLayout>(R.id.listActions)
+                                val v: View =
+                                    LayoutInflater.from(this).inflate(R.layout.action_item, null)
+                                v.setOnClickListener {
+                                    observations= observationsView.text.toString()
+                                    observationsView.text=null
+                                    presenter!!.actionRelease(observations)
+                                    dialog.dismiss()
+                                }
+                            v.action.text ="Aceptar"
+                            layoutActions.addView(v)
+
+                            val cancel: View =
+                                LayoutInflater.from(this).inflate(R.layout.action_item, null)
+                            cancel.setOnClickListener {
+                                dialog.dismiss()
+                            }
+                            cancel.action.text ="Cancelar"
+                            layoutActions.addView(cancel)
+
+                            dialog.setContentView(dialogView)
+                            dialog.show()
                         }
                         6 -> {
                             presenter!!.actionPutDeliverCourier()
@@ -130,8 +187,36 @@ class Detail : AppCompatActivity(), DetailUI {
                             presenter!!.actionPutDeliverCustomer()
                         }
                         8 -> {
-                            presenter!!.actionPutFreeze(2)
-                        }
+                            val freezeActions= arrayListOf<String>(
+                                "Porque mi mamita no me quiere :c",
+                                "porque dani es gay",
+                                "otra"
+                            )
+                            val dialog = Dialog(this)
+                            val dialogView =
+                                LayoutInflater.from(this).inflate(R.layout.activity_popup, null)
+                            val title = dialogView.findViewById<TextView>(R.id.titleOrderId)
+                            title.text = "¿Esta seguro de congelar esta orden?"
+                            val layoutActions = dialogView.findViewById<LinearLayout>(R.id.listActions)
+                            for (i in freezeActions) {
+                                val v: View =
+                                    LayoutInflater.from(this).inflate(R.layout.action_item, null)
+                                v.setOnClickListener {
+                                    presenter!!.actionPutFreeze(freezeActions.indexOf(i)+1)
+                                    dialog.dismiss()
+                                }
+                                v.action.text =i
+                                layoutActions.addView(v)
+                            }
+                            val cancel: View =
+                                LayoutInflater.from(this).inflate(R.layout.action_item, null)
+                            cancel.setOnClickListener {
+                                dialog.dismiss()
+                            }
+                            cancel.action.text ="Cancelar"
+                            layoutActions.addView(cancel)
+                            dialog.setContentView(dialogView)
+                            dialog.show()}
                     }
                 }
                 buttonsLinearLayout.addView(layoutNewButton)

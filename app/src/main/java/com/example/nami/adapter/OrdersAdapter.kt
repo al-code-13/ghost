@@ -29,8 +29,6 @@ class OrdersAdapter(
 ) :
     RecyclerView.Adapter<OrdersAdapter.ViewHolder>() {
 
-    private var itemsRefresh: SwipeRefreshLayout?=null
-
     class ViewHolder(v: View) : RecyclerView.ViewHolder(v) {
 
         var card: CardView = v.findViewById(R.id.card)
