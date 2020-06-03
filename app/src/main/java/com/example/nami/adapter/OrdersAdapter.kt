@@ -2,7 +2,6 @@ package com.example.nami.adapter
 
 import OrdersList
 import android.annotation.SuppressLint
-import android.app.Dialog
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
@@ -21,6 +20,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.nami.Detail
 import com.example.nami.R
 import com.example.nami.controllers.services.ServiceFactory
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import kotlinx.android.synthetic.main.action_item.view.*
 
 class OrdersAdapter(
@@ -64,7 +64,7 @@ class OrdersAdapter(
                 if (legend.action != null) {
                     verDetalle(items)
                 } else {
-                    val dialog = Dialog(mContext)
+                    val dialog = BottomSheetDialog(mContext)
                     val dialogView =
                         LayoutInflater.from(mContext).inflate(R.layout.activity_popup, null)
                     val title = dialogView.findViewById<TextView>(R.id.titleOrderId)
@@ -74,7 +74,7 @@ class OrdersAdapter(
                         val v: View =
                             LayoutInflater.from(mContext).inflate(R.layout.action_item, null)
                         v.setOnClickListener {
-                            if (id == 2) {//Ver detalle
+                            if (id == 2 && id==4) {//Ver detalle
                                 verDetalle(items)
                             }
                         }

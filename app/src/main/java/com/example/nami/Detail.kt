@@ -1,6 +1,5 @@
 package com.example.nami
 
-import android.app.Dialog
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
@@ -19,6 +18,7 @@ import com.example.nami.models.detailModels.DetailResponse
 import com.example.nami.models.detailModels.ListElement
 import com.example.nami.presenters.DetailPresenter
 import com.example.nami.presenters.DetailUI
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import kotlinx.android.synthetic.main.action_item.view.*
 import kotlinx.android.synthetic.main.activity_detail.*
 
@@ -121,7 +121,7 @@ class Detail : AppCompatActivity(), DetailUI {
                         }
                         4 -> {
 
-                            val dialog = Dialog(this)
+                            val dialog = BottomSheetDialog(this)
                             val dialogView =
                                 LayoutInflater.from(this).inflate(R.layout.activity_popup, null)
                             val title = dialogView.findViewById<TextView>(R.id.titleOrderId)
@@ -151,7 +151,7 @@ class Detail : AppCompatActivity(), DetailUI {
                             dialog.show()
                         }
                         5 -> {
-                            val dialog = Dialog(this)
+                            val dialog = BottomSheetDialog(this)
                             val dialogView =
                                 LayoutInflater.from(this).inflate(R.layout.activity_popup, null)
                             val title = dialogView.findViewById<TextView>(R.id.titleOrderId)
@@ -192,7 +192,7 @@ class Detail : AppCompatActivity(), DetailUI {
                                 "porque dani es gay",
                                 "otra"
                             )
-                            val dialog = Dialog(this)
+                            val dialog = BottomSheetDialog(this)
                             val dialogView =
                                 LayoutInflater.from(this).inflate(R.layout.activity_popup, null)
                             val title = dialogView.findViewById<TextView>(R.id.titleOrderId)
