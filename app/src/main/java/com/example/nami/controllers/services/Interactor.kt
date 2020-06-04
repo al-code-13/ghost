@@ -5,6 +5,7 @@ import android.util.Log
 import com.example.nami.models.auth.LoginRequest
 import com.example.nami.models.auth.LoginResponse
 import com.example.nami.models.detailModels.*
+import com.example.nami.models.sections.ReasonsResponse
 import com.example.nami.models.sections.SectionsResponse
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
@@ -89,6 +90,43 @@ class ServiceInteractor : ServiceFactory() {
                 val res = gson.fromJson(body, SectionsResponse::class.java)
                 if (response.isSuccessful) {
                     data = res
+                    then(res)
+                } else {
+                    error(res.message.toString())
+                    //Log.i("respuesta",response.message)
+                }
+            }
+
+            override fun onFailure(call: Call, e: IOException) {
+                Log.i("Error", e.message.toString())
+                error("Error en el servicio")
+            }
+        })
+    }
+
+    fun getReasons(
+        then: (ReasonsResponse) -> Unit,
+        error: (String) -> Unit
+    ) {
+        uiScope.launch {
+            getReasonsCorrutine(then, error)
+        }
+    }
+
+    fun getReasonsCorrutine(
+        then: (ReasonsResponse) -> Unit,
+        error: (String) -> Unit
+    ) {
+
+        val url = serverUrl + routeBase + routeReasons
+        get(url, token).enqueue(object : Callback {
+            override fun onResponse(call: Call, response: Response) {
+                val body = response.body?.string()
+                Log.i("bodySections",body.toString())
+                val gson = GsonBuilder().create()
+                val res = gson.fromJson(body, ReasonsResponse::class.java)
+                if (response.isSuccessful) {
+                    reasons = res
                     then(res)
                 } else {
                     error(res.message.toString())

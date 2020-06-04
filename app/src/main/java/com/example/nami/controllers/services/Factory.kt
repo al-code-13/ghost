@@ -1,5 +1,6 @@
 package com.example.nami.controllers.services
 
+import com.example.nami.models.sections.ReasonsResponse
 import com.example.nami.models.sections.SectionsResponse
 import okhttp3.Call
 import okhttp3.MediaType.Companion.toMediaType
@@ -19,6 +20,7 @@ open class ServiceFactory {
     val routeOrders: String = "/orders/"
     val routeLogin: String = "/login"
     val routeSections: String = "/sections"
+    val routeReasons:String="/reasons"
     val routeTake: String = "/take"
     val routeRelease: String = "/release"
     val routePicking = "/checked"
@@ -69,6 +71,7 @@ open class ServiceFactory {
     companion object {
         lateinit var data: SectionsResponse
         lateinit var token: String
+        lateinit var reasons: ReasonsResponse
     }
 
 

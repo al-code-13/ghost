@@ -6,17 +6,14 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.cardview.widget.CardView
-import androidx.core.content.ContextCompat
 import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.nami.Detail
 import com.example.nami.R
 import com.example.nami.controllers.services.ServiceFactory
@@ -74,10 +71,14 @@ class OrdersAdapter(
                         val v: View =
                             LayoutInflater.from(mContext).inflate(R.layout.action_item, null)
                         v.setOnClickListener {
-                            if (id == 2 && id==4) {//Ver detalle
+                            if (id == 2 || id == 4) {//Ver detalle
                                 verDetalle(items)
                             }
                         }
+                        val param: ViewGroup.MarginLayoutParams =
+                            v.layoutParams as ViewGroup.MarginLayoutParams
+                        param.setMargins(10, 10, 10, 10)
+                        v.layoutParams = param
                         v.action.text =
                             ServiceFactory.data.actions.firstOrNull { it.id == id }?.name
                         layoutActions.addView(v)
@@ -122,7 +123,7 @@ class OrdersAdapter(
         position: Int
     ) {
 
-        holder.card.setCardBackgroundColor(Color.parseColor(ServiceFactory.data.behaviors.firstOrNull{it.id==mDataSet[position].behavior}!!.color))
+        holder.card.setCardBackgroundColor(Color.parseColor(ServiceFactory.data.behaviors.firstOrNull { it.id == mDataSet[position].behavior }!!.color))
 
         holder.names.text = mDataSet[position].name
 

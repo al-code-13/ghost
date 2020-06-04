@@ -113,9 +113,6 @@ class Detail : AppCompatActivity(), DetailUI {
                         1 -> {
 
                         }
-                        2 -> {
-
-                        }
                         3 -> {
                             presenter!!.actionTake()
                         }
@@ -187,11 +184,7 @@ class Detail : AppCompatActivity(), DetailUI {
                             presenter!!.actionPutDeliverCustomer()
                         }
                         8 -> {
-                            val freezeActions= arrayListOf<String>(
-                                "Porque mi mamita no me quiere :c",
-                                "porque dani es gay",
-                                "otra"
-                            )
+                            val freezeActions= ServiceFactory.reasons.reasons.list
                             val dialog = BottomSheetDialog(this)
                             val dialogView =
                                 LayoutInflater.from(this).inflate(R.layout.activity_popup, null)
@@ -202,10 +195,10 @@ class Detail : AppCompatActivity(), DetailUI {
                                 val v: View =
                                     LayoutInflater.from(this).inflate(R.layout.action_item, null)
                                 v.setOnClickListener {
-                                    presenter!!.actionPutFreeze(freezeActions.indexOf(i)+1)
+                                    presenter!!.actionPutFreeze(i.id)
                                     dialog.dismiss()
                                 }
-                                v.action.text =i
+                                v.action.text =i.description
                                 layoutActions.addView(v)
                             }
                             val cancel: View =
