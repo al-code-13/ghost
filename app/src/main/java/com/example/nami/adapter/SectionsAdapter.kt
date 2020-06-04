@@ -15,7 +15,6 @@ class SectionsAdapter(
     private val myContext: Context,
     fm: FragmentManager,
     var totalTabs: Int,
-    private val actionList:List<Action>,
     private val legendList: Array<Behavior>,
     private val sectionsList: List<Section>
 ) :
@@ -25,7 +24,6 @@ class SectionsAdapter(
         return SectionFragment(
             myContext,
             legendSection(sectionsList[position].behaviors),
-            actionList,
             sectionsList[position].id
         )
     }

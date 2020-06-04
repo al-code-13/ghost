@@ -1,6 +1,5 @@
 package com.example.nami
 
-import OrdersList
 import SectionResponse
 import android.content.Context
 import android.content.res.Configuration
@@ -17,9 +16,6 @@ import androidx.fragment.app.Fragment
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.nami.adapter.OrdersAdapter
 import com.example.nami.adapter.IndicatorsAdapter
-import com.example.nami.controllers.services.ServiceFactory
-import com.example.nami.controllers.services.ServiceFactory.Companion.data
-import com.example.nami.models.sections.Action
 import com.example.nami.models.sections.Behavior
 import com.example.nami.presenters.SectionPresenter
 import com.example.nami.presenters.SectionUI
@@ -28,7 +24,6 @@ import com.example.nami.presenters.SectionUI
 class SectionFragment(
     private val mContext: Context,
     private val legendList: List<Behavior>,
-    private val actionList: List<Action>,
     private val sectionId: Int
 
 ) : Fragment(), SectionUI {
@@ -57,7 +52,7 @@ class SectionFragment(
         reciclerView = v.findViewById(R.id.my_grid_view_list)
         gridView = v.findViewById<GridView>(R.id.gridItems)
         adapter = IndicatorsAdapter(mContext, legendList)
-        gridView?.adapter = adapter
+        gridView.adapter = adapter
         itemsRefresh = v.findViewById(R.id.itemsswipetorefresh)
 
 
@@ -84,7 +79,7 @@ class SectionFragment(
                 )
 
                 reciclerView?.adapter = OrdersAdapter(mContext, data.orders)
-                gridView?.adapter = adapter
+                gridView.adapter = adapter
                 itemsRefresh?.isRefreshing = false
             }
 

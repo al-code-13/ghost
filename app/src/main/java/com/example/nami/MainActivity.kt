@@ -46,7 +46,6 @@ class MainActivity : AppCompatActivity(), SectionsUI {
                 this,
                 supportFragmentManager,
                 tabLayout!!.tabCount,
-                data.actions,
                 data.behaviors.toTypedArray(),
                 data.sections
             )
