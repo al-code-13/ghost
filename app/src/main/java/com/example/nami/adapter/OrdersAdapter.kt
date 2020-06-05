@@ -148,6 +148,7 @@ class OrdersAdapter(
                                         dialog.show()}
                                 }
                             }
+                            dialog.dismiss()
                         }
 
                         v.action.text =
