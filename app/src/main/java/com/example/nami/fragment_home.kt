@@ -118,7 +118,7 @@ class SectionFragment(
 
     override fun showData(data: SectionResponse) {
         activity?.runOnUiThread {
-            reciclerView?.adapter = OrdersAdapter(mContext, data.orders)
+            reciclerView?.adapter = OrdersAdapter(mContext, data.orders,presenter)
 
             itemsRefresh?.setProgressBackgroundColorSchemeColor(
                 ContextCompat.getColor(
@@ -134,7 +134,7 @@ class SectionFragment(
                     sectionId
                 )
 
-                reciclerView?.adapter = OrdersAdapter(mContext, data.orders)
+                reciclerView?.adapter = OrdersAdapter(mContext, data.orders,presenter)
                 gridView.adapter = adapter
                 itemsRefresh?.isRefreshing = false
             }
@@ -145,6 +145,12 @@ class SectionFragment(
     override fun showError(error: String) {
         activity?.runOnUiThread {
             Toast.makeText(mContext, error, Toast.LENGTH_LONG).show()
+        }
+    }
+
+    override fun actionSuccess(message: String) {
+        activity?.runOnUiThread {
+            Toast.makeText(mContext, message, Toast.LENGTH_LONG).show()
         }
     }
 }
