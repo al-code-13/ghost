@@ -75,10 +75,7 @@ class OrdersAdapter(
                                 verDetalle(items)
                             }
                         }
-                        val param: ViewGroup.MarginLayoutParams =
-                            v.layoutParams as ViewGroup.MarginLayoutParams
-                        param.setMargins(10, 10, 10, 10)
-                        v.layoutParams = param
+
                         v.action.text =
                             ServiceFactory.data.actions.firstOrNull { it.id == id }?.name
                         layoutActions.addView(v)

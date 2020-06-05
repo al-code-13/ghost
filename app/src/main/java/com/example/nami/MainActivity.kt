@@ -9,10 +9,7 @@ import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager.widget.ViewPager
-import co.zsmb.materialdrawerkt.builders.drawer
-import co.zsmb.materialdrawerkt.draweritems.badgeable.primaryItem
-import co.zsmb.materialdrawerkt.draweritems.badgeable.secondaryItem
-import co.zsmb.materialdrawerkt.draweritems.divider
+
 import com.example.nami.adapter.SectionsAdapter
 import com.example.nami.models.sections.SectionsResponse
 import com.example.nami.presenters.SectionsPresenter
@@ -24,23 +21,11 @@ class MainActivity : AppCompatActivity(), SectionsUI {
     var tabLayout: TabLayout? = null
     var viewPager: ViewPager? = null
     override fun onCreate(savedInstanceState: Bundle?) {
-        val actionbar = supportActionBar
-        actionbar!!.title = "TITULO ESTABLISHMENT"
-        actionbar.setBackgroundDrawable(ColorDrawable(RED))
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
         presenter.actionSections()
-
         tabLayout = findViewById(R.id.tabLayout)
         viewPager = findViewById(R.id.viewPager)
-
-        drawer {
-            primaryItem("Home") {}
-            divider {}
-            primaryItem("Users") {}
-            secondaryItem("Settings") {}
-        }
 
     }
 
@@ -82,7 +67,6 @@ class MainActivity : AppCompatActivity(), SectionsUI {
     }
 
     override fun showError(error: String) {
-
         runOnUiThread {
 
             if (error.contains("Error al autenticar el token")) {
