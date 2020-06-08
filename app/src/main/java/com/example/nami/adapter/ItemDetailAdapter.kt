@@ -36,10 +36,8 @@ class ItemsDetailAdapter(
         var v: View
             if (behavior == 2) {
                v= LayoutInflater.from(mContext).inflate(R.layout.article_data_detail, parent, false)
-                Log.i("vista que cambia","shi")
             } else {
                 v=LayoutInflater.from(mContext).inflate(R.layout.article_data_detail_preview, parent, false)
-                Log.i("vista que cambia","ño")
             }
         return ViewHolder(v)
     }

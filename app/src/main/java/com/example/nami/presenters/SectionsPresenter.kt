@@ -8,8 +8,8 @@ interface SectionsUI {
     fun showError(error: String)
 }
 
-class SectionsPresenter(val ui: SectionsUI) {
-    val interactor = ServiceInteractor()
+class SectionsPresenter(private val ui: SectionsUI) {
+    private val interactor = ServiceInteractor()
     fun actionSections() {
         interactor.getSections(
 

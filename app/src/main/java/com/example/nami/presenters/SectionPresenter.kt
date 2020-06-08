@@ -23,7 +23,6 @@ class SectionPresenter(val ui: SectionUI) {
 
             idSection,
             { data ->
-                Log.i("Seccion individual",data.toString())
                 ui.showData(data)
             },
             { error ->

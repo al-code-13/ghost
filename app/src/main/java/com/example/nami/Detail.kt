@@ -62,7 +62,7 @@ class Detail : AppCompatActivity(), DetailUI {
         presenter!!.actionDetail()
     }
 
-    fun createArticleView(newFunction:Int) {
+    private fun createArticleView(newFunction:Int) {
         recyclerItemsDetail!!.setHasFixedSize(true)
         recyclerItemsDetail!!.layoutManager = LinearLayoutManager(this)
         recyclerItemsDetail?.adapter =
@@ -79,11 +79,11 @@ class Detail : AppCompatActivity(), DetailUI {
         }
     }
 
-    fun createButtons(newFunction: Int) {
+    private fun createButtons(newFunction: Int) {
         runOnUiThread {
             buttonsLinearLayout.removeAllViews()
 
-            var actionsList =
+            val actionsList =
                 ServiceFactory.data.behaviors.firstOrNull { it.id == newFunction }?.actions
 
             if(actionsList!!.contains(5)||actionsList!!.contains(4)){

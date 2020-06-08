@@ -93,12 +93,10 @@ class ServiceInteractor : ServiceFactory() {
                     then(res)
                 } else {
                     error(res.message.toString())
-                    //Log.i("respuesta",response.message)
                 }
             }
 
             override fun onFailure(call: Call, e: IOException) {
-                Log.i("Error", e.message.toString())
                 error("Error en el servicio")
             }
         })
@@ -113,7 +111,7 @@ class ServiceInteractor : ServiceFactory() {
         }
     }
 
-    fun getReasonsCorrutine(
+    private fun getReasonsCorrutine(
         then: (ReasonsResponse) -> Unit,
         error: (String) -> Unit
     ) {
@@ -135,7 +133,6 @@ class ServiceInteractor : ServiceFactory() {
             }
 
             override fun onFailure(call: Call, e: IOException) {
-                Log.i("Error", e.message.toString())
                 error("Error en el servicio")
             }
         })
@@ -163,7 +160,6 @@ class ServiceInteractor : ServiceFactory() {
                 override fun onResponse(call: Call, response: Response) {
 
                     val body = response.body?.string()
-                    Log.i("info sin parsear", body.toString())
                     val gson = GsonBuilder().create()
                     val res = gson.fromJson(body, SectionResponse::class.java)
                     if (response.isSuccessful) {
@@ -174,7 +170,6 @@ class ServiceInteractor : ServiceFactory() {
                 }
 
                 override fun onFailure(call: Call, e: IOException) {
-                    Log.i("Error", e.message.toString())
                     error("Error en el servicio")
                 }
             })
@@ -202,10 +197,7 @@ class ServiceInteractor : ServiceFactory() {
         withContext(Dispatchers.IO) {
             get(url, token).enqueue(object : Callback {
                 override fun onResponse(call: Call, response: Response) {
-
                     val body = response.body?.string()
-
-                    Log.i("info detail sin parsear", body.toString())
                     val gson = GsonBuilder().create()
                     val res = gson.fromJson(body, DetailResponse::class.java)
                     if (response.isSuccessful) {
@@ -215,9 +207,7 @@ class ServiceInteractor : ServiceFactory() {
                         //Log.i("respuesta",response.message)
                     }
                 }
-
                 override fun onFailure(call: Call, e: IOException) {
-                    Log.i("Error", e.message.toString())
                     error("Error en el servicio")
                 }
             })
@@ -246,13 +236,11 @@ class ServiceInteractor : ServiceFactory() {
         val url = serverUrl + routeBase + routeOrders + idOrder + routeTake
         val request = TakeOrderRequest(dataTake)
         val json = Gson().toJson(request)
-        Log.i("jsonTake", json)
         withContext(Dispatchers.IO) {
             put( url,token, json).enqueue(object : Callback {
 
                 override fun onResponse(call: Call, response: Response) {
                     val body = response.body?.string()
-                    Log.i("takeservice", body.toString())
                     val gson = GsonBuilder().create()
                     val res = gson.fromJson(body, TakeOrderResponse::class.java)
                     if (response.isSuccessful) {
@@ -262,9 +250,7 @@ class ServiceInteractor : ServiceFactory() {
                         //Log.i("respuesta",response.message)
                     }
                 }
-
                 override fun onFailure(call: Call, e: IOException) {
-                    Log.i("Error", e.message.toString())
                     error("Error en el servicio")
                 }
             })
@@ -297,19 +283,16 @@ class ServiceInteractor : ServiceFactory() {
 
                 override fun onResponse(call: Call, response: Response) {
                     val body = response.body?.string()
-                    Log.i("bodyRelease",body.toString())
                     val gson = GsonBuilder().create()
                     val res = gson.fromJson(body, ReleaseOrderResponse::class.java)
                     if (response.isSuccessful) {
                         then(res)
                     } else {
                         error(res.message.toString())
-                        //Log.i("respuesta",response.message)
                     }
                 }
 
                 override fun onFailure(call: Call, e: IOException) {
-                    Log.i("Error", e.message.toString())
                     error("Error en el servicio")
                 }
             })
@@ -358,7 +341,6 @@ class ServiceInteractor : ServiceFactory() {
         val json = Gson().toJson(request)
         withContext(Dispatchers.IO) {
             put(url, token,json).enqueue(object : Callback {
-
                 override fun onResponse(call: Call, response: Response) {
                     val body = response.body?.string()
 
@@ -371,17 +353,13 @@ class ServiceInteractor : ServiceFactory() {
                         //Log.i("respuesta",response.message)
                     }
                 }
-
                 override fun onFailure(call: Call, e: IOException) {
-                    Log.i("Error", e.message.toString())
                     error("Error en el servicio")
                 }
             })
         }
 
     }
-
-
     fun putDeliverCourier(
         idOrder: Int,
         then: (DeliverCourierResponse) -> Unit,
@@ -403,22 +381,18 @@ class ServiceInteractor : ServiceFactory() {
         val json = Gson().toJson(request)
         withContext(Dispatchers.IO) {
             put( url,token, json).enqueue(object : Callback {
-
                 override fun onResponse(call: Call, response: Response) {
                     val body = response.body?.string()
-
                     val gson = GsonBuilder().create()
                     val res = gson.fromJson(body, DeliverCourierResponse::class.java)
                     if (response.isSuccessful) {
                         then(res)
                     } else {
                         error(res.message.toString())
-                        //Log.i("respuesta",response.message)
                     }
                 }
 
                 override fun onFailure(call: Call, e: IOException) {
-                    Log.i("Error", e.message.toString())
                     error("Error en el servicio")
                 }
             })
@@ -446,22 +420,18 @@ class ServiceInteractor : ServiceFactory() {
         val json = Gson().toJson(request)
         withContext(Dispatchers.IO) {
             put( url,token, json).enqueue(object : Callback {
-
                 override fun onResponse(call: Call, response: Response) {
                     val body = response.body?.string()
-
                     val gson = GsonBuilder().create()
                     val res = gson.fromJson(body, DeliverConsumerResponse::class.java)
                     if (response.isSuccessful) {
                         then(res)
                     } else {
                         error(res.message.toString())
-                        //Log.i("respuesta",response.message)
                     }
                 }
 
                 override fun onFailure(call: Call, e: IOException) {
-                    Log.i("Error", e.message.toString())
                     error("Error en el servicio")
                 }
             })
@@ -491,22 +461,18 @@ class ServiceInteractor : ServiceFactory() {
         val json = Gson().toJson(request)
         withContext(Dispatchers.IO) {
             put(token, url, json).enqueue(object : Callback {
-
                 override fun onResponse(call: Call, response: Response) {
                     val body = response.body?.string()
-
                     val gson = GsonBuilder().create()
                     val res = gson.fromJson(body, FreezeResponse::class.java)
                     if (response.isSuccessful) {
                         then(res)
                     } else {
                         error(res.message.toString())
-                        //Log.i("respuesta",response.message)
                     }
                 }
 
                 override fun onFailure(call: Call, e: IOException) {
-                    Log.i("Error", e.message.toString())
                     error("Error en el servicio")
                 }
             })

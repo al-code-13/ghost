@@ -13,7 +13,7 @@ import com.example.nami.models.sections.Section
 class SectionsAdapter(
     private val myContext: Context,
     fm: FragmentManager,
-    var totalTabs: Int,
+    private var totalTabs: Int,
     private val legendList: Array<Behavior>,
     private val sectionsList: List<Section>
 ) :
@@ -27,10 +27,10 @@ class SectionsAdapter(
         )
     }
 
-    fun legendSection(indicators: List<Int>): List<Behavior> {
+    private fun legendSection(indicators: List<Int>): List<Behavior> {
         val newList = mutableListOf<Behavior>()
         var i: Int = 0
-        indicators.forEach {
+        indicators.forEach { _ ->
             if (legendList[i].visible) {
                 newList += legendList[i]
             }

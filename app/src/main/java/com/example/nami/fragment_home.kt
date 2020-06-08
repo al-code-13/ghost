@@ -6,7 +6,6 @@ import android.content.Intent
 import android.content.res.Configuration
 import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -24,11 +23,8 @@ import co.zsmb.materialdrawerkt.builders.drawer
 import co.zsmb.materialdrawerkt.builders.footer
 import co.zsmb.materialdrawerkt.draweritems.badge
 import co.zsmb.materialdrawerkt.draweritems.badgeable.primaryItem
-import co.zsmb.materialdrawerkt.draweritems.badgeable.secondaryItem
-import co.zsmb.materialdrawerkt.draweritems.divider
 import co.zsmb.materialdrawerkt.draweritems.profile.profile
 import com.example.nami.presenters.SectionUI
-import com.mikepenz.materialize.holder.ColorHolder.color
 
 
 class SectionFragment(
@@ -111,7 +107,6 @@ class SectionFragment(
         gridView.adapter = adapter
         itemsRefresh = v.findViewById(R.id.itemsswipetorefresh)
 
-
         return v
     }
 
@@ -119,7 +114,6 @@ class SectionFragment(
     override fun showData(data: SectionResponse) {
         activity?.runOnUiThread {
             reciclerView?.adapter = OrdersAdapter(mContext, data.orders,presenter)
-
             itemsRefresh?.setProgressBackgroundColorSchemeColor(
                 ContextCompat.getColor(
                     mContext,
@@ -128,8 +122,6 @@ class SectionFragment(
             )
             itemsRefresh?.setColorSchemeColors(Color.WHITE)
             itemsRefresh?.setOnRefreshListener {
-                Log.i("SI SE REFRESH", "SE")
-
                 presenter.actionSection(
                     sectionId
                 )
