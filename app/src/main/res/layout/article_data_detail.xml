@@ -1,86 +1,100 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     tools:context=".Detail">
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-        <TextView
-            android:id="@+id/idProduct"
-            android:layout_width="120dp"
-            android:textColor="@color/md_red_A700"
-            android:layout_height="wrap_content"
-            android:text="TextView" />
-        <Space
-            android:layout_width="wrap_content"
-            android:layout_height="5dp"
-            />
-        <TextView
-            android:id="@+id/name"
-            android:layout_width="120dp"
-            android:textStyle="bold"
-            android:layout_height="wrap_content"
-            android:text="TextView" />
-        <Space
-            android:layout_width="wrap_content"
-            android:layout_height="10dp"/>
-
-    </LinearLayout>
-
 
     <TextView
-        android:id="@+id/price"
-        android:layout_width="120dp"
+        android:id="@+id/name"
+        android:layout_width="113dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="5dp"
-        android:layout_marginRight="8dp"
-        android:layout_toStartOf="@+id/minusButton"
-        android:layout_toLeftOf="@+id/minusButton"
-        android:gravity="center"
-        android:text="TextView" />
+        android:layout_marginTop="7dp"
+        android:layout_marginBottom="7dp"
+        android:text="name"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/idProduct" />
+
+    <TextView
+        android:id="@+id/idProduct"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:text="id"
+        android:textColor="@color/md_red_A700"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/minusButton"
-        android:layout_width="32dp"
-        android:layout_height="32dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="5dp"
-        android:layout_marginRight="9dp"
+        android:layout_width="25dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginRight="10dp"
         android:layout_toStartOf="@+id/cant"
         android:layout_toLeftOf="@+id/cant"
-        android:layout_weight="1"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/cant"
+        app:layout_constraintStart_toEndOf="@+id/price"
+        app:layout_constraintTop_toTopOf="@+id/moreButton"
         app:srcCompat="@drawable/minusbox"
         tools:ignore="VectorDrawableCompat" />
 
     <TextView
         android:id="@+id/cant"
-        android:layout_width="60dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="14dp"
-        android:layout_marginEnd="5dp"
-        android:layout_marginRight="8dp"
+        android:layout_width="wrap_content"
+        android:layout_height="23dp"
+        android:layout_marginEnd="39dp"
+        android:layout_marginRight="39dp"
+        android:layout_marginBottom="10dp"
         android:layout_toStartOf="@+id/moreButton"
         android:layout_toLeftOf="@+id/moreButton"
         android:gravity="center"
-        android:text="TextView" />
+        android:text="cant"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <ImageView
         android:id="@+id/moreButton"
-        android:layout_width="32dp"
-        android:layout_height="32dp"
-        android:layout_marginTop="10dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginLeft="4dp"
+        android:layout_marginTop="1dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginRight="10dp"
         android:layout_weight="1"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/cant"
+        app:layout_constraintTop_toTopOf="@+id/cant"
+        app:layout_constraintVertical_bias="1.0"
         app:srcCompat="@drawable/morebox"
         tools:ignore="VectorDrawableCompat" />
-</RelativeLayout>
+
+    <TextView
+        android:id="@+id/price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="7dp"
+        android:layout_marginEnd="117dp"
+        android:layout_marginRight="117dp"
+        android:layout_marginBottom="7dp"
+        android:layout_toStartOf="@+id/minusButton"
+        android:layout_toLeftOf="@+id/minusButton"
+        android:gravity="center"
+        android:text="price"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/cant" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

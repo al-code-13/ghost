@@ -190,6 +190,27 @@
                         android:text="22.500" />
                 </LinearLayout>
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="16dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Observaciones:"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/comments"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"/>
+
+
+                </LinearLayout>
+
             </LinearLayout>
 
             <View
@@ -258,8 +279,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
-                android:orientation="vertical">
-            </androidx.recyclerview.widget.RecyclerView>
+                android:orientation="vertical"></androidx.recyclerview.widget.RecyclerView>
 
             <EditText
                 android:id="@+id/editObservations"
@@ -269,6 +289,7 @@
                 android:ems="10"
                 android:hint="Observaciones"
                 android:inputType="textPersonName" />
+
             <LinearLayout
                 android:id="@+id/buttonsLinearLayout"
                 android:layout_width="match_parent"
@@ -277,7 +298,28 @@
                 android:dividerPadding="8dp"
                 android:gravity="center"
                 android:orientation="horizontal"></LinearLayout>
+            <LinearLayout
+                android:layout_margin="16dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="Valor Pedido;"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="Entrega:"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="Valor Total:"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="Totaal Ajustada:"/>
 
+            </LinearLayout>
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 </LinearLayout>

@@ -28,10 +28,10 @@ class Detail : AppCompatActivity(), DetailUI {
     var recyclerItemsDetail: RecyclerView? = null
     var userInfo = arrayOf<String>()
     var behavior = -1
-    private var observations:String?=null
+    private var observations: String? = null
     lateinit var data: DetailResponse
     lateinit var articleList: List<ListElement>
-    private lateinit var observationsView:EditText
+    private lateinit var observationsView: EditText
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detail)
@@ -54,15 +54,13 @@ class Detail : AppCompatActivity(), DetailUI {
         adress.text = userInfo[3]
         date.text = userInfo[6]
         time.text = userInfo[9]
-        type.text = "Domicilio"
-        //pay.text
-        //change
-        observationsView= findViewById(R.id.editObservations)
+
+        observationsView = findViewById(R.id.editObservations)
         recyclerItemsDetail = findViewById(R.id.layoutArticles)
         presenter!!.actionDetail()
     }
 
-    private fun createArticleView(newFunction:Int) {
+    private fun createArticleView(newFunction: Int) {
         recyclerItemsDetail!!.setHasFixedSize(true)
         recyclerItemsDetail!!.layoutManager = LinearLayoutManager(this)
         recyclerItemsDetail?.adapter =
@@ -72,8 +70,14 @@ class Detail : AppCompatActivity(), DetailUI {
     override fun showDetailInfo(data: DetailResponse) {
 
         runOnUiThread {
+            if( data.order.service == "D"){
+                type.text = "Domicilio"
+            }
+            comments.text = data.order.comments
+            // change
+            // pay.text =
             this.data = data
-            this.articleList=data.order.detailOrder.list
+            this.articleList = data.order.detailOrder.list
             createArticleView(behavior)
             createButtons(behavior)
         }
@@ -86,133 +90,137 @@ class Detail : AppCompatActivity(), DetailUI {
             val actionsList =
                 ServiceFactory.data.behaviors.firstOrNull { it.id == newFunction }?.actions
 
-            if(actionsList!!.contains(5)||actionsList!!.contains(4)){
-                observationsView.visibility= View.VISIBLE
-            }
-            else{
-                observationsView.visibility= View.GONE
+            if (actionsList!!.contains(5) || actionsList!!.contains(4)) {
+                observationsView.visibility = View.VISIBLE
+            } else {
+                observationsView.visibility = View.GONE
             }
 
             for (i in actionsList!!) {
 
-                if(i!=2){
-                val action = ServiceFactory.data.actions.firstOrNull { it.id == i }
-                val layoutNewButton = layoutInflater.inflate(R.layout.save_button, null)
-                val button = layoutNewButton.findViewById<Button>(R.id.pickButton)
-                Log.i("accion", action!!.name)
-                if (action.destructive) {
-                    button.setBackgroundColor(Color.parseColor("#ff0000"))
-                }
-                val param: ViewGroup.MarginLayoutParams =
-                    button.layoutParams as ViewGroup.MarginLayoutParams
-                param.setMargins(10, 10, 10, 10)
-                button.layoutParams = param
-                button.text = "${action.name}"
-                button.setOnClickListener {
-                    when (action.id) {
-                        1 -> {
+                if (i != 2) {
+                    val action = ServiceFactory.data.actions.firstOrNull { it.id == i }
+                    val layoutNewButton = layoutInflater.inflate(R.layout.save_button, null)
+                    val button = layoutNewButton.findViewById<Button>(R.id.pickButton)
+                    Log.i("accion", action!!.name)
+                    if (action.destructive) {
+                        button.setBackgroundColor(Color.parseColor("#ff0000"))
+                    }
+                    val param: ViewGroup.MarginLayoutParams =
+                        button.layoutParams as ViewGroup.MarginLayoutParams
+                    param.setMargins(10, 10, 10, 10)
+                    button.layoutParams = param
+                    button.text = "${action.name}"
+                    button.setOnClickListener {
+                        when (action.id) {
+                            1 -> {
 
-                        }
-                        3 -> {
-                            presenter!!.actionTake()
-                        }
-                        4 -> {
-
-                            val dialog = BottomSheetDialog(this)
-                            val dialogView =
-                                LayoutInflater.from(this).inflate(R.layout.activity_popup, null)
-                            val title = dialogView.findViewById<TextView>(R.id.titleOrderId)
-                            title.text = "¿Esta seguro de guardar esta orden?"
-
-                            val layoutActions = dialogView.findViewById<LinearLayout>(R.id.listActions)
-                            val v: View =
-                                LayoutInflater.from(this).inflate(R.layout.action_item, null)
-                            v.setOnClickListener {
-                                observations= observationsView.text.toString()
-                                observationsView.text=null
-                                presenter!!.actionPick(data,articleList,observations)
-                                dialog.dismiss()
                             }
-                            v.action.text ="Aceptar"
-                            layoutActions.addView(v)
-
-                            val cancel: View =
-                                LayoutInflater.from(this).inflate(R.layout.action_item, null)
-                            cancel.setOnClickListener {
-                                dialog.dismiss()
+                            3 -> {
+                                presenter!!.actionTake()
                             }
-                            cancel.action.text ="Cancelar"
-                            layoutActions.addView(cancel)
+                            4 -> {
 
-                            dialog.setContentView(dialogView)
-                            dialog.show()
-                        }
-                        5 -> {
-                            val dialog = BottomSheetDialog(this)
-                            val dialogView =
-                                LayoutInflater.from(this).inflate(R.layout.activity_popup, null)
-                            val title = dialogView.findViewById<TextView>(R.id.titleOrderId)
-                            title.text = "¿Esta seguro de liberar esta orden?"
+                                val dialog = BottomSheetDialog(this)
+                                val dialogView =
+                                    LayoutInflater.from(this).inflate(R.layout.activity_popup, null)
+                                val title = dialogView.findViewById<TextView>(R.id.titleOrderId)
+                                title.text = "¿Esta seguro de guardar esta orden?"
 
-                            val layoutActions = dialogView.findViewById<LinearLayout>(R.id.listActions)
+                                val layoutActions =
+                                    dialogView.findViewById<LinearLayout>(R.id.listActions)
                                 val v: View =
                                     LayoutInflater.from(this).inflate(R.layout.action_item, null)
                                 v.setOnClickListener {
-                                    observations= observationsView.text.toString()
-                                    observationsView.text=null
+                                    observations = observationsView.text.toString()
+                                    observationsView.text = null
+                                    presenter!!.actionPick(data, articleList, observations)
+                                    dialog.dismiss()
+                                }
+                                v.action.text = "Aceptar"
+                                layoutActions.addView(v)
+
+                                val cancel: View =
+                                    LayoutInflater.from(this).inflate(R.layout.action_item, null)
+                                cancel.setOnClickListener {
+                                    dialog.dismiss()
+                                }
+                                cancel.action.text = "Cancelar"
+                                layoutActions.addView(cancel)
+
+                                dialog.setContentView(dialogView)
+                                dialog.show()
+                            }
+                            5 -> {
+                                val dialog = BottomSheetDialog(this)
+                                val dialogView =
+                                    LayoutInflater.from(this).inflate(R.layout.activity_popup, null)
+                                val title = dialogView.findViewById<TextView>(R.id.titleOrderId)
+                                title.text = "¿Esta seguro de liberar esta orden?"
+
+                                val layoutActions =
+                                    dialogView.findViewById<LinearLayout>(R.id.listActions)
+                                val v: View =
+                                    LayoutInflater.from(this).inflate(R.layout.action_item, null)
+                                v.setOnClickListener {
+                                    observations = observationsView.text.toString()
+                                    observationsView.text = null
                                     presenter!!.actionRelease(observations)
                                     dialog.dismiss()
                                 }
-                            v.action.text ="Aceptar"
-                            layoutActions.addView(v)
+                                v.action.text = "Aceptar"
+                                layoutActions.addView(v)
 
-                            val cancel: View =
-                                LayoutInflater.from(this).inflate(R.layout.action_item, null)
-                            cancel.setOnClickListener {
-                                dialog.dismiss()
-                            }
-                            cancel.action.text ="Cancelar"
-                            layoutActions.addView(cancel)
-
-                            dialog.setContentView(dialogView)
-                            dialog.show()
-                        }
-                        6 -> {
-                            presenter!!.actionPutDeliverCourier()
-                        }
-                        7 -> {
-                            presenter!!.actionPutDeliverCustomer()
-                        }
-                        8 -> {
-                            val freezeActions= ServiceFactory.reasons.reasons.list
-                            val dialog = BottomSheetDialog(this)
-                            val dialogView =
-                                LayoutInflater.from(this).inflate(R.layout.activity_popup, null)
-                            val title = dialogView.findViewById<TextView>(R.id.titleOrderId)
-                            title.text = "¿Esta seguro de congelar esta orden?"
-                            val layoutActions = dialogView.findViewById<LinearLayout>(R.id.listActions)
-                            for (i in freezeActions) {
-                                val v: View =
+                                val cancel: View =
                                     LayoutInflater.from(this).inflate(R.layout.action_item, null)
-                                v.setOnClickListener {
-                                    presenter!!.actionPutFreeze(i.id)
+                                cancel.setOnClickListener {
                                     dialog.dismiss()
                                 }
-                                v.action.text =i.description
-                                layoutActions.addView(v)
+                                cancel.action.text = "Cancelar"
+                                layoutActions.addView(cancel)
+
+                                dialog.setContentView(dialogView)
+                                dialog.show()
                             }
-                            val cancel: View =
-                                LayoutInflater.from(this).inflate(R.layout.action_item, null)
-                            cancel.setOnClickListener {
-                                dialog.dismiss()
+                            6 -> {
+                                presenter!!.actionPutDeliverCourier()
                             }
-                            cancel.action.text ="Cancelar"
-                            layoutActions.addView(cancel)
-                            dialog.setContentView(dialogView)
-                            dialog.show()}
+                            7 -> {
+                                presenter!!.actionPutDeliverCustomer()
+                            }
+                            8 -> {
+                                val freezeActions = ServiceFactory.reasons.reasons.list
+                                val dialog = BottomSheetDialog(this)
+                                val dialogView =
+                                    LayoutInflater.from(this).inflate(R.layout.activity_popup, null)
+                                val title = dialogView.findViewById<TextView>(R.id.titleOrderId)
+                                title.text = "¿Esta seguro de congelar esta orden?"
+                                val layoutActions =
+                                    dialogView.findViewById<LinearLayout>(R.id.listActions)
+                                for (i in freezeActions) {
+                                    val v: View =
+                                        LayoutInflater.from(this)
+                                            .inflate(R.layout.action_item, null)
+                                    v.setOnClickListener {
+                                        presenter!!.actionPutFreeze(i.id)
+                                        dialog.dismiss()
+                                    }
+                                    v.action.text = i.description
+                                    layoutActions.addView(v)
+                                }
+                                val cancel: View =
+                                    LayoutInflater.from(this).inflate(R.layout.action_item, null)
+                                cancel.setOnClickListener {
+                                    dialog.dismiss()
+                                }
+                                cancel.action.text = "Cancelar"
+                                layoutActions.addView(cancel)
+                                dialog.setContentView(dialogView)
+                                dialog.show()
+                            }
+                        }
                     }
-                }
-                buttonsLinearLayout.addView(layoutNewButton)
+                    buttonsLinearLayout.addView(layoutNewButton)
                 }
             }
         }
@@ -231,10 +239,11 @@ class Detail : AppCompatActivity(), DetailUI {
         }
     }
 
-    override fun showDetailFunctionPicked() {   runOnUiThread {
-        createArticleView(7)
-        createButtons(7)
-    }
+    override fun showDetailFunctionPicked() {
+        runOnUiThread {
+            createArticleView(7)
+            createButtons(7)
+        }
     }
 
     override fun showDetailFunctionTaked() {

@@ -35,6 +35,7 @@ class OrdersAdapter(
         var idOrder: TextView = v.findViewById(R.id.idOrder)
         var amount: TextView = v.findViewById(R.id.amount)
         var date: TextView = v.findViewById(R.id.date)
+        var time: TextView = v.findViewById(R.id.time)
         var cell: TextView = v.findViewById(R.id.phone)
         var total: TextView = v.findViewById(R.id.total)
 
@@ -204,6 +205,8 @@ class OrdersAdapter(
         holder.amount.text = mDataSet[position].detailOrder.totalItems.toString()
 
         holder.date.text = mDataSet[position].date
+
+        holder.time.text = mDataSet[position].hour.substring(0,mDataSet[position].hour.length - 13)
 
         holder.cell.text = mDataSet[position].phoneClient
 
