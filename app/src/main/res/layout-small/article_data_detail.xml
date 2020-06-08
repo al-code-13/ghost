@@ -9,17 +9,14 @@
 
     <TextView
         android:id="@+id/name"
-        android:layout_width="0dp"
+        android:layout_width="113dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="7dp"
-        android:layout_marginEnd="76dp"
-        android:layout_marginRight="76dp"
         android:layout_marginBottom="7dp"
         android:text="name"
         android:textSize="@dimen/text_size_standard"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/price"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/idProduct" />
 
@@ -37,16 +34,14 @@
     <ImageView
         android:id="@+id/minusButton"
         android:layout_width="25dp"
-        android:layout_height="0dp"
+        android:layout_height="25dp"
         android:layout_marginStart="16dp"
+        android:layout_marginRight="4dp"
         android:layout_marginLeft="16dp"
-        android:layout_marginEnd="10dp"
-        android:layout_marginRight="10dp"
         android:layout_toStartOf="@+id/cant"
         android:layout_toLeftOf="@+id/cant"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/cant"
-        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toEndOf="@+id/price"
         app:layout_constraintTop_toTopOf="@+id/moreButton"
         app:layout_constraintVertical_bias="1.0"
@@ -57,34 +52,28 @@
         android:id="@+id/cant"
         android:layout_width="wrap_content"
         android:layout_height="23dp"
-        android:layout_marginEnd="39dp"
-        android:layout_marginRight="39dp"
-        android:layout_marginBottom="10dp"
-        android:layout_toStartOf="@+id/moreButton"
-        android:layout_toLeftOf="@+id/moreButton"
-        android:gravity="center"
+        android:layout_marginEnd="32dp"
+        android:layout_marginRight="4dp"
+        android:layout_marginBottom="4dp"
+        android:layout_toStartOf="@+id/minusButton"
+        android:layout_toLeftOf="@+id/minusButton"
         android:text="cant"
         android:textSize="@dimen/text_size_standard"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="@id/moreButton" />
 
     <ImageView
         android:id="@+id/moreButton"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:layout_marginStart="4dp"
-        android:layout_marginLeft="4dp"
         android:layout_marginTop="1dp"
-        android:layout_marginRight="10dp"
         android:layout_weight="1"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/cant"
         app:layout_constraintTop_toTopOf="@+id/cant"
-        app:layout_constraintVertical_bias="1.0"
+        app:layout_constraintVertical_bias="0.142"
         app:srcCompat="@drawable/morebox"
         tools:ignore="VectorDrawableCompat" />
 
@@ -93,8 +82,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="7dp"
-        android:layout_marginEnd="190dp"
-        android:layout_marginRight="190dp"
+        android:layout_marginEnd="117dp"
+        android:layout_marginRight="117dp"
         android:layout_marginBottom="7dp"
         android:layout_toStartOf="@+id/minusButton"
         android:layout_toLeftOf="@+id/minusButton"
@@ -103,8 +92,6 @@
         android:textSize="@dimen/text_size_standard"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/name"
-        app:layout_constraintTop_toTopOf="@+id/cant"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toTopOf="@+id/cant" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

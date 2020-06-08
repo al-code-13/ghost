@@ -53,7 +53,7 @@ class Detail : AppCompatActivity(), DetailUI {
         method.text = userInfo[12]
         adress.text = userInfo[3]
         date.text = userInfo[6]
-        time.text = userInfo[9]
+        time.text = userInfo[9].substring(0,userInfo[9].length - 13)
 
         observationsView = findViewById(R.id.editObservations)
         recyclerItemsDetail = findViewById(R.id.layoutArticles)
