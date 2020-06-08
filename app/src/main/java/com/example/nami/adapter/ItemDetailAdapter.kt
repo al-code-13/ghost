@@ -52,7 +52,7 @@ class ItemsDetailAdapter(
     ) {
         val elements = data[position]
         v.name.text = elements.article.name
-        v.idProduct.text = "${elements.article.id}"
+        v.idProduct.text = "${elements.article.codSofware}"
         v.price.text = "$ ${elements.valueTotalArticle}"
         v.cant.text = "${elements.quantityArticle}"
         v.minusButton?.setOnClickListener {

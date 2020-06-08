@@ -14,23 +14,32 @@
         <TextView
             android:id="@+id/idProduct"
             android:layout_width="120dp"
+            android:textColor="@color/md_red_A700"
             android:layout_height="wrap_content"
             android:text="TextView" />
-
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="5dp"
+            />
         <TextView
             android:id="@+id/name"
             android:layout_width="120dp"
+            android:textStyle="bold"
             android:layout_height="wrap_content"
             android:text="TextView" />
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="10dp"/>
 
     </LinearLayout>
+
 
     <TextView
         android:id="@+id/price"
         android:layout_width="120dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="5dp"
         android:layout_marginRight="8dp"
         android:layout_toStartOf="@+id/minusButton"
         android:layout_toLeftOf="@+id/minusButton"
@@ -41,9 +50,9 @@
         android:id="@+id/minusButton"
         android:layout_width="32dp"
         android:layout_height="32dp"
-        android:layout_gravity="center"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginRight="9dp"
         android:layout_toStartOf="@+id/cant"
         android:layout_toLeftOf="@+id/cant"
         android:layout_weight="1"
@@ -54,8 +63,8 @@
         android:id="@+id/cant"
         android:layout_width="60dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginTop="14dp"
+        android:layout_marginEnd="5dp"
         android:layout_marginRight="8dp"
         android:layout_toStartOf="@+id/moreButton"
         android:layout_toLeftOf="@+id/moreButton"
@@ -66,9 +75,9 @@
         android:id="@+id/moreButton"
         android:layout_width="32dp"
         android:layout_height="32dp"
+        android:layout_marginTop="10dp"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:layout_gravity="center"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         android:layout_weight="1"
