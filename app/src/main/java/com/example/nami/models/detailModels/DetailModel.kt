@@ -22,8 +22,20 @@ data class DetailOrder (
 
 data class ListElement (
     val id: Int,
-    val description: Any? = null,
+    val description: String? = null,
     var quantityArticle: String,
+    val valueTotalArticle: String,
+    val codOptionalsExternals: Any? = null,
+    val codTamano: Any? = null,
+    val observations: String? = null,
+    val picking: Any? = null,
+    val article: Article
+)
+
+data class CompareListElement (
+    val id: Int,
+    val description: Any? = null,
+    val quantityArticle: String,
     val valueTotalArticle: String,
     val codOptionalsExternals: Any? = null,
     val codTamano: Any? = null,

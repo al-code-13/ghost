@@ -1,6 +1,7 @@
 package com.example.nami.presenters
 
 import com.example.nami.controllers.services.ServiceInteractor
+import com.example.nami.models.detailModels.CompareListElement
 import com.example.nami.models.detailModels.DetailResponse
 import com.example.nami.models.detailModels.ListDataPicker
 import com.example.nami.models.detailModels.ListElement
@@ -44,7 +45,7 @@ class DetailPresenter(private val orderId: Int, private val ui: DetailUI) {
 
     fun actionPick(
         data: DetailResponse,
-        articleList: List<ListElement>,
+        articleList: List<String>,
         observations: String?
     ) {
         val productsok=data.order.detailOrder.list==articleList

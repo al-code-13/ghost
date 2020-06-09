@@ -14,8 +14,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.nami.adapter.ItemsDetailAdapter
 import com.example.nami.controllers.services.ServiceFactory
+import com.example.nami.models.detailModels.CompareListElement
 import com.example.nami.models.detailModels.DetailResponse
-import com.example.nami.models.detailModels.ListElement
 import com.example.nami.presenters.DetailPresenter
 import com.example.nami.presenters.DetailUI
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -30,8 +30,10 @@ class Detail : AppCompatActivity(), DetailUI {
     var behavior = -1
     private var observations: String? = null
     lateinit var data: DetailResponse
-    lateinit var articleList: List<ListElement>
+    var articleList: MutableList<String> = mutableListOf<String>()
     private lateinit var observationsView: EditText
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detail)
@@ -68,7 +70,6 @@ class Detail : AppCompatActivity(), DetailUI {
     }
 
     override fun showDetailInfo(data: DetailResponse) {
-
         runOnUiThread {
             if (data.order.service == "D") {
                 type.text = "Domicilio"
@@ -81,7 +82,12 @@ class Detail : AppCompatActivity(), DetailUI {
             // change
             // pay.text =
             this.data = data
-            this.articleList = data.order.detailOrder.list
+            for (i in data.order.detailOrder.list) {
+                articleList.add(
+                    data.order.detailOrder.list.indexOf(i),
+                    i.quantityArticle
+                )
+            }
             createArticleView(behavior)
             createButtons(behavior)
         }
