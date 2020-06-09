@@ -53,7 +53,7 @@ class Detail : AppCompatActivity(), DetailUI {
         method.text = userInfo[12]
         adress.text = userInfo[3]
         date.text = userInfo[6]
-        time.text = userInfo[9].substring(0,userInfo[9].length - 13)
+        time.text = userInfo[9].substring(0, userInfo[9].length - 13)
 
         observationsView = findViewById(R.id.editObservations)
         recyclerItemsDetail = findViewById(R.id.layoutArticles)
@@ -64,15 +64,19 @@ class Detail : AppCompatActivity(), DetailUI {
         recyclerItemsDetail!!.setHasFixedSize(true)
         recyclerItemsDetail!!.layoutManager = LinearLayoutManager(this)
         recyclerItemsDetail?.adapter =
-            ItemsDetailAdapter(this, data.order.detailOrder.list, newFunction)
+            ItemsDetailAdapter(this, data.order.detailOrder.list, newFunction, this.articleList)
     }
 
     override fun showDetailInfo(data: DetailResponse) {
 
         runOnUiThread {
-            if( data.order.service == "D"){
+            if (data.order.service == "D") {
                 type.text = "Domicilio"
             }
+            orderValue.text = userInfo[4]
+            delivered.text = data.order.deliveryValue
+            totalValue.text = userInfo[4]
+            adjustTotal.text = userInfo[4]
             comments.text = data.order.comments
             // change
             // pay.text =
@@ -90,13 +94,13 @@ class Detail : AppCompatActivity(), DetailUI {
             val actionsList =
                 ServiceFactory.data.behaviors.firstOrNull { it.id == newFunction }?.actions
 
-            if (actionsList!!.contains(5) || actionsList!!.contains(4)) {
+            if (actionsList!!.contains(5) || actionsList.contains(4)) {
                 observationsView.visibility = View.VISIBLE
             } else {
                 observationsView.visibility = View.GONE
             }
 
-            for (i in actionsList!!) {
+            for (i in actionsList) {
 
                 if (i != 2) {
                     val action = ServiceFactory.data.actions.firstOrNull { it.id == i }

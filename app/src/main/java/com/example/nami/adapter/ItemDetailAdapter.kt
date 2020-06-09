@@ -1,10 +1,10 @@
 package com.example.nami.adapter
 
 import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.CheckBox
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
@@ -14,7 +14,8 @@ import com.example.nami.models.detailModels.ListElement
 class ItemsDetailAdapter(
     private val mContext: Context,
     private var data: List<ListElement>,
-    private val behavior: Int
+    private val behavior: Int,
+    private val compareList: List<ListElement>
 
 ) : RecyclerView.Adapter<ItemsDetailAdapter.ViewHolder>() {
 
@@ -23,6 +24,7 @@ class ItemsDetailAdapter(
         var idProduct: TextView = v.findViewById(R.id.idProduct)
         var price: TextView = v.findViewById(R.id.price)
         var cant: TextView = v.findViewById(R.id.cant)
+        var checkButton:CheckBox=v.findViewById(R.id.checkButton)
 
         var minusButton: ImageView? = v.findViewById(R.id.minusButton)
         var moreButton: ImageView? = v.findViewById(R.id.moreButton)
@@ -34,11 +36,12 @@ class ItemsDetailAdapter(
         viewType: Int
     ): ViewHolder {
         var v: View
-            if (behavior == 2) {
-               v= LayoutInflater.from(mContext).inflate(R.layout.article_data_detail, parent, false)
-            } else {
-                v=LayoutInflater.from(mContext).inflate(R.layout.article_data_detail_preview, parent, false)
-            }
+        if (behavior == 2) {
+            v = LayoutInflater.from(mContext).inflate(R.layout.article_data_detail, parent, false)
+        } else {
+            v = LayoutInflater.from(mContext)
+                .inflate(R.layout.article_data_detail_preview, parent, false)
+        }
         return ViewHolder(v)
     }
 
@@ -60,13 +63,26 @@ class ItemsDetailAdapter(
                 elements.quantityArticle.toInt() - elements.article.value.toInt()
                 elements.quantityArticle = (elements.quantityArticle.toInt() - 1).toString()
                 onBindViewHolder(v, position)
-            }
-        }
-        v.moreButton?.setOnClickListener {
-            elements.quantityArticle.toInt() + elements.article.value.toInt()
-            elements.quantityArticle = (elements.quantityArticle.toInt() + 1).toString()
-            onBindViewHolder(v, position)
 
+                if (elements.quantityArticle.toInt() < compareList[position].quantityArticle.toInt()) {
+                    v.moreButton?.visibility=View.VISIBLE
+                    v.checkButton.visibility=View.GONE
+                    v.moreButton?.setOnClickListener {
+                        elements.quantityArticle.toInt() + elements.article.value.toInt()
+                        elements.quantityArticle = (elements.quantityArticle.toInt() + 1).toString()
+                        onBindViewHolder(v, position)
+                    }
+                }
+                else{
+                    v.moreButton?.visibility=View.GONE
+                    v.checkButton.visibility=View.VISIBLE
+
+                    v.checkButton?.setOnClickListener {
+                        onBindViewHolder(v, position)
+                    }
+
+                }
+            }
         }
     }
 }

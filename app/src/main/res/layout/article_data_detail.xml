@@ -88,6 +88,26 @@
         app:srcCompat="@drawable/morebox"
         tools:ignore="VectorDrawableCompat" />
 
+    <CheckBox
+        android:id="@+id/checkButton"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginStart="4dp"
+        android:layout_marginLeft="4dp"
+        android:layout_marginTop="1dp"
+        android:layout_marginRight="10dp"
+        android:layout_weight="1"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/cant"
+        app:layout_constraintTop_toTopOf="@+id/cant"
+        app:layout_constraintVertical_bias="1.0"
+        app:srcCompat="@drawable/morebox"
+        tools:ignore="VectorDrawableCompat" />
+
     <TextView
         android:id="@+id/price"
         android:layout_width="wrap_content"

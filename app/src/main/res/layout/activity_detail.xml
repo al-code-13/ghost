@@ -333,21 +333,25 @@
                     android:orientation="vertical">
 
                     <TextView
+                        android:id="@+id/orderValue"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:text="Valor Pedido:" />
 
                     <TextView
+                        android:id="@+id/delivered"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:text="Entrega:" />
 
                     <TextView
+                        android:id="@+id/totalValue"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:text="Valor Total:" />
 
                     <TextView
+                        android:id="@+id/adjustTotal"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:text="Totaal Ajustada:" />
