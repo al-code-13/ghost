@@ -1,7 +1,6 @@
 package com.example.nami.adapter
 
 import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,7 +9,6 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.nami.R
-import com.example.nami.models.detailModels.CompareListElement
 import com.example.nami.models.detailModels.ListElement
 
 class ItemsDetailAdapter(
@@ -26,7 +24,6 @@ class ItemsDetailAdapter(
         var idProduct: TextView = v.findViewById(R.id.idProduct)
         var price: TextView = v.findViewById(R.id.price)
         var cant: TextView = v.findViewById(R.id.cant)
-        var checkButton: CheckBox ?= v.findViewById(R.id.checkButton)
 
         var minusButton: ImageView? = v.findViewById(R.id.minusButton)
         var moreButton: ImageView? = v.findViewById(R.id.moreButton)
@@ -60,29 +57,30 @@ class ItemsDetailAdapter(
         v.idProduct.text = "${elements.article.codSofware}"
         v.price.text = "$ ${elements.valueTotalArticle}"
         v.cant.text = "${elements.quantityArticle}"
-        v.minusButton?.setOnClickListener {
-            if (elements.quantityArticle.toInt() > 0) {
 
-                v.checkButton?.visibility = View.GONE
-                v.moreButton?.visibility=View.VISIBLE
+        if (elements.quantityArticle.toInt() > 0) {
+            v.minusButton?.visibility = View.VISIBLE
+            v.minusButton?.setOnClickListener {
+                v.moreButton?.visibility = View.VISIBLE
                 elements.quantityArticle.toInt() - elements.article.value.toInt()
                 elements.quantityArticle = (elements.quantityArticle.toInt() - 1).toString()
                 onBindViewHolder(v, position)
             }
+
+        } else {
+
+            v.minusButton?.visibility = View.GONE
         }
-        val oldvalue=compareList[position].toInt()
-        if(elements.quantityArticle.toInt() < oldvalue){
-            v.checkButton?.visibility = View.GONE
-            v.moreButton?.visibility=View.VISIBLE
+        val oldvalue = compareList[position].toInt()
+        if (elements.quantityArticle.toInt() < oldvalue) {
+            v.moreButton?.visibility = View.VISIBLE
             v.moreButton?.setOnClickListener {
                 elements.quantityArticle.toInt() + elements.article.value.toInt()
                 elements.quantityArticle = (elements.quantityArticle.toInt() + 1).toString()
                 onBindViewHolder(v, position)
             }
-        }
-        else{
-            v.checkButton?.visibility = View.VISIBLE
-            v.moreButton?.visibility=View.GONE
+        } else {
+            v.moreButton?.visibility = View.GONE
         }
 
     }

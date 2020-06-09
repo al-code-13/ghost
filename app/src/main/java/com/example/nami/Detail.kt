@@ -118,7 +118,7 @@ class Detail : AppCompatActivity(), DetailUI {
                     }
                     val param: ViewGroup.MarginLayoutParams =
                         button.layoutParams as ViewGroup.MarginLayoutParams
-                    param.setMargins(10, 10, 10, 10)
+                    param.setMargins(0, 6, 6, 6)
                     button.layoutParams = param
                     button.text = "${action.name}"
                     button.setOnClickListener {

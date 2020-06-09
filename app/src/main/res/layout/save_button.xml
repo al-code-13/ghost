@@ -9,13 +9,12 @@
         android:id="@+id/pickButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
+        android:layout_margin="0dp"
+        android:padding="0dp"
         android:background="@drawable/button_blue_background"
         android:text="Guardar"
+        android:textSize="@dimen/text_size_standard"
         android:textColor="#FFFFFF" />
 
-    <Space
-        android:layout_width="8dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1" />
+
 </LinearLayout>
