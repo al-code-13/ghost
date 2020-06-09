@@ -148,6 +148,12 @@ class Detail : AppCompatActivity(), DetailUI {
                                     dialog.dismiss()
                                 }
                                 v.action.text = "Aceptar"
+                                v.action.setCompoundDrawablesWithIntrinsicBounds(
+                                    R.drawable.yes_action,
+                                    0,
+                                    0,
+                                    0
+                                )
                                 layoutActions.addView(v)
 
                                 val cancel: View =
@@ -156,6 +162,12 @@ class Detail : AppCompatActivity(), DetailUI {
                                     dialog.dismiss()
                                 }
                                 cancel.action.text = "Cancelar"
+                                cancel.action.setCompoundDrawablesWithIntrinsicBounds(
+                                        R.drawable.cancel,
+                                0,
+                                0,
+                                0
+                                )
                                 layoutActions.addView(cancel)
 
                                 dialog.setContentView(dialogView)
@@ -179,6 +191,12 @@ class Detail : AppCompatActivity(), DetailUI {
                                     dialog.dismiss()
                                 }
                                 v.action.text = "Aceptar"
+                                v.action.setCompoundDrawablesWithIntrinsicBounds(
+                                    R.drawable.yes_action,
+                                    0,
+                                    0,
+                                    0
+                                )
                                 layoutActions.addView(v)
 
                                 val cancel: View =
@@ -187,6 +205,12 @@ class Detail : AppCompatActivity(), DetailUI {
                                     dialog.dismiss()
                                 }
                                 cancel.action.text = "Cancelar"
+                                cancel.action.setCompoundDrawablesWithIntrinsicBounds(
+                                        R.drawable.cancel,
+                                0,
+                                0,
+                                0
+                                )
                                 layoutActions.addView(cancel)
 
                                 dialog.setContentView(dialogView)
@@ -216,6 +240,12 @@ class Detail : AppCompatActivity(), DetailUI {
                                         dialog.dismiss()
                                     }
                                     v.action.text = i.description
+                                    v.action.setCompoundDrawablesWithIntrinsicBounds(
+                                        R.drawable.freeze_icon,
+                                        0,
+                                        0,
+                                        0
+                                    )
                                     layoutActions.addView(v)
                                 }
                                 val cancel: View =
@@ -224,6 +254,12 @@ class Detail : AppCompatActivity(), DetailUI {
                                     dialog.dismiss()
                                 }
                                 cancel.action.text = "Cancelar"
+                                cancel.action.setCompoundDrawablesWithIntrinsicBounds(
+                                    R.drawable.cancel,
+                                    0,
+                                    0,
+                                    0
+                                )
                                 layoutActions.addView(cancel)
                                 dialog.setContentView(dialogView)
                                 dialog.show()

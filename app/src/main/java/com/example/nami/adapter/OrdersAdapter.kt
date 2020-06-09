@@ -11,8 +11,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat.startActivity
+import androidx.core.graphics.drawable.DrawableCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.nami.Detail
 import com.example.nami.R
@@ -88,16 +90,21 @@ class OrdersAdapter(
                                             LayoutInflater.from(mContext).inflate(R.layout.activity_popup, null)
                                         val title = dialogView.findViewById<TextView>(R.id.titleOrderId)
                                         title.text = "¿Esta seguro de liberar esta orden?"
-
                                         val layoutActions = dialogView.findViewById<LinearLayout>(R.id.listActions)
                                         val v: View =
                                             LayoutInflater.from(mContext).inflate(R.layout.action_item, null)
                                         v.setOnClickListener {
-                                            val observations= "Hola"
+                                            val observations= null
                                             presenter!!.actionRelease(items.id,observations)
                                             dialog.dismiss()
                                         }
                                         v.action.text ="Aceptar"
+                                        v.action.setCompoundDrawablesWithIntrinsicBounds(
+                                            R.drawable.yes_action,
+                                            0,
+                                            0,
+                                            0
+                                        )
                                         layoutActions.addView(v)
 
                                         val cancel: View =
@@ -106,6 +113,12 @@ class OrdersAdapter(
                                             dialog.dismiss()
                                         }
                                         cancel.action.text ="Cancelar"
+                                        cancel.action.setCompoundDrawablesWithIntrinsicBounds(
+                                            R.drawable.cancel,
+                                            0,
+                                            0,
+                                            0
+                                        )
                                         layoutActions.addView(cancel)
 
                                         dialog.setContentView(dialogView)
@@ -136,6 +149,12 @@ class OrdersAdapter(
                                                 dialog.dismiss()
                                             }
                                             v.action.text =i.description
+                                            v.action.setCompoundDrawablesWithIntrinsicBounds(
+                                                R.drawable.freeze_icon,
+                                                0,
+                                                0,
+                                                0
+                                            )
                                             layoutActions.addView(v)
                                         }
                                         val cancel: View =
@@ -144,6 +163,12 @@ class OrdersAdapter(
                                             dialog.dismiss()
                                         }
                                         cancel.action.text ="Cancelar"
+                                        cancel.action.setCompoundDrawablesWithIntrinsicBounds(
+                                            R.drawable.cancel,
+                                            0,
+                                            0,
+                                            0
+                                        )
                                         layoutActions.addView(cancel)
                                         dialog.setContentView(dialogView)
                                         dialog.show()}
@@ -154,6 +179,57 @@ class OrdersAdapter(
 
                         v.action.text =
                             ServiceFactory.data.actions.firstOrNull { it.id == id }?.name
+
+                        when(id){
+                            4->{
+                                v.action.setCompoundDrawablesWithIntrinsicBounds(
+                                    R.drawable.save_icon,
+                                    0,
+                                    0,
+                                    0
+                                )
+                            }
+                            5->{
+                                v.action.setCompoundDrawablesWithIntrinsicBounds(
+                                    R.drawable.release,
+                                    0,
+                                    0,
+                                    0
+                                )
+                            }
+                            8->{
+                                v.action.setCompoundDrawablesWithIntrinsicBounds(
+                                    R.drawable.freeze_icon,
+                                    0,
+                                    0,
+                                    0
+                                )
+                            }
+                            6->{
+                                v.action.setCompoundDrawablesWithIntrinsicBounds(
+                                    R.drawable.car,
+                                    0,
+                                    0,
+                                    0
+                                )
+                            }
+                            6->{
+                                v.action.setCompoundDrawablesWithIntrinsicBounds(
+                                    R.drawable.persons,
+                                    0,
+                                    0,
+                                    0
+                                )
+                            }
+                            8->{
+                                v.action.setCompoundDrawablesWithIntrinsicBounds(
+                                    R.drawable.freeze_icon,
+                                    0,
+                                    0,
+                                    0
+                                )
+                            }
+                        }
                         layoutActions.addView(v)
                     }
 
